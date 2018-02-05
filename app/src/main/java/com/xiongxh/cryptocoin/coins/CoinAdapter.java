@@ -1,5 +1,4 @@
-package com.xiongxh.cryptocoin;
-
+package com.xiongxh.cryptocoin.coins;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -10,10 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.xiongxh.cryptocoin.R;
+import com.xiongxh.cryptocoin.data.CoinDbContract.CoinEntry;
 import com.xiongxh.cryptocoin.utilities.ConstantsUtils;
 
 import java.text.DecimalFormat;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,15 +22,27 @@ class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.CoinViewHolder> {
     private Cursor mCursor;
     private Context mContext;
 
-    public CoinAdapter(@NonNull Context context, @NonNull Cursor cursor) {
-        mContext = context;
-        mCursor = cursor;
+    private final CoinAdapterOnclickHandler mClickHandler;
+
+//    public CoinAdapter(@NonNull Context context, @NonNull Cursor cursor) {
+//        mContext = context;
+//        mCursor = cursor;
+//    }
+
+    public CoinAdapter(@NonNull Context context, @NonNull CoinAdapterOnclickHandler handler) {
+        this.mContext = context;
+        this.mClickHandler = handler;
     }
 
     @Override
     public long getItemId(int position) {
         mCursor.moveToPosition(position);
         return mCursor.getLong(ConstantsUtils.POSITION_ID);
+    }
+
+    public String getSymbolAtPosition(int position){
+        mCursor.moveToPosition(position);
+        return mCursor.getString(ConstantsUtils.POSITION_SYMBOL);
     }
 
     @Override
@@ -84,7 +96,7 @@ class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.CoinViewHolder> {
         notifyDataSetChanged();
     }
 
-    class CoinViewHolder extends RecyclerView.ViewHolder {
+    class CoinViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         @BindView(R.id.symbol)
         TextView mSymbolTextView;
         @BindView(R.id.price)
@@ -94,8 +106,30 @@ class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.CoinViewHolder> {
 
         public CoinViewHolder(View itemView) {
             super(itemView);
-
             ButterKnife.bind(this, itemView);
+
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+            int adapterPosition = getAdapterPosition();
+            mCursor.moveToPosition(adapterPosition);
+
+            int colIdx = mCursor.getColumnIndex(CoinEntry.COLUMN_SYMBOL);
+            mClickHandler.onClick(mCursor.getString(colIdx));
+        }
+
+        public void enableOnClick(){
+            itemView.setOnClickListener(this);
+        }
+
+        public void disableOnclick(){
+            itemView.setOnClickListener(null);
+        }
+    }
+
+    interface CoinAdapterOnclickHandler{
+        void onClick(String symbol);
     }
 }

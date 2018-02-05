@@ -11,4 +11,7 @@
     <string name="error_coin_not_found" translatable="true">No coin found by this symbol.</string>
     <string name="error_coin_already_saved" translatable="true">This coin is already saved!</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
