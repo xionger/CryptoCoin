@@ -48,6 +48,27 @@ public class CoinJsonUtils {
         return json;
     }
 
+    public static boolean isSymbolValid(Context context, String symbol){
+        boolean isValid = false;
+
+        try {
+            String coinsStr = loadCoins(context);
+            JSONObject coinJsonResponse = new JSONObject(coinsStr);
+            JSONObject dataObject = coinJsonResponse.getJSONObject("Data");
+
+            JSONObject symbolObject = dataObject.getJSONObject(symbol);
+
+            if (symbolObject != null ){
+                isValid = true;
+            }
+
+        }catch (JSONException e){
+            e.getStackTrace();
+        }
+
+        return isValid;
+    }
+
     public static List<Coin> extractCoinsFromJson(String coinJsonStr, String priceJsonStr, List<String> symbols){
         Timber.d("Entering extractCoinsFromJson() method...");
         if (TextUtils.isEmpty(coinJsonStr) || TextUtils.isEmpty(priceJsonStr)){
@@ -67,7 +88,7 @@ public class CoinJsonUtils {
             JSONObject priceJsonResponse = new JSONObject(priceJsonStr);
             JSONObject rawPriceObject = priceJsonResponse.getJSONObject("RAW");
 
-            Timber.d("first 500 chars of price object: " + rawPriceObject.toString().substring(0, 500));
+            //Timber.d("price object: " + rawPriceObject.toString());
 
             for (String symbol : symbols){
                 Timber.d("Coin symbol: " + symbol);
@@ -77,12 +98,13 @@ public class CoinJsonUtils {
                 JSONObject coinProperties = dataObject.getJSONObject(symbol);
 
                 if (coinProperties != null){
+                    Timber.d(symbol + "'s coinProperties: " + coinProperties.toString());
                     String coinName = coinProperties.getString("CoinName");
                     String url = coinProperties.getString("Url");
                     String imageUrl = coinProperties.getString("ImageUrl");
                     String algorithm = coinProperties.getString("Algorithm");
                     String proofType = coinProperties.getString("ProofType");
-                    long totalSupply = Long.valueOf(coinProperties.getString("TotalCoinSupply"));
+                    String tsStr = coinProperties.getString("TotalCoinSupply");
                     int sponsor = 0;
                     boolean sponsored = coinProperties.getBoolean("Sponsored");
 
@@ -95,15 +117,22 @@ public class CoinJsonUtils {
                     coin.setImageUrl(imageUrl);
                     coin.setAlgorithm(algorithm);
                     coin.setProofType(proofType);
-                    coin.setTotalSupply(totalSupply);
                     coin.setSponsor(sponsor);
+
+                    long totalSupply = 0;
+                    if (tsStr.length() > 5){
+                        totalSupply = Long.valueOf(tsStr);
+                    }
+
+                    coin.setTotalSupply(totalSupply);
                 }
 
                 JSONObject coinPriceObject = rawPriceObject.getJSONObject(symbol);
+                Timber.d(symbol + "'s RAW price data: " + coinPriceObject.toString());
                 JSONObject priceProperties = coinPriceObject.getJSONObject(pref_price_unit);
+                Timber.d(symbol + "'s price data: " + priceProperties.toString());
 
                 if (priceProperties != null){
-
                     double price = priceProperties.getDouble("PRICE");
                     double mktcap = priceProperties.getDouble("MKTCAP");
                     double vol24h = priceProperties.getDouble("VOLUME24HOUR");

@@ -58,6 +58,14 @@ class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.CoinViewHolder> {
         double price = mCursor.getDouble(ConstantsUtils.POSITION_PRICE);
         double trend = mCursor.getDouble(ConstantsUtils.POSITION_TREND);
 
+        if (trend >= 0.0 ){
+            holder.mChangeTextView.setBackground(
+                    mContext.getResources().getDrawable(R.drawable.price_increase_green));
+        }else {
+            holder.mChangeTextView.setBackground(
+                    mContext.getResources().getDrawable(R.drawable.price_decrease_red));
+        }
+
         holder.mSymbolTextView.setText(coinSymbol);
         holder.mPriceTextView.setText("$" + price);
         holder.mChangeTextView.setText(df.format(trend) + "%");

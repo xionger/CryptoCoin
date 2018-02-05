@@ -15,7 +15,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
@@ -24,9 +26,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.xiongxh.cryptocoin.data.CoinLoader;
 import com.xiongxh.cryptocoin.sync.CoinSyncIntentService;
-import com.xiongxh.cryptocoin.utilities.ConstantsUtils;
+import com.xiongxh.cryptocoin.utilities.CoinJsonUtils;
+import com.xiongxh.cryptocoin.data.CoinDbContract.CoinEntry;
 
 import java.util.Random;
 import java.util.Timer;
@@ -41,7 +45,6 @@ public class CoinsActivity extends AppCompatActivity implements LoaderManager.Lo
     private Intent mServiceIntent;
     private Context mContext;
     private Cursor mCursor;
-    private boolean isConnected = false;
     private RecyclerView mCoinsRecyclerView;
     private CoinAdapter mCoinAdapter;
 
@@ -60,8 +63,14 @@ public class CoinsActivity extends AppCompatActivity implements LoaderManager.Lo
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
 
+        mServiceIntent = new Intent(this, CoinSyncIntentService.class);
+
         if (savedInstanceState == null){
-            refresh();
+            if (isNetworkStatusAvailable(mContext)) {
+                refresh();
+            }else {
+                networkError();
+            }
         }
 
         mCoinsRecyclerView = (RecyclerView) findViewById(R.id.rv_list_coin);
@@ -74,11 +83,75 @@ public class CoinsActivity extends AppCompatActivity implements LoaderManager.Lo
         mCoinsRecyclerView.setAdapter(mCoinAdapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        //fab.attachToRecyclerView(recyclerView);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(View v) {
+                Timber.d("Fab is clicked.");
+                if (isNetworkStatusAvailable(mContext)) {
+                    Timber.d("Network is connected.");
+                    new MaterialDialog.Builder(mContext).title(R.string.search_symbol)
+                            .content(R.string.content_test)
+                            .backgroundColor(getResources().getColor(R.color.dialog_background))
+                            .inputType(InputType.TYPE_CLASS_TEXT)
+                            .input(R.string.input_hint, R.string.input_default, new MaterialDialog.InputCallback() {
+                                @Override
+                                public void onInput(MaterialDialog dialog, CharSequence input) {
+                                    // On FAB click, receive user input. Make sure the coin doesn't already exist
+                                    // in the DB and proceed accordingly
+                                    String inputStr = input.toString();
+                                    String cleanInput = inputStr.trim().toUpperCase();
+
+                                    Timber.d("Clean input: " + cleanInput);
+                                    Cursor c = getContentResolver()
+                                            .query(CoinEntry.CONTENT_URI,
+                                                    new String[]{CoinEntry.COLUMN_SYMBOL},
+                                                    CoinEntry.COLUMN_SYMBOL + "= ?",
+                                                    new String[]{cleanInput},
+                                                    null);
+
+                                    if (c.getCount() != 0) {
+                                        Toast toast =
+                                                Toast.makeText(CoinsActivity.this,
+                                                        R.string.error_coin_already_saved,
+                                                        Toast.LENGTH_LONG);
+
+                                        toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
+                                        toast.show();
+                                        return;
+                                    } else {
+                                        if (!CoinJsonUtils.isSymbolValid(mContext, cleanInput)) {
+                                            Toast toast =
+                                                    Toast.makeText(CoinsActivity.this,
+                                                            R.string.error_coin_not_found,
+                                                            Toast.LENGTH_LONG);
+
+                                            toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
+                                            toast.show();
+                                            return;
+                                        } else {
+                                            // Add the Coin to DB
+                                            mServiceIntent.putExtra("tag", "add");
+                                            mServiceIntent.putExtra("symbol", cleanInput);
+                                            startService(mServiceIntent);
+                                            Timber.d(cleanInput + " is added.");
+                                            c.close();
+                                        }
+                                    }
+                                }
+                            })
+                            .show();
+                } else {
+                    networkError();
+                }
+
             }
         });
 
@@ -108,9 +181,8 @@ public class CoinsActivity extends AppCompatActivity implements LoaderManager.Lo
 
     private void refresh() {
         Timber.d("Refreshing data ...");
-        Intent serviceIntent = new Intent(this, CoinSyncIntentService.class);
-        serviceIntent.putExtra("tag", "init");
-        startService(serviceIntent);
+        mServiceIntent.putExtra("tag", "init");
+        startService(mServiceIntent);
     }
 
     public static boolean isNetworkStatusAvailable(Context context) {
@@ -123,6 +195,10 @@ public class CoinsActivity extends AppCompatActivity implements LoaderManager.Lo
                     return true;
         }
         return false;
+    }
+
+    public void networkError(){
+        Toast.makeText(mContext, getString(R.string.network_not_connected), Toast.LENGTH_SHORT).show();
     }
 
     @Override

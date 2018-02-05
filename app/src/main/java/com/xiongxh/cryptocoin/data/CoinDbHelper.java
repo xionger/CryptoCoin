@@ -9,7 +9,7 @@ import com.xiongxh.cryptocoin.data.CoinDbContract.CoinEntry;
 public class CoinDbHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "cryptocoins.db";
-    private static final int VERSION = 1;
+    private static final int VERSION = 3;
 
     CoinDbHelper(Context context) {
         super(context, DB_NAME, null, VERSION);

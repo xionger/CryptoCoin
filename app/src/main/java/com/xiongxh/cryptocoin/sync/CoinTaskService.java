@@ -34,7 +34,7 @@ import timber.log.Timber;
 
 public class CoinTaskService extends GcmTaskService {
 
-    private static final String[] POP_COIN_SYMBOLS = {"ETH", "XRP", "BCH", "ADA", "TRX", "EOS", "LTC"};
+    private static final String[] POP_COIN_SYMBOLS = {"BTC", "ETH", "XRP", "BCH", "ADA", "TRX", "EOS", "LTC", "MTL", "CHAT", "BCD"};
 
     private OkHttpClient client = new OkHttpClient();
 
@@ -64,37 +64,37 @@ public class CoinTaskService extends GcmTaskService {
         }
 
         Timber.d("Entering onRunTask() method, params tag: " + taskParams.getTag());
-        StringBuilder priceUrlStringBuilder = new StringBuilder();
 
-        if (taskParams.getTag().equals("init") || taskParams.getTag().equals("periodic")){
-            isUpdate = true;
+        initQueryCursor = mContext.getContentResolver()
+                .query(CoinEntry.CONTENT_URI, ConstantsUtils.COIN_COLUMNS, null, null, null);
 
-            initQueryCursor = mContext.getContentResolver()
-                    .query(CoinEntry.CONTENT_URI, ConstantsUtils.COIN_COLUMNS, null, null, null);
-
-            if (initQueryCursor == null || initQueryCursor.getCount() == 0){
-                Timber.d("before clear, number of coins: " + coinSymbols.size());
-                coinSymbols.clear();
-                coinSymbols.addAll(Arrays.asList(POP_COIN_SYMBOLS));
-                Timber.d("after adding, number of coins: " + coinSymbols.size());
-            }else{
-                DatabaseUtils.dumpCursor(initQueryCursor);
-                initQueryCursor.moveToFirst();
-                for (int i = 0; i < initQueryCursor.getCount(); i++){
-                    coinSymbols.add(initQueryCursor.getString(initQueryCursor.getColumnIndex("symbol")));
-                    initQueryCursor.moveToNext();
-                }
+        if (initQueryCursor == null || initQueryCursor.getCount() == 0){
+            Timber.d("before clear, number of coins: " + coinSymbols.size());
+            coinSymbols.clear();
+            coinSymbols.addAll(Arrays.asList(POP_COIN_SYMBOLS));
+            Timber.d("after adding, number of coins: " + coinSymbols.size());
+        }else{
+            DatabaseUtils.dumpCursor(initQueryCursor);
+            initQueryCursor.moveToFirst();
+            for (int i = 0; i < initQueryCursor.getCount(); i++){
+                coinSymbols.add(initQueryCursor.getString(initQueryCursor.getColumnIndex("symbol")));
+                initQueryCursor.moveToNext();
             }
-        }else if (taskParams.getTag().equals("add")){
+        }
+
+        if (taskParams.getTag().equals("add")){
+            Timber.d("To add the symbol to list, current number of coins: " + coinSymbols.size());
             isUpdate = false;
 
             String toAddCoin = taskParams.getExtras().getString("symbol");
 
-            coinSymbols.add(toAddCoin);
-            Set<String> hs = new HashSet<>();
-            hs.addAll(coinSymbols);
-            coinSymbols.clear();
-            coinSymbols.addAll(hs);
+            coinSymbols.add(0, toAddCoin);
+
+            Timber.d(toAddCoin + "is added: " + "current number of coins: " + coinSymbols.size());
+//            Set<String> hs = new HashSet<>();
+//            hs.addAll(coinSymbols);
+//            coinSymbols.clear();
+//            coinSymbols.addAll(hs);
         }
 
         int result = GcmNetworkManager.RESULT_FAILURE;
@@ -102,7 +102,7 @@ public class CoinTaskService extends GcmTaskService {
         try {
             String coinsJsonStr = CoinJsonUtils.loadCoins(mContext);
 
-            Timber.d("First 500 chars of coins json string: " + coinsJsonStr.substring(0, 500));
+            //Timber.d("First 500 chars of coins json string: " + coinsJsonStr.substring(0, 500));
 
             //List<Coin> coins = new ArrayList<Coin>();
             String str = "";
@@ -117,7 +117,7 @@ public class CoinTaskService extends GcmTaskService {
             URL priceUrl = NetworkUtils.getPriceUrl(symbolsStr);
             String priceJsonStr = fetchData(priceUrl.toString());
 
-            Timber.d("First 500 chars of price json string: " + priceJsonStr.substring(0, 500));
+            //Timber.d("First 500 chars of price json string: " + priceJsonStr.substring(0, 500));
 
             if (priceJsonStr != null && !priceJsonStr.isEmpty()){
                 Timber.d("result is success!");

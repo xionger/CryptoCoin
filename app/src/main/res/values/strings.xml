@@ -1,4 +1,14 @@
 <resources>
     <string name="app_name">CryptoCoin</string>
     <string name="action_settings">Settings</string>
+
+    <string name="network_not_connected" translatable="true">Oops! The internet is not connected.</string>
+
+    <string name="search_symbol" translatable="true">Search Coin Symbol</string>
+    <string name="content_test" translatable="true">Search for a Coin Symbol</string>
+    <string name="input_hint" translatable="true">BTC</string>
+    <string name="input_default" translatable="true"></string>
+    <string name="error_coin_not_found" translatable="true">No coin found by this symbol.</string>
+    <string name="error_coin_already_saved" translatable="true">This coin is already saved!</string>
+
 </resources>

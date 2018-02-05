@@ -7,4 +7,7 @@
     <color name="colorBlue500">#2196F3</color>
     <color name="colorRed700">#D50000</color>
     <color name="colorGreen700">#00C853</color>
+
+    <color name="dialog_background">#5a595b</color>
+
 </resources>
