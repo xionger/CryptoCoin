@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.net.Uri;
 
 import com.google.android.gms.gcm.GcmNetworkManager;
@@ -16,29 +17,42 @@ import com.xiongxh.cryptocoin.data.CoinDbContract.CoinEntry;
 import com.xiongxh.cryptocoin.model.Coin;
 import com.xiongxh.cryptocoin.utilities.CoinJsonUtils;
 import com.xiongxh.cryptocoin.utilities.ConstantsUtils;
+import com.xiongxh.cryptocoin.utilities.NetworkUtils;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import timber.log.Timber;
 
 public class CoinTaskService extends GcmTaskService {
 
-    private final String[] popCoinSymbols = {"BTC", "ETH", "XRP", "BCH", "ADA", "TRX", "EOS", "LTC"};
+    private static final String[] POP_COIN_SYMBOLS = {"ETH", "XRP", "BCH", "ADA", "TRX", "EOS", "LTC"};
+
+    private OkHttpClient client = new OkHttpClient();
 
     private Context mContext;
     private boolean isUpdate;
 
     private List<String> coinSymbols = new ArrayList<>();
 
-    public CoinTaskService() {
-    }
+    public CoinTaskService() {}
 
     public CoinTaskService(Context context) {
         mContext = context;
+    }
+
+    public String fetchData(String url) throws IOException {
+        Request request = new Request.Builder().url(url).build();
+        Response response = client.newCall(request).execute();
+        return response.body().string();
     }
 
     @Override
@@ -50,6 +64,7 @@ public class CoinTaskService extends GcmTaskService {
         }
 
         Timber.d("Entering onRunTask() method, params tag: " + taskParams.getTag());
+        StringBuilder priceUrlStringBuilder = new StringBuilder();
 
         if (taskParams.getTag().equals("init") || taskParams.getTag().equals("periodic")){
             isUpdate = true;
@@ -60,8 +75,15 @@ public class CoinTaskService extends GcmTaskService {
             if (initQueryCursor == null || initQueryCursor.getCount() == 0){
                 Timber.d("before clear, number of coins: " + coinSymbols.size());
                 coinSymbols.clear();
-                coinSymbols.addAll(Arrays.asList(popCoinSymbols));
+                coinSymbols.addAll(Arrays.asList(POP_COIN_SYMBOLS));
                 Timber.d("after adding, number of coins: " + coinSymbols.size());
+            }else{
+                DatabaseUtils.dumpCursor(initQueryCursor);
+                initQueryCursor.moveToFirst();
+                for (int i = 0; i < initQueryCursor.getCount(); i++){
+                    coinSymbols.add(initQueryCursor.getString(initQueryCursor.getColumnIndex("symbol")));
+                    initQueryCursor.moveToNext();
+                }
             }
         }else if (taskParams.getTag().equals("add")){
             isUpdate = false;
@@ -78,15 +100,33 @@ public class CoinTaskService extends GcmTaskService {
         int result = GcmNetworkManager.RESULT_FAILURE;
 
         try {
-            String coinsJasonStr = CoinJsonUtils.loadCoins(mContext);
+            String coinsJsonStr = CoinJsonUtils.loadCoins(mContext);
 
-            Timber.d("First 1000 chars of coins json string: " + coinsJasonStr.substring(0, 1000));
+            Timber.d("First 500 chars of coins json string: " + coinsJsonStr.substring(0, 500));
 
-            if (coinsJasonStr != null && !coinsJasonStr.isEmpty()){
+            //List<Coin> coins = new ArrayList<Coin>();
+            String str = "";
+
+            for (String symbol : coinSymbols) {
+
+                str += symbol + ",";
+            }
+
+            String symbolsStr = str.substring(0, str.length()-1);
+
+            URL priceUrl = NetworkUtils.getPriceUrl(symbolsStr);
+            String priceJsonStr = fetchData(priceUrl.toString());
+
+            Timber.d("First 500 chars of price json string: " + priceJsonStr.substring(0, 500));
+
+            if (priceJsonStr != null && !priceJsonStr.isEmpty()){
                 Timber.d("result is success!");
                 result = GcmNetworkManager.RESULT_SUCCESS;
+            }else {
+                Timber.d("fetch data failed !");
             }
-            List<Coin> coins = CoinJsonUtils.extractCoinsFromJson(coinsJasonStr, coinSymbols);
+
+            List<Coin> coins = CoinJsonUtils.extractCoinsFromJson(coinsJsonStr, priceJsonStr, coinSymbols);
 
             Timber.d("number of coin objects: " + coins.size());
 

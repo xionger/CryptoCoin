@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.xiongxh.cryptocoin.utilities.ConstantsUtils;
 
+import java.text.DecimalFormat;
 import java.util.Random;
 
 import butterknife.BindView;
@@ -51,19 +52,15 @@ class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.CoinViewHolder> {
         mCursor.moveToPosition(position);
 
         String coinSymbol = mCursor.getString(ConstantsUtils.POSITION_SYMBOL);
+
+        DecimalFormat df = new DecimalFormat(".##");
+
+        double price = mCursor.getDouble(ConstantsUtils.POSITION_PRICE);
+        double trend = mCursor.getDouble(ConstantsUtils.POSITION_TREND);
+
         holder.mSymbolTextView.setText(coinSymbol);
-
-        /////////////////////////////////////////////////////////////////////
-        //Fake price data below
-        Random rand = new Random();
-
-        int price = rand.nextInt(10000) + 1;
-
-        int change = 100 - rand.nextInt(200);
-        //End of fake price data
-        ////////////////////////////////////////////////////////////////////
         holder.mPriceTextView.setText("$" + price);
-        holder.mChangeTextView.setText(change + "%");
+        holder.mChangeTextView.setText(df.format(trend) + "%");
     }
 
     @Override
@@ -78,7 +75,6 @@ class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.CoinViewHolder> {
         mCursor = cursor;
         notifyDataSetChanged();
     }
-
 
     class CoinViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.symbol)

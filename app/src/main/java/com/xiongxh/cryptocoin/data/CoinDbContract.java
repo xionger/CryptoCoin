@@ -28,14 +28,24 @@ public final class CoinDbContract {
         public static final Uri CONTENT_URI = BASE_URI.buildUpon().appendPath(PATH_COINS).build();
 
         public static final String COLUMN_SYMBOL = "symbol";
-        public static final String COLUMN_COIN_ID = "coin_id";
         public static final String COLUMN_NAME = "name";
         public static final String COLUMN_COIN_URL = "coin_url";
         public static final String COLUMN_IMAGE_URL = "image_url";
         public static final String COLUMN_ALGORITHM = "algorithm";
         public static final String COLUMN_PROOF_TYPE = "proof_type";
+        public static final String COLUMN_TOTAL_SUPPLY = "total_supply";
+        public static final String COLUMN_SPONSOR = "sponsor";
         public static final String COLUMN_SUPPLY = "supply";
-        public static final String COLUMN_SPONSORED = "sponsored";
+        public static final String COLUMN_PRICE = "price";
+        public static final String COLUMN_MKTCAP = "mktcap";
+        public static final String COLUMN_VOL24H = "vol24h";
+        public static final String COLUMN_VOL24H2 = "vol24h2";
+        public static final String COLUMN_OPEN24H = "open24h";
+        public static final String COLUMN_HIGH24H = "high24h";
+        public static final String COLUMN_LOW24H = "low24h";
+        public static final String COLUMN_TREND = "trend";
+        public static final String COLUMN_HISTO = "histo";
+        public static final String COLUMN_NEWS = "news";
 
         public static final String DEFAULT_SORT = COLUMN_SYMBOL + " ASC";
 
