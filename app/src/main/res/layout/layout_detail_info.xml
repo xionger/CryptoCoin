@@ -1,0 +1,303 @@
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorBlueGrey800"
+    android:columnCount="2">
+
+    <Space
+        android:layout_height="50dp"
+        android:layout_columnSpan="2"/>
+
+    <TextView
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_columnWeight="1"
+        android:gravity="start"
+        android:layout_gravity="fill_horizontal"
+        android:textSize="20sp"
+        android:text="Open 24h"
+        android:textColor="@android:color/background_light"
+        tool:fontFamily="sans-serif"/>
+
+    <TextView
+        android:id="@+id/tv_open_24h"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_columnWeight="1"
+        android:gravity="start"
+        android:layout_gravity="fill_horizontal"
+        android:textSize="20sp"
+        android:textColor="@android:color/background_light"
+        tool:fontFamily="sans-serif"/>
+
+    <TextView
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_columnWeight="1"
+        android:gravity="start"
+        android:layout_gravity="fill_horizontal"
+        android:textSize="20sp"
+        android:text="Low 24h"
+        android:textColor="@android:color/background_light"
+        tool:fontFamily="sans-serif"/>
+
+    <TextView
+        android:id="@+id/tv_low_24h"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_columnWeight="1"
+        android:gravity="start"
+        android:layout_gravity="fill_horizontal"
+        android:textSize="20sp"
+        android:textColor="@android:color/background_light"
+        tool:fontFamily="sans-serif"/>
+
+    <TextView
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_columnWeight="1"
+        android:gravity="start"
+        android:layout_gravity="fill_horizontal"
+        android:textSize="20sp"
+        android:text="High 24h"
+        android:textColor="@android:color/background_light"
+        tool:fontFamily="sans-serif"/>
+
+    <TextView
+        android:id="@+id/tv_high_24h"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_columnWeight="1"
+        android:gravity="start"
+        android:layout_gravity="fill_horizontal"
+        android:textColor="@android:color/background_light"
+        android:textSize="20sp"
+        tool:fontFamily="sans-serif"/>
+
+    <TextView
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_columnWeight="1"
+        android:gravity="start"
+        android:layout_gravity="fill_horizontal"
+        android:textSize="20sp"
+        android:text="Volume 24h"
+        android:textColor="@android:color/background_light"
+        tool:fontFamily="sans-serif"/>
+
+    <TextView
+        android:id="@+id/tv_volume_24h"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_columnWeight="1"
+        android:gravity="start"
+        android:layout_gravity="fill_horizontal"
+        android:textColor="@android:color/background_light"
+        android:textSize="20sp"
+        tool:fontFamily="sans-serif"/>
+
+    <TextView
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_columnWeight="1"
+        android:gravity="start"
+        android:layout_gravity="fill_horizontal"
+        android:textSize="20sp"
+        android:text="Volume 24h To"
+        android:textColor="@android:color/background_light"
+        tool:fontFamily="sans-serif"/>
+
+    <TextView
+        android:id="@+id/tv_volume_24h_to"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_columnWeight="1"
+        android:gravity="start"
+        android:layout_gravity="fill_horizontal"
+        android:textColor="@android:color/background_light"
+        android:textSize="20sp"
+        tool:fontFamily="sans-serif"/>
+
+    <TextView
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_columnWeight="1"
+        android:gravity="start"
+        android:layout_gravity="fill_horizontal"
+        android:textSize="20sp"
+        android:text="Mkt.Cap"
+        android:textColor="@android:color/background_light"
+        tool:fontFamily="sans-serif"/>
+
+    <TextView
+        android:id="@+id/tv_mkt_cap"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_columnWeight="1"
+        android:gravity="start"
+        android:layout_gravity="fill_horizontal"
+        android:textSize="20sp"
+        android:textColor="@android:color/background_light"
+        tool:fontFamily="sans-serif"/>
+
+    <TextView
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_width="0dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_height="25dp"
+        android:layout_columnWeight="1"
+        android:gravity="start"
+        android:layout_gravity="fill_horizontal"
+        android:textSize="20sp"
+        android:text="Supply"
+        android:textColor="@android:color/background_light"
+        tool:fontFamily="sans-serif"/>
+
+    <TextView
+        android:id="@+id/tv_curr_spply"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_columnWeight="1"
+        android:gravity="start"
+        android:layout_gravity="fill_horizontal"
+        android:textSize="20sp"
+        android:textColor="@android:color/background_light"
+        tool:fontFamily="sans-serif"/>
+
+    <TextView
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_width="0dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_height="25dp"
+        android:layout_columnWeight="1"
+        android:gravity="start"
+        android:layout_gravity="fill_horizontal"
+        android:textSize="20sp"
+        android:text="Max Suppl."
+        android:textColor="@android:color/background_light"
+        tool:fontFamily="sans-serif"/>
+
+    <TextView
+        android:id="@+id/tv_max_spply"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_columnWeight="1"
+        android:textColor="@android:color/background_light"
+        android:gravity="start"
+        android:layout_gravity="fill_horizontal"
+        android:textSize="20sp"
+        tool:fontFamily="sans-serif"/>
+
+    <TextView
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_width="0dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_height="25dp"
+        android:layout_columnWeight="1"
+        android:gravity="start"
+        android:layout_gravity="fill_horizontal"
+        android:textSize="20sp"
+        android:text="Algorithm"
+        android:textColor="@android:color/background_light"
+        tool:fontFamily="sans-serif"/>
+
+    <TextView
+        android:id="@+id/tv_algorithm"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_columnWeight="1"
+        android:textColor="@android:color/background_light"
+        android:gravity="start"
+        android:layout_gravity="fill_horizontal"
+        android:textSize="20sp"
+        tool:fontFamily="sans-serif"/>
+
+    <TextView
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_width="0dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_height="25dp"
+        android:layout_columnWeight="1"
+        android:gravity="start"
+        android:layout_gravity="fill_horizontal"
+        android:textSize="20sp"
+        android:text="Proof Type"
+        android:textColor="@android:color/background_light"
+        tool:fontFamily="sans-serif"/>
+
+    <TextView
+        android:id="@+id/tv_proof_type"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_columnWeight="1"
+        android:textColor="@android:color/background_light"
+        android:gravity="start"
+        android:layout_gravity="fill_horizontal"
+        android:textSize="20sp"
+        tool:fontFamily="sans-serif"/>
+
+    <TextView
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_width="0dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_height="25dp"
+        android:layout_columnWeight="1"
+        android:gravity="start"
+        android:layout_gravity="fill_horizontal"
+        android:textSize="20sp"
+        android:text="Sponsored"
+        android:textColor="@android:color/background_light"
+        tool:fontFamily="sans-serif"/>
+
+    <TextView
+        android:id="@+id/tv_sponsor"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_columnWeight="1"
+        android:gravity="start"
+        android:layout_gravity="fill_horizontal"
+        android:textSize="20sp"
+        android:textColor="@android:color/background_light"
+        tool:fontFamily="sans-serif"/>
+
+    <Space
+        android:layout_height="50dp"
+        android:layout_columnSpan="2"/>
+
+</GridLayout>

@@ -44,8 +44,9 @@ public final class CoinDbContract {
         public static final String COLUMN_HIGH24H = "high24h";
         public static final String COLUMN_LOW24H = "low24h";
         public static final String COLUMN_TREND = "trend";
-        public static final String COLUMN_HISTO = "histo";
-        public static final String COLUMN_NEWS = "news";
+        public static final String COLUMN_CHANGE = "change";
+        //public static final String COLUMN_HISTO = "histo";
+        //public static final String COLUMN_NEWS = "news";
 
         public static final String DEFAULT_SORT = COLUMN_SYMBOL + " ASC";
 

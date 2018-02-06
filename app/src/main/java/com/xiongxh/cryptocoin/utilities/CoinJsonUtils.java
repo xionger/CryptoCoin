@@ -141,6 +141,7 @@ public class CoinJsonUtils {
                     double high24h = priceProperties.getDouble("HIGH24HOUR");
                     double low24h = priceProperties.getDouble("LOW24HOUR");
                     double trend = priceProperties.getDouble("CHANGEPCT24HOUR");
+                    double change = priceProperties.getDouble("CHANGE24HOUR");
                     double supply = priceProperties.getDouble("SUPPLY");
 
                     coin.setPrice(price);
@@ -151,13 +152,14 @@ public class CoinJsonUtils {
                     coin.setHigh24h(high24h);
                     coin.setLow24h(low24h);
                     coin.setTrend(trend);
+                    coin.setChange(change);
                     coin.setSupply(supply);
 
                     Timber.d(coin.getSymbol() + "Price: " + coin.getPrice());
                 }
 
-                coin.setNews("Fake news. To be added");
-                coin.setHisto("Fake histo data. To be added");
+//                coin.setNews("Fake news. To be added");
+//                coin.setHisto("Fake histo data. To be added");
 
                 coins.add(coin);
             }
@@ -208,8 +210,8 @@ public class CoinJsonUtils {
         value.put(CoinEntry.COLUMN_HIGH24H, coin.getHigh24h());
         value.put(CoinEntry.COLUMN_LOW24H, coin.getLow24h());
         value.put(CoinEntry.COLUMN_TREND, coin.getTrend());
-        value.put(CoinEntry.COLUMN_HISTO, coin.getHisto());
-        value.put(CoinEntry.COLUMN_NEWS, coin.getNews());
+        value.put(CoinEntry.COLUMN_CHANGE, coin.getChange());
+        //value.put(CoinEntry.COLUMN_NEWS, coin.getNews());
 
         return value;
     }

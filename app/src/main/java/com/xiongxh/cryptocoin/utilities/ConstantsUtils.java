@@ -22,8 +22,9 @@ public class ConstantsUtils {
             CoinEntry.COLUMN_HIGH24H,
             CoinEntry.COLUMN_LOW24H,
             CoinEntry.COLUMN_TREND,
-            CoinEntry.COLUMN_HISTO,
-            CoinEntry.COLUMN_NEWS
+            //CoinEntry.COLUMN_HISTO,
+            //CoinEntry.COLUMN_NEWS
+            CoinEntry.COLUMN_CHANGE
     };
 
 
@@ -45,6 +46,7 @@ public class ConstantsUtils {
     public static final int POSITION_HIGH24H = 15;
     public static final int POSITION_LOW24H = 16;
     public static final int POSITION_TREND = 17;
-    public static final int POSITION_HISTO = 18;
-    public static final int POSITION_NEWS = 19;
+    public static final int POSITION_CHANGE = 18;
+    //public static final int POSITION_HISTO = 18;
+    //public static final int POSITION_NEWS = 19;
 }

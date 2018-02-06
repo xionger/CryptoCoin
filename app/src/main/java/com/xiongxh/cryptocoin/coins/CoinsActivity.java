@@ -1,9 +1,7 @@
 package com.xiongxh.cryptocoin.coins;
 
-import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
@@ -11,6 +9,9 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.Loader;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,9 +34,8 @@ import com.xiongxh.cryptocoin.data.CoinDbContract.CoinEntry;
 
 import timber.log.Timber;
 
-public class CoinsActivity extends AppCompatActivity
-        implements LoaderManager.LoaderCallbacks<Cursor>,
-        CoinAdapter.CoinAdapterOnclickHandler{
+public class CoinsActivity extends AppCompatActivity implements
+        CoinAdapter.CoinAdapterOnclickHandler, LoaderManager.LoaderCallbacks<Cursor>{
 
     private static final int LOADER_ID = 0;
     private Intent mServiceIntent;
@@ -55,9 +55,9 @@ public class CoinsActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_coins);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         mServiceIntent = new Intent(this, CoinSyncIntentService.class);
 
@@ -74,7 +74,7 @@ public class CoinsActivity extends AppCompatActivity
         mCoinAdapter = new CoinAdapter(this, this);
         mCoinsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        getLoaderManager().initLoader(LOADER_ID, null, this);
+        getSupportLoaderManager().initLoader(LOADER_ID, null, this);
 
         mCoinsRecyclerView.setAdapter(mCoinAdapter);
 
@@ -243,9 +243,10 @@ public class CoinsActivity extends AppCompatActivity
 
 
     @Override
-    public void onClick(String symbol) {
+    public void onClick(String symbol, String name) {
         final Intent detailIntent = new Intent(this, CoinDetailActivity.class);
-        detailIntent.putExtra("symbol", symbol);
+        detailIntent.putExtra("SYMBOL", symbol);
+        detailIntent.putExtra("NAME", name);
         startActivity(detailIntent);
     }
 

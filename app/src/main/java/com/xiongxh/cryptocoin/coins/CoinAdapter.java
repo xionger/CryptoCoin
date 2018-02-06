@@ -116,20 +116,21 @@ class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.CoinViewHolder> {
             int adapterPosition = getAdapterPosition();
             mCursor.moveToPosition(adapterPosition);
 
-            int colIdx = mCursor.getColumnIndex(CoinEntry.COLUMN_SYMBOL);
-            mClickHandler.onClick(mCursor.getString(colIdx));
+            int symbolIdx = mCursor.getColumnIndex(CoinEntry.COLUMN_SYMBOL);
+            int nameIdx = mCursor.getColumnIndex(CoinEntry.COLUMN_NAME);
+            mClickHandler.onClick(mCursor.getString(symbolIdx), mCursor.getString(nameIdx));
         }
 
-        public void enableOnClick(){
-            itemView.setOnClickListener(this);
-        }
-
-        public void disableOnclick(){
-            itemView.setOnClickListener(null);
-        }
+//        public void enableOnClick(){
+//            itemView.setOnClickListener(this);
+//        }
+//
+//        public void disableOnclick(){
+//            itemView.setOnClickListener(null);
+//        }
     }
 
     interface CoinAdapterOnclickHandler{
-        void onClick(String symbol);
+        void onClick(String symbol, String name);
     }
 }

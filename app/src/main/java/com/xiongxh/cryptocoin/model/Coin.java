@@ -20,6 +20,7 @@ public class Coin {
     private double high24h;
     private double low24h;
     private double trend;
+    private double change;
 
     private String histo;
 
@@ -196,20 +197,28 @@ public class Coin {
         return this.trend;
     }
 
-    public void setHisto(String histo){
-        this.histo = histo;
+    public void setChange(double change){
+        this.change = change;
     }
 
-    public String getHisto(){
-        return this.histo;
+    public double getChange(){
+        return this.change;
     }
 
-    public void setNews(String news){
-        this.news = news;
-    }
-
-    public String getNews(){
-        return this.news;
-    }
+//    public void setHisto(String histo){
+//        this.histo = histo;
+//    }
+//
+//    public String getHisto(){
+//        return this.histo;
+//    }
+//
+//    public void setNews(String news){
+//        this.news = news;
+//    }
+//
+//    public String getNews(){
+//        return this.news;
+//    }
 
 }
