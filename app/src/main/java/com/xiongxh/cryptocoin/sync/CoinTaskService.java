@@ -91,10 +91,7 @@ public class CoinTaskService extends GcmTaskService {
             coinSymbols.add(0, toAddCoin);
 
             Timber.d(toAddCoin + "is added: " + "current number of coins: " + coinSymbols.size());
-//            Set<String> hs = new HashSet<>();
-//            hs.addAll(coinSymbols);
-//            coinSymbols.clear();
-//            coinSymbols.addAll(hs);
+
         }
 
         int result = GcmNetworkManager.RESULT_FAILURE;
@@ -104,7 +101,6 @@ public class CoinTaskService extends GcmTaskService {
 
             //Timber.d("First 500 chars of coins json string: " + coinsJsonStr.substring(0, 500));
 
-            //List<Coin> coins = new ArrayList<Coin>();
             String str = "";
 
             for (String symbol : coinSymbols) {
@@ -136,18 +132,7 @@ public class CoinTaskService extends GcmTaskService {
             if (coinValues != null && coinValues.length != 0){
                 Timber.d("coinvalues are not null.");
                 Timber.d("number of contentvalues: " + coinValues.length);
-//                for (ContentValues value : coinValues){
-//                    cpo.add(ContentProviderOperation.newInsert(CoinEntry.CONTENT_URI).withValues(value).build());
-//                }
-//                ContentResolver coinContentResolver = mContext.getContentResolver();
-//                coinContentResolver.applyBatch(CoinDbContract.CONTENT_AUTHORITY, cpo);
 
-//                for (ContentValues value : coinValues){
-//                    Timber.d("Inserting coin symbol: " + value.getAsString(CoinEntry.COLUMN_SYMBOL));
-//
-//                    ContentResolver coinContentResolver = mContext.getContentResolver();
-//                    coinContentResolver.insert(CoinEntry.CONTENT_URI, value);
-//                }
                 for (int i = 0; i < coinValues.length; i++){
                     Timber.d("count for loop: " + i);
                     Timber.d("Inserting coin symbol: " + coinValues[i].getAsString(CoinEntry.COLUMN_SYMBOL));
@@ -156,23 +141,6 @@ public class CoinTaskService extends GcmTaskService {
                     coinContentResolver.insert(CoinEntry.CONTENT_URI, coinValues[i]);
                 }
             }
-
-            //    synchronized public static void syncSelectedCoin(Context context, String symbol){
-//        try {
-//            String coinsJasonStr = CoinJsonUtils.loadCoins(context);
-//            Coin coin = CoinJsonUtils.extractCoinFromJson(coinsJasonStr, symbol);
-//
-//            ContentValues coinValue = CoinJsonUtils.getContentValueFromCoin(context, coin);
-//
-//            if (coinValue != null ){
-//                ContentResolver coinContentResolver = context.getContentResolver();
-//
-//                coinContentResolver.insert(CoinEntry.CONTENT_URI, coinValue);
-//            }
-//        }catch (Exception e){
-//            e.getStackTrace();
-//        }
-//    }
         }catch (Exception e){
             e.getStackTrace();
         }

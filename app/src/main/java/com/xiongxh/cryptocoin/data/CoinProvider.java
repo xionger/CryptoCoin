@@ -182,6 +182,8 @@ public class CoinProvider extends ContentProvider {
         final SelectionBuilder builder = buildSelection(uri);
 
         getContext().getContentResolver().notifyChange(uri, null);
+
+        Timber.d("Update selection: " + selection );
         return builder.where(selection, selectionArgs).update(db, contentValues);
     }
 

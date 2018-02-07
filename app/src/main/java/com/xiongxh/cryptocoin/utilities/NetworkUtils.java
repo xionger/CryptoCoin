@@ -1,11 +1,15 @@
 package com.xiongxh.cryptocoin.utilities;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import okhttp3.Request;
 import timber.log.Timber;
 
 public class NetworkUtils {
@@ -17,7 +21,19 @@ public class NetworkUtils {
     private static final String PARAM_TO_SYMBOLS = "tsyms";
     private static final String PARAM_LIMIT = "limit";
     private static final String pref_price_unit = "USD";
-    private static final String pref_interval = "histominute";
+    private static final String pref_interval = "histohour";
+
+    public static boolean isNetworkStatusAvailable(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null)
+        {
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            if(networkInfo != null)
+                if(networkInfo.isConnected())
+                    return true;
+        }
+        return false;
+    }
 
     public static URL getPriceUrl(String symbols){
         Uri priceUri = Uri.parse(BASE_URL).buildUpon()
@@ -37,7 +53,7 @@ public class NetworkUtils {
     }
 
     public static URL getHisto(String fromSymbol){
-        String limit = "60";
+        String limit = "30";
         if (pref_interval.equals("histominute")){
             limit = "900";
         }

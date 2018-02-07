@@ -31,6 +31,7 @@ import com.xiongxh.cryptocoin.data.CoinLoader;
 import com.xiongxh.cryptocoin.sync.CoinSyncIntentService;
 import com.xiongxh.cryptocoin.utilities.CoinJsonUtils;
 import com.xiongxh.cryptocoin.data.CoinDbContract.CoinEntry;
+import com.xiongxh.cryptocoin.utilities.NetworkUtils;
 
 import timber.log.Timber;
 
@@ -62,7 +63,7 @@ public class CoinsActivity extends AppCompatActivity implements
         mServiceIntent = new Intent(this, CoinSyncIntentService.class);
 
         if (savedInstanceState == null){
-            if (isNetworkStatusAvailable(mContext)) {
+            if (NetworkUtils.isNetworkStatusAvailable(mContext)) {
                 refresh();
             }else {
                 networkError();
@@ -91,7 +92,7 @@ public class CoinsActivity extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 Timber.d("Fab is clicked.");
-                if (isNetworkStatusAvailable(mContext)) {
+                if (NetworkUtils.isNetworkStatusAvailable(mContext)) {
                     Timber.d("Network is connected.");
                     new MaterialDialog.Builder(mContext).title(R.string.search_symbol)
                             .content(R.string.content_test)
@@ -181,17 +182,17 @@ public class CoinsActivity extends AppCompatActivity implements
         startService(mServiceIntent);
     }
 
-    public static boolean isNetworkStatusAvailable(Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivityManager != null)
-        {
-            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-            if(networkInfo != null)
-                if(networkInfo.isConnected())
-                    return true;
-        }
-        return false;
-    }
+//    public static boolean isNetworkStatusAvailable(Context context) {
+//        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+//        if (connectivityManager != null)
+//        {
+//            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+//            if(networkInfo != null)
+//                if(networkInfo.isConnected())
+//                    return true;
+//        }
+//        return false;
+//    }
 
     public void networkError(){
         Toast.makeText(mContext, getString(R.string.network_not_connected), Toast.LENGTH_SHORT).show();

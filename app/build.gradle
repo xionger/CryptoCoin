@@ -38,4 +38,7 @@ dependencies {
 
     implementation 'com.jakewharton.timber:timber:4.6.0'
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
+
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+
 }

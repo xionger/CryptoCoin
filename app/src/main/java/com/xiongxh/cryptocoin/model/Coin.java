@@ -24,7 +24,7 @@ public class Coin {
 
     private String histo;
 
-    private String news;
+    //private String news;
 
     public Coin(){}
 
@@ -205,13 +205,13 @@ public class Coin {
         return this.change;
     }
 
-//    public void setHisto(String histo){
-//        this.histo = histo;
-//    }
-//
-//    public String getHisto(){
-//        return this.histo;
-//    }
+    public void setHisto(String histo){
+        this.histo = histo;
+    }
+
+    public String getHisto(){
+        return this.histo;
+    }
 //
 //    public void setNews(String news){
 //        this.news = news;

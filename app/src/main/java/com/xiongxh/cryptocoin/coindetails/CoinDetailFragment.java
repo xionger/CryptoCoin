@@ -1,5 +1,7 @@
 package com.xiongxh.cryptocoin.coindetails;
 
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -13,11 +15,28 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.CandleStickChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.CandleData;
+import com.github.mikephil.charting.data.CandleDataSet;
+import com.github.mikephil.charting.data.CandleEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.xiongxh.cryptocoin.R;
 import com.xiongxh.cryptocoin.data.CoinDbContract;
 import com.xiongxh.cryptocoin.data.CoinLoader;
 import com.xiongxh.cryptocoin.model.Coin;
+import com.xiongxh.cryptocoin.model.History;
+import com.xiongxh.cryptocoin.utilities.CoinJsonUtils;
 import com.xiongxh.cryptocoin.utilities.ConstantsUtils;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,6 +83,8 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
     @BindView(R.id.tv_sponsor)
     TextView mSponsorTextView;
 
+    @BindView(R.id.chart_historical)
+    CandleStickChart mChart;
 
     private Unbinder unbinder;
 
@@ -101,6 +122,31 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
 
     private void bindViews(){
         if (mCursor != null){
+
+            String histoStr = mCursor.getString(ConstantsUtils.POSITION_HISTO);
+
+            if (histoStr != null) {
+                Timber.d("First 500 of histo: " + histoStr.substring(0, 500));
+
+                //mChart.setBackgroundColor(getResources().getColor(R.color.colorBlueGrey800));
+                mChart.setBackgroundColor(Color.WHITE);
+                mChart.getLegend().setEnabled(false);
+                mChart.setMaxVisibleValueCount(30);
+                mChart.setPinchZoom(false);
+                mChart.setDrawGridBackground(false);
+                XAxis xAxis = mChart.getXAxis();
+                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                xAxis.setDrawGridLines(false);
+                //xAxis.setValueFormatter(iAxisValueFormatter);
+                YAxis leftAxis = mChart.getAxisLeft();
+                leftAxis.setDrawGridLines(false);
+
+                CandleData histoCandleData = getCandleData(histoStr);
+
+                mChart.setData(histoCandleData);
+                mChart.invalidate();
+            }
+
             mPriceTextView.setText("$" + mCursor.getString(ConstantsUtils.POSITION_PRICE));
             mChangeValueTextView.setText(mCursor.getString(ConstantsUtils.POSITION_CHANGE));
             mChangePerTextView.setText(mCursor.getString(ConstantsUtils.POSITION_TREND) + "%");
@@ -139,6 +185,74 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
 
         }
     }
+
+    private CandleData getCandleData(String histoJsonStr){
+
+        ArrayList<CandleEntry> histoEntries = new ArrayList<CandleEntry>();
+        try {
+            JSONObject baseJsonObject = new JSONObject(histoJsonStr);
+            JSONArray histoArray = baseJsonObject.getJSONArray("Data");
+
+            for (int i = 0; i < histoArray.length(); i++){
+                JSONObject histoObject = histoArray.getJSONObject(i);
+
+                History history = new History();
+
+
+                CandleEntry histoEntry = new CandleEntry(
+                        (float) histoObject.getDouble("time"),
+                        (float) histoObject.getDouble("high"),
+                        (float) histoObject.getDouble("low"),
+                        (float) histoObject.getDouble("open"),
+                        (float) histoObject.getDouble("close")
+                );
+
+                histoEntries.add(histoEntry);
+            }
+        }catch (JSONException e){
+            e.getStackTrace();
+        }
+
+        CandleDataSet set1 = new CandleDataSet(histoEntries, "Data Set");
+
+        //set1.setDrawIcons(false);
+//        set1.setAxisDependency(YAxis.AxisDependency.LEFT);
+//        set1.setShadowColor(getResources().getColor(R.color.colorPrimary));
+//        set1.setShadowWidth(0.7f);
+//        set1.setDecreasingColor(getResources().getColor(R.color.colorRed700));
+//        set1.setDecreasingPaintStyle(Paint.Style.FILL);
+//        set1.setIncreasingColor(getResources().getColor(R.color.colorGreen700));
+//        set1.setIncreasingPaintStyle(Paint.Style.STROKE);
+//        set1.setNeutralColor(getResources().getColor(R.color.colorPrimary));
+//        set1.setHighlightEnabled(false);
+
+        //set1.setDrawIcons(true);
+        //set1.setAxisDependency(AxisDependency.LEFT);
+        //set1.setColor(Color.rgb(80, 80, 80));
+        set1.setShadowColor(Color.DKGRAY);
+        set1.setShadowWidth(0.7f);
+        set1.setDecreasingColor(Color.RED);
+        set1.setDecreasingPaintStyle(Paint.Style.FILL);
+        set1.setIncreasingColor(Color.rgb(122, 242, 84));
+        set1.setIncreasingPaintStyle(Paint.Style.STROKE);
+        set1.setNeutralColor(Color.BLUE);
+
+        CandleData data = new CandleData(set1);
+
+        return data;
+    }
+
+//    private final IAxisValueFormatter iAxisValueFormatter = new IAxisValueFormatter() {
+//        @Override
+//        public String getFormattedValue(float value, AxisBase axis) {
+//            return labels.get((int) value);
+//        }
+//
+//        @Override
+//        public int getDecimalDigits() {
+//            return 0;
+//        }
+//    };
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState){

@@ -8,6 +8,7 @@ import android.text.TextUtils;
 
 import com.xiongxh.cryptocoin.model.Coin;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.xiongxh.cryptocoin.data.CoinDbContract.CoinEntry;
+import com.xiongxh.cryptocoin.model.History;
 
 import timber.log.Timber;
 
@@ -159,7 +161,7 @@ public class CoinJsonUtils {
                 }
 
 //                coin.setNews("Fake news. To be added");
-//                coin.setHisto("Fake histo data. To be added");
+                //coin.setHisto("0");
 
                 coins.add(coin);
             }
@@ -214,6 +216,35 @@ public class CoinJsonUtils {
         //value.put(CoinEntry.COLUMN_NEWS, coin.getNews());
 
         return value;
+    }
+
+    public static List<History> extractHistricalData(String historicalJsonStr){
+        List<History> histories = new ArrayList<>();
+
+        try {
+            JSONObject baseJsonObject = new JSONObject(historicalJsonStr);
+            JSONArray histoArray = baseJsonObject.getJSONArray("Data");
+
+            for (int i = 0; i < histoArray.length(); i++){
+                JSONObject histoObject = histoArray.getJSONObject(i);
+
+                History history = new History();
+
+                history.setTime(histoObject.getDouble("time"));
+                history.setClose(histoObject.getDouble("close"));
+                history.setTime(histoObject.getDouble("high"));
+                history.setClose(histoObject.getDouble("low"));
+                history.setTime(histoObject.getDouble("open"));
+                history.setClose(histoObject.getDouble("volumefrom"));
+                history.setClose(histoObject.getDouble("volumeto"));
+
+                histories.add(history);
+            }
+        }catch (JSONException e){
+            e.getStackTrace();
+        }
+
+        return histories;
     }
 
     //    public static Coin extractCoinFromJson(String symbol, String coinsJsonStr, String priceJsonStr, String histoJasonStr){

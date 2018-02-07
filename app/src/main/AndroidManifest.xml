@@ -24,8 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".coindetails.CoinDetailActivity"></activity>
+        <activity android:name=".coindetails.CoinDetailActivity" />
 
         <service
             android:name=".sync.CoinSyncIntentService"
@@ -41,8 +40,13 @@
             android:name=".sync.CoinTaskService"
             android:enabled="true"
             android:exported="true" />
-
-
+        <service
+            android:name=".sync.DetailIntentService"
+            android:exported="false" />
+        <service
+            android:name=".sync.DetailTaskService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>
