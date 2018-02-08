@@ -57,28 +57,31 @@ public class DetailTaskService extends GcmTaskService {
         if (symbol != null && !symbol.isEmpty()){
 
             try {
-                URL histoUrl = NetworkUtils.getHisto(symbol);
+                URL histoUrl = NetworkUtils.getHistoUrl(symbol);
                 String histoJsonStr = fetchData(histoUrl.toString());
 
-                Timber.d("First 500 of histoJsonStr: " + histoJsonStr.substring(0, 500));
+                URL newsUrl = NetworkUtils.getNewsUrl(symbol);
+                String newsJsonStr = fetchData(newsUrl.toString());
 
-                if (histoJsonStr != null && !histoJsonStr.isEmpty()){
+                //Timber.d("First 500 of histoJsonStr: " + histoJsonStr.substring(0, 500));
+                if (histoJsonStr != null && !histoJsonStr.isEmpty() && newsJsonStr != null && !newsJsonStr.isEmpty()){
+                //if (histoJsonStr != null && !histoJsonStr.isEmpty() ){
                     Timber.d("result is success!");
                     result = GcmNetworkManager.RESULT_SUCCESS;
 
-                    Cursor c = mContext.getContentResolver()
-                            .query(CoinEntry.CONTENT_URI,
-                                    //new String[]{CoinEntry.COLUMN_SYMBOL},
-                                    ConstantsUtils.COIN_COLUMNS,
-                                    CoinEntry.COLUMN_SYMBOL + "= ?",
-                                    new String[]{symbol},
-                                    null);
+//                    Cursor c = mContext.getContentResolver()
+//                            .query(CoinEntry.CONTENT_URI,
+//                                    //new String[]{CoinEntry.COLUMN_SYMBOL},
+//                                    ConstantsUtils.COIN_COLUMNS,
+//                                    CoinEntry.COLUMN_SYMBOL + "= ?",
+//                                    new String[]{symbol},
+//                                    null);
 
 //                    initQueryCursor = mContext.getContentResolver()
 //                            .query(CoinEntry.CONTENT_URI, ConstantsUtils.COIN_COLUMNS, null, null, null);
 
-                    if (c != null && c.moveToFirst()) {
-                        Timber.d("c is not null");
+                    //if (c != null && c.moveToFirst()) {
+                        //Timber.d("c is not null");
 
                         //Timber.d("histo before updating: " + c.getString(ConstantsUtils.POSITION_HISTO));
 
@@ -102,7 +105,9 @@ public class DetailTaskService extends GcmTaskService {
 //                        value.put(CoinEntry.COLUMN_LOW24H, c.getString(ConstantsUtils.POSITION_LOW24H));
 //                        value.put(CoinEntry.COLUMN_TREND, c.getString(ConstantsUtils.POSITION_TREND));
 //                        value.put(CoinEntry.COLUMN_CHANGE, c.getString(ConstantsUtils.POSITION_CHANGE));
+
                         value.put(CoinEntry.COLUMN_HISTO, histoJsonStr);
+                        value.put(CoinEntry.COLUMN_NEWS, newsJsonStr);
 
                         ContentResolver coinContentResolver = mContext.getContentResolver();
                         coinContentResolver.update(CoinEntry.CONTENT_URI,
@@ -111,19 +116,19 @@ public class DetailTaskService extends GcmTaskService {
                                 new String[]{symbol}
                                 );
 
-                        Cursor h = mContext.getContentResolver()
-                                .query(CoinEntry.CONTENT_URI,
-                                        ConstantsUtils.COIN_COLUMNS,
-                                        CoinEntry.COLUMN_SYMBOL + "= ?",
-                                        new String[]{symbol},
-                                        null);
-                        if (h != null && h.moveToFirst()) {
-                            String histo = h.getString(ConstantsUtils.POSITION_HISTO);
-                            int len = histo.length();
+//                        Cursor h = mContext.getContentResolver()
+//                                .query(CoinEntry.CONTENT_URI,
+//                                        ConstantsUtils.COIN_COLUMNS,
+//                                        CoinEntry.COLUMN_SYMBOL + "= ?",
+//                                        new String[]{symbol},
+//                                        null);
+//                        if (h != null && h.moveToFirst()) {
+//                            String histo = h.getString(ConstantsUtils.POSITION_HISTO);
+//                            int len = histo.length();
+//
+//                            Timber.d("length is: " + len + "histo after updating: " + histo.substring(len-500, len-1));
+//                        }
 
-                            Timber.d("length is: " + len + "histo after updating: " + histo.substring(len-500, len-1));
-                        }
-                    }
                 }else {
                     Timber.d("fetch data failed !");
                 }

@@ -24,7 +24,8 @@ public class NetworkUtils {
     private static final String pref_interval = "histohour";
 
     public static boolean isNetworkStatusAvailable(Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager != null)
         {
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
@@ -52,7 +53,7 @@ public class NetworkUtils {
         }
     }
 
-    public static URL getHisto(String fromSymbol){
+    public static URL getHistoUrl(String fromSymbol){
         String limit = "30";
         if (pref_interval.equals("histominute")){
             limit = "900";
@@ -68,6 +69,34 @@ public class NetworkUtils {
             URL histUrl = new URL(histUri.toString());
             Timber.d("Calling url: " + histUrl);
             return histUrl;
+
+        }catch (MalformedURLException e){
+            Timber.d(e.getMessage());
+            return null;
+        }
+    }
+
+    private static final String NEWS_BASE_URL = "https://newsapi.org/v2/everything?";
+    private static final String PARAM_QUERY = "q";
+    private static final String PARAM_PAGE_SIZE = "pageSize";
+    private static final String PARAM_SORT_BY = "sortBy";
+    private static final String PARAM_API_KEY ="apiKey";
+
+    private static final String PUBLISHED = "publishedAt";
+    private static final String KEY = "06326f0eb57d4f21a0486f34d2179e84";
+    //https://newsapi.org/v2/everything?q=BTC+crypto&sortBy=publishedAt&pageSize=50&apiKey=06326f0eb57d4f21a0486f34d2179e84
+    public static URL getNewsUrl(String symbol){
+
+        Uri newsUri = Uri.parse(NEWS_BASE_URL).buildUpon()
+                .appendQueryParameter(PARAM_QUERY, symbol + "+crypto")
+                .appendQueryParameter(PARAM_PAGE_SIZE, "50")
+                .appendQueryParameter(PARAM_SORT_BY, PUBLISHED)
+                .appendQueryParameter(PARAM_API_KEY, KEY)
+                .build();
+        try {
+            URL newsUrl = new URL(newsUri.toString());
+            Timber.d("Calling url: " + newsUrl);
+            return newsUrl;
 
         }catch (MalformedURLException e){
             Timber.d(e.getMessage());

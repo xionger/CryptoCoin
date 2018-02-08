@@ -8,14 +8,14 @@ public class SectionPagerAdapter extends FragmentPagerAdapter{
 
     String mSymbol;
     CoinDetailFragment mCoinDetailFragment;
-    HistoFragment mHistoFragment;
+    NewsFragment mNewsFragment;
     TweetsFragment mTweetsFragment;
 
     public SectionPagerAdapter(FragmentManager fm, String symbol){
         super(fm);
         this.mSymbol = symbol;
         mCoinDetailFragment = CoinDetailFragment.newInstance(symbol);
-        mHistoFragment = HistoFragment.newInstance(symbol);
+        mNewsFragment = NewsFragment.newInstance(symbol);
         mTweetsFragment = TweetsFragment.newInstance(symbol);
     }
 
@@ -25,7 +25,7 @@ public class SectionPagerAdapter extends FragmentPagerAdapter{
             case 0:
                 return mCoinDetailFragment;
             case 1:
-                return mHistoFragment;
+                return mNewsFragment;
             case 2:
                 return mTweetsFragment;
         }
@@ -41,9 +41,9 @@ public class SectionPagerAdapter extends FragmentPagerAdapter{
     public CharSequence getPageTitle(int position){
         switch (position){
             case 0:
-                return "INFO";
+                return "MARKET";
             case 1:
-                return "CHARTS";
+                return "NEWS";
             case 2:
                 return  "TWEETS";
         }

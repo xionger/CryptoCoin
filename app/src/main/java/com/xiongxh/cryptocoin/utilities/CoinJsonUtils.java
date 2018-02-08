@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.xiongxh.cryptocoin.model.Coin;
 
@@ -19,6 +20,7 @@ import java.util.List;
 
 import com.xiongxh.cryptocoin.data.CoinDbContract.CoinEntry;
 import com.xiongxh.cryptocoin.model.History;
+import com.xiongxh.cryptocoin.model.News;
 
 import timber.log.Timber;
 
@@ -213,39 +215,76 @@ public class CoinJsonUtils {
         value.put(CoinEntry.COLUMN_LOW24H, coin.getLow24h());
         value.put(CoinEntry.COLUMN_TREND, coin.getTrend());
         value.put(CoinEntry.COLUMN_CHANGE, coin.getChange());
-        //value.put(CoinEntry.COLUMN_NEWS, coin.getNews());
 
         return value;
     }
 
-    public static List<History> extractHistricalData(String historicalJsonStr){
-        List<History> histories = new ArrayList<>();
+    public static List<News> extractNewsFromJson(String newsJSON){
+
+        if(TextUtils.isEmpty(newsJSON)){
+            return null;
+        }
+
+        List<News> newses = new ArrayList<>();
 
         try {
-            JSONObject baseJsonObject = new JSONObject(historicalJsonStr);
-            JSONArray histoArray = baseJsonObject.getJSONArray("Data");
+            JSONObject baseJsonResponse = new JSONObject(newsJSON);
 
-            for (int i = 0; i < histoArray.length(); i++){
-                JSONObject histoObject = histoArray.getJSONObject(i);
+            JSONArray newsArray = baseJsonResponse.getJSONArray("articles");
 
-                History history = new History();
+            for(int i=0; i<newsArray.length(); i++){
 
-                history.setTime(histoObject.getDouble("time"));
-                history.setClose(histoObject.getDouble("close"));
-                history.setTime(histoObject.getDouble("high"));
-                history.setClose(histoObject.getDouble("low"));
-                history.setTime(histoObject.getDouble("open"));
-                history.setClose(histoObject.getDouble("volumefrom"));
-                history.setClose(histoObject.getDouble("volumeto"));
+                JSONObject currentNews = newsArray.getJSONObject(i);
 
-                histories.add(history);
+                String imageUrl = currentNews.getString("urlToImage");
+                String title = currentNews.getString("title");
+                String description = currentNews.getString("description");
+                String time = currentNews.getString("publishedAt");
+                String url = currentNews.getString("url");
+
+                JSONObject sourceObj = currentNews.getJSONObject("source");
+                String source = sourceObj.getString("name");
+
+                News news = new News(imageUrl, title, description, time, source, url);
+
+                newses.add(news);
             }
+
         }catch (JSONException e){
             e.getStackTrace();
         }
 
-        return histories;
+        return newses;
     }
+
+//    public static List<History> extractHistricalData(String historicalJsonStr){
+//        List<History> histories = new ArrayList<>();
+//
+//        try {
+//            JSONObject baseJsonObject = new JSONObject(historicalJsonStr);
+//            JSONArray histoArray = baseJsonObject.getJSONArray("Data");
+//
+//            for (int i = 0; i < histoArray.length(); i++){
+//                JSONObject histoObject = histoArray.getJSONObject(i);
+//
+//                History history = new History();
+//
+//                history.setTime(histoObject.getDouble("time"));
+//                history.setClose(histoObject.getDouble("close"));
+//                history.setTime(histoObject.getDouble("high"));
+//                history.setClose(histoObject.getDouble("low"));
+//                history.setTime(histoObject.getDouble("open"));
+//                history.setClose(histoObject.getDouble("volumefrom"));
+//                history.setClose(histoObject.getDouble("volumeto"));
+//
+//                histories.add(history);
+//            }
+//        }catch (JSONException e){
+//            e.getStackTrace();
+//        }
+//
+//        return histories;
+//    }
 
     //    public static Coin extractCoinFromJson(String symbol, String coinsJsonStr, String priceJsonStr, String histoJasonStr){
 //

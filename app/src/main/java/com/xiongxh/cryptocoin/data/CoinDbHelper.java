@@ -38,7 +38,7 @@ public class CoinDbHelper extends SQLiteOpenHelper {
                 + CoinEntry.COLUMN_TREND + " REAL, "
                 + CoinEntry.COLUMN_CHANGE + " REAL, "
                 + CoinEntry.COLUMN_HISTO + " TEXT, "
-                //+ CoinEntry.COLUMN_NEWS + " TEXT, "
+                + CoinEntry.COLUMN_NEWS + " TEXT, "
                 + "UNIQUE (" + CoinEntry.COLUMN_SYMBOL + ") ON CONFLICT REPLACE);";
 
         sqLiteDatabase.execSQL(builder);

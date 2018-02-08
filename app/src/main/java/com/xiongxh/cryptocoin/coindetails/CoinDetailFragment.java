@@ -125,7 +125,7 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
 
             String histoStr = mCursor.getString(ConstantsUtils.POSITION_HISTO);
 
-            if (histoStr != null) {
+            if (histoStr != null ) {
                 Timber.d("First 500 of histo: " + histoStr.substring(0, 500));
 
                 //mChart.setBackgroundColor(getResources().getColor(R.color.colorBlueGrey800));
@@ -145,6 +145,11 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
 
                 mChart.setData(histoCandleData);
                 mChart.invalidate();
+            }
+
+            String newsStr = mCursor.getString(ConstantsUtils.POSITION_NEWS);
+            if (newsStr != null){
+                Timber.d("news string: " + newsStr);
             }
 
             mPriceTextView.setText("$" + mCursor.getString(ConstantsUtils.POSITION_PRICE));
@@ -214,17 +219,6 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
         }
 
         CandleDataSet set1 = new CandleDataSet(histoEntries, "Data Set");
-
-        //set1.setDrawIcons(false);
-//        set1.setAxisDependency(YAxis.AxisDependency.LEFT);
-//        set1.setShadowColor(getResources().getColor(R.color.colorPrimary));
-//        set1.setShadowWidth(0.7f);
-//        set1.setDecreasingColor(getResources().getColor(R.color.colorRed700));
-//        set1.setDecreasingPaintStyle(Paint.Style.FILL);
-//        set1.setIncreasingColor(getResources().getColor(R.color.colorGreen700));
-//        set1.setIncreasingPaintStyle(Paint.Style.STROKE);
-//        set1.setNeutralColor(getResources().getColor(R.color.colorPrimary));
-//        set1.setHighlightEnabled(false);
 
         //set1.setDrawIcons(true);
         //set1.setAxisDependency(AxisDependency.LEFT);
