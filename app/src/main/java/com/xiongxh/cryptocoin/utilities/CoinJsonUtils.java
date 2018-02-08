@@ -245,9 +245,10 @@ public class CoinJsonUtils {
                 JSONObject sourceObj = currentNews.getJSONObject("source");
                 String source = sourceObj.getString("name");
 
-                News news = new News(imageUrl, title, description, time, source, url);
-
-                newses.add(news);
+                if (!source.equals("Python.org")){
+                    News news = new News(imageUrl, title, description, time, source, url);
+                    newses.add(news);
+                }
             }
 
         }catch (JSONException e){

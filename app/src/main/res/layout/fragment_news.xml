@@ -7,9 +7,13 @@
 
     <ListView
         android:id="@+id/list_news"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        android:divider="#F5F5F5"
+        android:dividerHeight="1dp"
+        android:visibility="visible"
+        />
 
     <!-- Empty view is only visible when the list has no items. -->
     <TextView
@@ -18,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:textAppearance="?android:textAppearanceMedium"
-        android:visibility="gone"/>
+        android:visibility="invisible"/>
 
     <!-- Loading indicator is only shown before the first load -->
     <ProgressBar

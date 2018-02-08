@@ -1,8 +1,6 @@
 package com.xiongxh.cryptocoin.coindetails;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +12,10 @@ import com.bumptech.glide.Glide;
 import com.xiongxh.cryptocoin.R;
 import com.xiongxh.cryptocoin.model.News;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 public class NewsAdapter extends ArrayAdapter<News>{
@@ -26,6 +24,18 @@ public class NewsAdapter extends ArrayAdapter<News>{
         super(context, 0, newses);
     }
 
+    @BindView(R.id.news_image)
+    ImageView imageView;
+    @BindView(R.id.news_title)
+    TextView titleView;
+    @BindView(R.id.news_description)
+    TextView descriptionView;
+    @BindView(R.id.news_time)
+    TextView timeView;
+    @BindView(R.id.news_source)
+    TextView sourceView;
+
+    @Override
     public View getView(int position, View convertView, ViewGroup parent){
 
         View listItemView = convertView;
@@ -34,12 +44,16 @@ public class NewsAdapter extends ArrayAdapter<News>{
                     R.layout.item_news_list, parent, false);
         }
 
+        ButterKnife.bind(this, listItemView);
+
         News currentNews = getItem(position);
 
-        //Bitmap bmp = getBitmapFromUrl(currentNews.getNewsImageSrc());
-        final ImageView imageView = (ImageView) listItemView.findViewById(R.id.news_image);
-        //imageView.setImageBitmap(bmp);
-        //Picasso.with(getContext()).load(currentNews.getNewsImageSrc()).into(imageView);
+
+
+        titleView.setText(currentNews.getNewsTitle());
+        descriptionView.setText(currentNews.getNewsDescription());
+        sourceView.setText(currentNews.getNewsSource());
+        timeView.setText(currentNews.getNewsTime());
 
         String imageUrl = currentNews.getNewsImageSrc();
 
@@ -53,24 +67,7 @@ public class NewsAdapter extends ArrayAdapter<News>{
             setViewVisibility(imageView, false);
         }
 
-
-        TextView titleView = (TextView) listItemView.findViewById(R.id.news_title);
-        titleView.setText(currentNews.getNewsTitle());
-
-        TextView tagsView = (TextView) listItemView.findViewById(R.id.news_tags);
-        tagsView.setText(newsTag(currentNews.getNewsTime(), currentNews.getNewsSource()));
-
-        //TextView timeView = (TextView) listItemView.findViewById(R.id.news_time);
-        //timeView.setText(currentNews.getNewsTime());
-
-        //TextView sourceView = (TextView) listItemView.findViewById(R.id.news_source);
-        //sourceView.setText(currentNews.getNewsSource());
-
         return listItemView;
-    }
-
-    public String newsTag(String time, String source){
-        return time + ", from " + source;
     }
 
     private void setViewVisibility(View view, boolean isShown){

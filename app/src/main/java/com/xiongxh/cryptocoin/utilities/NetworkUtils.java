@@ -8,11 +8,16 @@ import android.net.Uri;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import okhttp3.Request;
 import timber.log.Timber;
 
 public class NetworkUtils {
+
+    private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 
     private static final String BASE_URL = "https://min-api.cryptocompare.com/data/";
     private static final String PARAM_FROM_SYMBOL = "fsym";
@@ -22,6 +27,7 @@ public class NetworkUtils {
     private static final String PARAM_LIMIT = "limit";
     private static final String pref_price_unit = "USD";
     private static final String pref_interval = "histohour";
+
 
     public static boolean isNetworkStatusAvailable(Context context) {
         ConnectivityManager connectivityManager =
@@ -80,17 +86,24 @@ public class NetworkUtils {
     private static final String PARAM_QUERY = "q";
     private static final String PARAM_PAGE_SIZE = "pageSize";
     private static final String PARAM_SORT_BY = "sortBy";
+    private static final String PARAM_FROM = "from";
     private static final String PARAM_API_KEY ="apiKey";
 
-    private static final String PUBLISHED = "publishedAt";
-    private static final String KEY = "06326f0eb57d4f21a0486f34d2179e84";
-    //https://newsapi.org/v2/everything?q=BTC+crypto&sortBy=publishedAt&pageSize=50&apiKey=06326f0eb57d4f21a0486f34d2179e84
+    private static final String VALUE_SORT_BY = "relevancy";
+
+    //private static final String KEY = "API_KEY_HERE";
+
     public static URL getNewsUrl(String symbol){
 
+        long week = System.currentTimeMillis() - 604800000;
+
+        String from = getDate(week);
+
         Uri newsUri = Uri.parse(NEWS_BASE_URL).buildUpon()
-                .appendQueryParameter(PARAM_QUERY, symbol + "+crypto")
+                .appendQueryParameter(PARAM_QUERY, "+" + symbol + "+" + "+crypto+")
                 .appendQueryParameter(PARAM_PAGE_SIZE, "50")
-                .appendQueryParameter(PARAM_SORT_BY, PUBLISHED)
+                .appendQueryParameter(PARAM_SORT_BY, VALUE_SORT_BY)
+                .appendQueryParameter(PARAM_FROM, from)
                 .appendQueryParameter(PARAM_API_KEY, KEY)
                 .build();
         try {
@@ -102,6 +115,17 @@ public class NetworkUtils {
             Timber.d(e.getMessage());
             return null;
         }
+    }
+
+    public static String getDate(long milliSeconds)
+    {
+        // Create a DateFormatter object for displaying date in specified format.
+        SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
+
+        // Create a calendar object that will convert the date and time value in milliseconds to date.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(milliSeconds);
+        return formatter.format(calendar.getTime());
     }
 
     public static URL getUrl(Context context){
