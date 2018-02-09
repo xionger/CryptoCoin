@@ -19,7 +19,6 @@
     <string name="interstitial_ad_id" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
 
-    <string name="com.twitter.sdk.android.CONSUMER_KEY" translatable="false"></string>
-    <string name="com.twitter.sdk.android.CONSUMER_SECRET" translatable="false"></string>
+    <string name="base_logo_url" translatable="false">https://www.cryptocompare.com</string>
 
 </resources>

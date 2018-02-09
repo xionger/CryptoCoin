@@ -90,7 +90,6 @@ public class NetworkUtils {
 
     //private static final String KEY = "API_KEY_HERE";
 
-    private static final String KEY = "8190df9eb51445228e397e4185311a66";
 
     public static URL getNewsUrl(String symbol){
 

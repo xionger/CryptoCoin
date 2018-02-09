@@ -24,7 +24,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".coindetails.CoinDetailActivity" />
+        <activity android:name=".coindetails.CoinDetailActivity"
+            android:parentActivityName=".coins.CoinsActivity"/>
 
         <service
             android:name=".sync.CoinSyncIntentService"

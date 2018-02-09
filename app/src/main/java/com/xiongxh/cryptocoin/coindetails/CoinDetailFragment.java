@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.github.mikephil.charting.charts.CandleStickChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -59,8 +60,8 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
 
     private Cursor mCursor;
 
-//    @BindView(R.id.coin_logo)
-//    ImageView mLogoImageView;
+    @BindView(R.id.iv_coin_logo)
+    ImageView mLogoImageView;
     @BindView(R.id.current_price)
     TextView mPriceTextView;
     @BindView(R.id.change_value)
@@ -170,6 +171,17 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
                 }
             }
 
+            String logo = mCursor.getString(ConstantsUtils.POSITION_IMAGE_URL);
+            if (logo != null){
+                String logoUrl = getString(R.string.base_logo_url) + logo;
+                Glide.with(getContext())
+                        .load(logoUrl)
+                        .into(mLogoImageView);
+
+                mLogoImageView.setVisibility(View.VISIBLE);
+            }else {
+                mLogoImageView.setVisibility(View.INVISIBLE);
+            }
 
             //image here
             mOpenTextView.setText(mCursor.getString(ConstantsUtils.POSITION_OPEN24H));
