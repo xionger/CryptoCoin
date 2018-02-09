@@ -7,7 +7,13 @@
     android:columnCount="2">
 
     <Space
-        android:layout_height="50dp"
+        android:layout_height="20dp"
+        android:layout_columnSpan="2"/>
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart_historical"
+        android:layout_width="0dp"
+        android:layout_height="500dp"
         android:layout_columnSpan="2"/>
 
     <TextView

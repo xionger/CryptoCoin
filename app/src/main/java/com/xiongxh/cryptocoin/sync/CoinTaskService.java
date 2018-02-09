@@ -138,7 +138,26 @@ public class CoinTaskService extends GcmTaskService {
                     Timber.d("Inserting coin symbol: " + coinValues[i].getAsString(CoinEntry.COLUMN_SYMBOL));
 
                     ContentResolver coinContentResolver = mContext.getContentResolver();
-                    coinContentResolver.insert(CoinEntry.CONTENT_URI, coinValues[i]);
+
+                    String toInsert = coinValues[i].getAsString(CoinEntry.COLUMN_SYMBOL);
+
+                    Cursor c = mContext.getContentResolver()
+                            .query(CoinEntry.CONTENT_URI,
+                                    //new String[]{CoinEntry.COLUMN_SYMBOL},
+                                    ConstantsUtils.COIN_COLUMNS,
+                                    CoinEntry.COLUMN_SYMBOL + "= ?",
+                                    new String[]{toInsert},
+                                    null);
+
+                    if (c != null && c.moveToFirst()){
+                        coinContentResolver.update(CoinEntry.CONTENT_URI,
+                                coinValues[i],
+                                CoinEntry.COLUMN_SYMBOL + "=?",
+                                new String[]{toInsert}
+                        );
+                    }else {
+                        coinContentResolver.insert(CoinEntry.CONTENT_URI, coinValues[i]);
+                    }
                 }
             }
         }catch (Exception e){

@@ -25,33 +25,13 @@ public class Coin {
     private String histo;
 
     private String news;
+    private long update;
 
     public Coin(){}
 
     public Coin(String symbol){
         this.symbol = symbol;
     }
-
-
-//    public Coin(String symbol,
-//                long coinId,
-//                String coinName,
-//                String url,
-//                String imageUrl,
-//                String algorithm,
-//                String proofType,
-//                long supply,
-//                int sponsor){
-//        this.symbol = symbol;
-//        this.coinId = coinId;
-//        this.coinName = coinName;
-//        this.url = url;
-//        this.imageUrl = imageUrl;
-//        this.algorithm = algorithm;
-//        this.proofType = proofType;
-//        this.supply = supply;
-//        this.sponsor = sponsor;
-//    }
 
     public void setSymbol(String symbol){
         this.symbol = symbol;
@@ -60,14 +40,6 @@ public class Coin {
     public String getSymbol(){
         return this.symbol;
     }
-
-//    public void setCoinId(long coinId){
-//        this.coinId = coinId;
-//    }
-//
-//    public long getCoinId(){
-//        return this.coinId;
-//    }
 
     public void setCoinName(String coinName){
         this.coinName = coinName;
@@ -219,6 +191,14 @@ public class Coin {
 
     public String getNews(){
         return this.news;
+    }
+
+    public void setUpdate(long update){
+        this.update = update;
+    }
+
+    public long getUpdate(){
+        return this.update;
     }
 
 }

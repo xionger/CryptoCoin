@@ -1,107 +1,74 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="50dp"
-    xmlns:tool="http://schemas.android.com/tools"
-    android:background="@color/colorBlueGrey800"
-    android:orientation="horizontal">
-
-    <ImageView
-        android:id="@+id/coin_logo"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:layout_gravity="end|center_vertical"
-        android:src="@drawable/bitcoin_logo_100" />
-
-    <TextView
-        android:id="@+id/current_price"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:gravity="center|center_vertical"
-        android:textColor="@android:color/background_light"
-        android:textSize="32sp"
-        tool:fontFamily="sans-serif-condensed" />
+        xmlns:tool="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:background="@color/colorBlueGrey800"
+        android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_weight="1000"
+        android:layout_gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/change_value"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="start"
-            android:layout_gravity="fill_horizontal"
-            android:textColor="@android:color/background_light"
-            android:textSize="20sp"
-            tool:fontFamily="sans-serif" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.7"
+            android:text="$"
+            android:textColor="#ffffff"
+            android:textSize="28dp" />
 
         <TextView
-            android:id="@+id/change_percent"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:id="@+id/current_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
             android:gravity="start"
-            android:layout_gravity="fill_horizontal"
-            android:textSize="16sp"
-            android:textColor="@android:color/background_light"
-            tool:fontFamily="sans-serif-medium" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="#ffffff"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:text="1234.56" />
 
     </LinearLayout>
 
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="618">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="618"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/change_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:textColor="@color/colorGreen700"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:text="+1.23%" />
+
+            <TextView
+                android:id="@+id/change_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:alpha="0.7"
+                android:textColor="@color/colorGreen700"
+                android:textSize="24sp"
+                android:text="($0.43)" />
+        </LinearLayout>
+    </FrameLayout>
 
 </LinearLayout>
-
-<!--
-    <Space
-        android:layout_height="50dp"
-        android:layout_columnSpan="2"/>
-
-    <ImageView
-        android:id="@+id/coin_logo"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_columnWeight="2"/>
-
-    <TextView
-        android:id="@+id/lastprice"
-        android:layout_width="0dp"
-        android:layout_height="100dp"
-        android:layout_columnWeight="2"
-        android:layout_rowSpan="2"
-        android:gravity="center"
-        android:layout_gravity="fill_horizontal"
-        android:textSize="62sp"
-        android:textColor="@android:color/background_dark"
-        tool:fontFamily="sans-serif-condensed"  />
-
-    <TextView
-        android:id="@+id/change_value"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_columnWeight="1"
-        android:gravity="start"
-        android:layout_gravity="fill_horizontal"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="42sp"
-        tool:fontFamily="sans-serif" />
-
-    <TextView
-        android:id="@+id/change_percent"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_columnWeight="1"
-        android:gravity="start"
-        android:layout_gravity="fill_horizontal"
-        android:textSize="34sp"
-        android:textColor="@android:color/darker_gray"
-        tool:fontFamily="sans-serif-medium"/>
-
-    <Space
-        android:layout_height="50dp"
-        android:layout_columnSpan="2"/>
--->

@@ -9,7 +9,7 @@ import com.xiongxh.cryptocoin.data.CoinDbContract.CoinEntry;
 public class CoinDbHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "cryptocoins.db";
-    private static final int VERSION = 2;
+    private static final int VERSION = 5;
 
     CoinDbHelper(Context context) {
         super(context, DB_NAME, null, VERSION);
@@ -39,6 +39,7 @@ public class CoinDbHelper extends SQLiteOpenHelper {
                 + CoinEntry.COLUMN_CHANGE + " REAL, "
                 + CoinEntry.COLUMN_HISTO + " TEXT, "
                 + CoinEntry.COLUMN_NEWS + " TEXT, "
+                + CoinEntry.COLUMN_UPDATE + " REAL, "
                 + "UNIQUE (" + CoinEntry.COLUMN_SYMBOL + ") ON CONFLICT REPLACE);";
 
         sqLiteDatabase.execSQL(builder);

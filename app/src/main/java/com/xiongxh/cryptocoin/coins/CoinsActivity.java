@@ -49,7 +49,7 @@ public class CoinsActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Timber.plant(new Timber.DebugTree());
+        //Timber.plant(new Timber.DebugTree());
 
         Timber.d("onCreate ...");
         mContext = this;

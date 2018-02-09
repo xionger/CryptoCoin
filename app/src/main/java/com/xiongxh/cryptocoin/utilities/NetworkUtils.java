@@ -5,10 +5,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -27,7 +25,6 @@ public class NetworkUtils {
     private static final String PARAM_LIMIT = "limit";
     private static final String pref_price_unit = "USD";
     private static final String pref_interval = "histohour";
-
 
     public static boolean isNetworkStatusAvailable(Context context) {
         ConnectivityManager connectivityManager =
@@ -93,6 +90,7 @@ public class NetworkUtils {
 
     //private static final String KEY = "API_KEY_HERE";
 
+
     public static URL getNewsUrl(String symbol){
 
         long week = System.currentTimeMillis() - 604800000;
@@ -126,49 +124,6 @@ public class NetworkUtils {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(milliSeconds);
         return formatter.format(calendar.getTime());
-    }
-
-    public static URL getUrl(Context context){
-        //String sortStr = MoviePreferences.getPreferredSortType(context);
-        //mSortType = sortStr;
-
-        //return buildUrlWithQuery(sortStr);
-        return null;
-    }
-
-    private static URL buildUrlWithQuery(String sortType){
-        /**
-         final String SORT_BY_PARAM = "sort_by";
-         final String RELEASE_DATE_PARAM = "primary_release_date.gte";
-         final String release_after = "2015-01-01";
-         final String VOTE_COUNT_PARAM = "vote_count.gte";
-         final String vote_count_threshold = "100";
-         Uri buildUri = Uri.parse(BASE_URL).buildUpon()
-         .appendQueryParameter(SORT_BY_PARAM, sortType)
-         .appendQueryParameter(RELEASE_DATE_PARAM, release_after)
-         .appendQueryParameter(VOTE_COUNT_PARAM, vote_count_threshold)
-         .appendQueryParameter(API_KEY_PARAM, BuildConfig.MOVIE_DB_API_KEY)
-         .build();
-         */
-//        if (sortType.equals("top_rated")){
-//            BASE_URL = BASE_URL_TOP_RATED;
-//        } else {
-//            BASE_URL = BASE_URL_POPULAR;
-//        }
-//
-//        Uri buildUri = Uri.parse(BASE_URL).buildUpon()
-//                .appendQueryParameter(API_KEY_PARAM, BuildConfig.MOVIE_DB_API_KEY)
-//                .build();
-//
-//        try {
-//            URL url = new URL(buildUri.toString());
-//            Timber.d( "Calling url: " + url);
-//            return url;
-//        }catch (MalformedURLException e){
-//            Timber.d(e.getMessage());
-//            return null;
-//        }
-        return null;
     }
 
 }

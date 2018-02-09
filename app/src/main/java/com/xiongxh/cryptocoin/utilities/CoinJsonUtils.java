@@ -74,12 +74,12 @@ public class CoinJsonUtils {
     }
 
     public static List<Coin> extractCoinsFromJson(String coinJsonStr, String priceJsonStr, List<String> symbols){
-        Timber.d("Entering extractCoinsFromJson() method...");
+        //Timber.d("Entering extractCoinsFromJson() method...");
         if (TextUtils.isEmpty(coinJsonStr) || TextUtils.isEmpty(priceJsonStr)){
             return null;
         }
 
-        Timber.d("size of symbols: " + symbols.size());
+        //Timber.d("size of symbols: " + symbols.size());
 
         List<Coin> coins = new ArrayList<>();
 
@@ -95,14 +95,14 @@ public class CoinJsonUtils {
             //Timber.d("price object: " + rawPriceObject.toString());
 
             for (String symbol : symbols){
-                Timber.d("Coin symbol: " + symbol);
+                //Timber.d("Coin symbol: " + symbol);
 
                 Coin coin = new Coin(symbol);
 
                 JSONObject coinProperties = dataObject.getJSONObject(symbol);
 
                 if (coinProperties != null){
-                    Timber.d(symbol + "'s coinProperties: " + coinProperties.toString());
+                    //Timber.d(symbol + "'s coinProperties: " + coinProperties.toString());
                     String coinName = coinProperties.getString("CoinName");
                     String url = coinProperties.getString("Url");
                     String imageUrl = coinProperties.getString("ImageUrl");
@@ -132,9 +132,9 @@ public class CoinJsonUtils {
                 }
 
                 JSONObject coinPriceObject = rawPriceObject.getJSONObject(symbol);
-                Timber.d(symbol + "'s RAW price data: " + coinPriceObject.toString());
+                //Timber.d(symbol + "'s RAW price data: " + coinPriceObject.toString());
                 JSONObject priceProperties = coinPriceObject.getJSONObject(pref_price_unit);
-                Timber.d(symbol + "'s price data: " + priceProperties.toString());
+                //Timber.d(symbol + "'s price data: " + priceProperties.toString());
 
                 if (priceProperties != null){
                     double price = priceProperties.getDouble("PRICE");
@@ -159,7 +159,7 @@ public class CoinJsonUtils {
                     coin.setChange(change);
                     coin.setSupply(supply);
 
-                    Timber.d(coin.getSymbol() + "Price: " + coin.getPrice());
+                    //Timber.d(coin.getSymbol() + "Price: " + coin.getPrice());
                 }
 
 //                coin.setNews("Fake news. To be added");
@@ -176,20 +176,20 @@ public class CoinJsonUtils {
     }
 
     public static ContentValues[] getCoinContentValueFromList(List<Coin> coins){
-        Timber.d("Entering getCoinContentValueFromList() mehtod...");
+        //Timber.d("Entering getCoinContentValueFromList() mehtod...");
 
         Timber.d("number of coins: " + coins.size());
         ContentValues[] contentValues = new ContentValues[coins.size()];
 
         int i = 0;
         for (Coin coin : coins){
-            Timber.d("Iterate coins: " + coin.getCoinName());
+            //Timber.d("Iterate coins: " + coin.getCoinName());
             ContentValues value = getContentValueFromCoin(coin);
             contentValues[i] = value;
             i++;
         }
 
-        Timber.d("number of content values: " + (i+1));
+        //Timber.d("number of content values: " + (i+1));
 
         return contentValues;
     }
@@ -257,164 +257,6 @@ public class CoinJsonUtils {
 
         return newses;
     }
-
-//    public static List<History> extractHistricalData(String historicalJsonStr){
-//        List<History> histories = new ArrayList<>();
-//
-//        try {
-//            JSONObject baseJsonObject = new JSONObject(historicalJsonStr);
-//            JSONArray histoArray = baseJsonObject.getJSONArray("Data");
-//
-//            for (int i = 0; i < histoArray.length(); i++){
-//                JSONObject histoObject = histoArray.getJSONObject(i);
-//
-//                History history = new History();
-//
-//                history.setTime(histoObject.getDouble("time"));
-//                history.setClose(histoObject.getDouble("close"));
-//                history.setTime(histoObject.getDouble("high"));
-//                history.setClose(histoObject.getDouble("low"));
-//                history.setTime(histoObject.getDouble("open"));
-//                history.setClose(histoObject.getDouble("volumefrom"));
-//                history.setClose(histoObject.getDouble("volumeto"));
-//
-//                histories.add(history);
-//            }
-//        }catch (JSONException e){
-//            e.getStackTrace();
-//        }
-//
-//        return histories;
-//    }
-
-    //    public static Coin extractCoinFromJson(String symbol, String coinsJsonStr, String priceJsonStr, String histoJasonStr){
-//
-//        Coin coin = new Coin(symbol);
-//
-//        try {
-//            JSONObject coinsJsonResponse = new JSONObject(coinsJsonStr);
-//            JSONObject dataObject = coinsJsonResponse.getJSONObject("Data");
-//            JSONObject coinProperties = dataObject.getJSONObject(symbol);
-//
-//            if (coinProperties != null){
-//                String coinName = coinProperties.getString("CoinName");
-//                String url = coinProperties.getString("Url");
-//                String imageUrl = coinProperties.getString("ImageUrl");
-//                String algorithm = coinProperties.getString("Algorithm");
-//                String proofType = coinProperties.getString("ProofType");
-//                long totalSupply = Long.valueOf(coinProperties.getString("TotalCoinSupply"));
-//                int sponsor = 0;
-//                boolean sponsored = coinProperties.getBoolean("Sponsored");
-//
-//                if (sponsored) {
-//                    sponsor = 1;
-//                }
-//
-//                coin.setCoinName(coinName);
-//                coin.setUrl(url);
-//                coin.setImageUrl(imageUrl);
-//                coin.setAlgorithm(algorithm);
-//                coin.setProofType(proofType);
-//                coin.setTotalSupply(totalSupply);
-//                coin.setSponsor(sponsor);
-//            }
-//
-//            JSONObject priceJsonResponse = new JSONObject(priceJsonStr);
-//            JSONObject rawPriceObject = priceJsonResponse.getJSONObject("RAW");
-//            JSONObject coinPriceObject = rawPriceObject.getJSONObject(symbol);
-//            JSONObject priceProperties = coinPriceObject.getJSONObject(pref_price_unit);
-//
-//            if (priceProperties != null){
-//                double price = priceProperties.getDouble("PRICE");
-//                double mktcap = priceProperties.getDouble("MKTCAP");
-//                double vol24h = priceProperties.getDouble("VOLUME24HOUR");
-//                double vol24h2 = priceProperties.getDouble("VOLUME24HOURTO");
-//                double open24h = priceProperties.getDouble("OPEN24HOUR");
-//                double high24h = priceProperties.getDouble("HIGH24HOUR");
-//                double low24h = priceProperties.getDouble("LOW24HOUR");
-//                double trend = priceProperties.getDouble("CHANGEPCT24HOUR");
-//                double supply = priceProperties.getDouble("SUPPLY");
-//
-//                coin.setPrice(price);
-//                coin.setMktcap(mktcap);
-//                coin.setVol24h(vol24h);
-//                coin.setVol24h2(vol24h2);
-//                coin.setOpen24h(open24h);
-//                coin.setHigh24h(high24h);
-//                coin.setLow24h(low24h);
-//                coin.setTrend(trend);
-//                coin.setSupply(supply);
-//
-//                Timber.d(coin.getSymbol() + "Price: " + coin.getPrice());
-//            }
-//
-//            JSONObject histoJsonResponse = new JSONObject(histoJasonStr);
-//            JSONObject histoDataObject = histoJsonResponse.getJSONObject("Data");
-//
-//            if (histoDataObject != null){
-//                coin.setHisto(histoDataObject.toString());
-//            }
-//
-//            coin.setNews("Fake news. To be added");
-//
-//        }catch (JSONException e){
-//            e.getStackTrace();
-//        }
-//
-//        return coin;
-//    }
-//
-
-//    public static Coin extractCoinFromJson(String coinJsonStr, String symbol){
-//        if (TextUtils.isEmpty(coinJsonStr)){
-//            return null;
-//        }
-//
-//        Coin coin = new Coin();
-//        try {
-//            JSONObject basJsonResponse = new JSONObject(coinJsonStr);
-//
-//            JSONObject dataObject = basJsonResponse.getJSONObject("data");
-//            JSONObject properties = dataObject.getJSONObject(symbol);
-//
-//            if (properties != null){
-//                coin = transferJSONObjectToCoin(properties, symbol);
-//            }
-//
-//        }catch (JSONException e){
-//            e.getStackTrace();
-//        }
-//
-//        return coin;
-//    }
-
-//    public static Coin transferJSONObjectToCoin(JSONObject properties, String symbol){
-//        Coin coin = new Coin();
-//
-//        try {
-//            long coinId = Long.valueOf(properties.getString("id"));
-//            String coinName = properties.getString("CoinName");
-//            String url = properties.getString("Url");
-//            String imageUrl = properties.getString("ImageUrl");
-//            String algorithm = properties.getString("Algorithm");
-//            String proofType = properties.getString("ProofType");
-//            long supply = Long.valueOf(properties.getString("TotalCoinSupply"));
-//            int sponsor = 0;
-//            boolean sponsored = properties.getBoolean("Sponsored");
-//
-//            if (sponsored) {
-//                sponsor = 1;
-//            }
-//
-//            Timber.d("Coin information: " + symbol + coinId + coinName);
-//            coin = new Coin(symbol, coinId, coinName, url, imageUrl, algorithm, proofType, supply, sponsor);
-//
-//        }catch (JSONException e){
-//            e.getStackTrace();
-//        }
-//
-//        return coin;
-//    }
 
 
 }

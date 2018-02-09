@@ -24,7 +24,8 @@ public class ConstantsUtils {
             CoinEntry.COLUMN_TREND,
             CoinEntry.COLUMN_CHANGE,
             CoinEntry.COLUMN_HISTO,
-            CoinEntry.COLUMN_NEWS
+            CoinEntry.COLUMN_NEWS,
+            CoinEntry.COLUMN_UPDATE
     };
 
     public static final int POSITION_ID = 0;
@@ -48,4 +49,5 @@ public class ConstantsUtils {
     public static final int POSITION_CHANGE = 18;
     public static final int POSITION_HISTO = 19;
     public static final int POSITION_NEWS = 20;
+    public static final int POSITION_UPDATE = 21;
 }

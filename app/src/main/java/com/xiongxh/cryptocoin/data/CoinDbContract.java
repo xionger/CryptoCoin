@@ -47,6 +47,7 @@ public final class CoinDbContract {
         public static final String COLUMN_CHANGE = "change";
         public static final String COLUMN_HISTO = "histo";
         public static final String COLUMN_NEWS = "news";
+        public static final String COLUMN_UPDATE = "lasttime";
 
         public static final String DEFAULT_SORT = COLUMN_SYMBOL + " ASC";
 

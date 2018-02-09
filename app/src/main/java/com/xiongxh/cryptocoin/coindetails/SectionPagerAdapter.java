@@ -9,14 +9,12 @@ public class SectionPagerAdapter extends FragmentPagerAdapter{
     String mSymbol;
     CoinDetailFragment mCoinDetailFragment;
     NewsFragment mNewsFragment;
-    TweetsFragment mTweetsFragment;
 
     public SectionPagerAdapter(FragmentManager fm, String symbol){
         super(fm);
         this.mSymbol = symbol;
         mCoinDetailFragment = CoinDetailFragment.newInstance(symbol);
         mNewsFragment = NewsFragment.newInstance(symbol);
-        mTweetsFragment = TweetsFragment.newInstance(symbol);
     }
 
     @Override
@@ -26,15 +24,13 @@ public class SectionPagerAdapter extends FragmentPagerAdapter{
                 return mCoinDetailFragment;
             case 1:
                 return mNewsFragment;
-            case 2:
-                return mTweetsFragment;
         }
         return null;
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return 2;
     }
 
     @Override
@@ -44,8 +40,6 @@ public class SectionPagerAdapter extends FragmentPagerAdapter{
                 return "MARKET";
             case 1:
                 return "NEWS";
-            case 2:
-                return  "TWEETS";
         }
         return null;
     }

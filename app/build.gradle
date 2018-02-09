@@ -31,6 +31,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:26.1.0'
 
     compile 'com.google.android.gms:play-services-gcm:11.8.0'
+    compile 'com.google.android.gms:play-services-ads:11.8.0'
 
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
@@ -44,5 +45,6 @@ dependencies {
 
     implementation 'com.github.bumptech.glide:glide:4.6.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
+
 
 }
