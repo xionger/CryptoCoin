@@ -24,12 +24,32 @@
     </style>
 
     <style name="BidPriceTextStyle">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">#FFF</item>
     </style>
 
     <style name="CoinSymbolTextStyle">
         <item name="android:textSize">25sp</item>
+        <item name="android:textColor">#FFF</item>
         <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="CoinNameTextStyle">
+        <item name="android:textColor">#FFF</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="LabelTextStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:alpha">0.7</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:lineSpacingMultiplier">1.5</item>
+    </style>
+
+    <style name="ValueTextStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:lineSpacingMultiplier">1.5</item>
     </style>
 
 </resources>

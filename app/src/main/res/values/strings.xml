@@ -2,6 +2,9 @@
     <string name="app_name">CryptoCoin</string>
     <string name="action_settings">Settings</string>
 
+    <string name="add_coin" translatable="true">Add Coin</string>
+
+    <string name="error_no_network" translatable="true">No network or other error.</string>
     <string name="network_not_connected" translatable="true">Oops! The internet is not connected.</string>
 
     <string name="search_symbol" translatable="true">Search Coin Symbol</string>

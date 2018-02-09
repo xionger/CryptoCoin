@@ -24,7 +24,7 @@ public class NetworkUtils {
     private static final String PARAM_TO_SYMBOLS = "tsyms";
     private static final String PARAM_LIMIT = "limit";
     private static final String pref_price_unit = "USD";
-    private static final String pref_interval = "histohour";
+    private static final String pref_interval = "histoday";
 
     public static boolean isNetworkStatusAvailable(Context context) {
         ConnectivityManager connectivityManager =
@@ -57,7 +57,7 @@ public class NetworkUtils {
     }
 
     public static URL getHistoUrl(String fromSymbol){
-        String limit = "30";
+        String limit = "60";
         if (pref_interval.equals("histominute")){
             limit = "900";
         }
@@ -90,6 +90,7 @@ public class NetworkUtils {
 
     //private static final String KEY = "API_KEY_HERE";
 
+    private static final String KEY = "8190df9eb51445228e397e4185311a66";
 
     public static URL getNewsUrl(String symbol){
 

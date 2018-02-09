@@ -237,7 +237,7 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
 
     private void formatChart(LineChart chart, LineDataSet dataSet) {
 
-        int backgroundColor = getResources().getColor(R.color.colorBlueGrey800);
+        int backgroundColor = getResources().getColor(R.color.colorBlueGrey700);
 
         XAxis xAxis = chart.getXAxis();
         xAxis.setTextColor(Color.WHITE);

@@ -56,9 +56,9 @@ public class CoinsActivity extends AppCompatActivity implements
 
         setContentView(R.layout.activity_coins);
 
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         mServiceIntent = new Intent(this, CoinSyncIntentService.class);
 
