@@ -34,6 +34,7 @@ import com.google.android.gms.ads.AdView;
 import com.xiongxh.cryptocoin.R;
 import com.xiongxh.cryptocoin.data.CoinDbContract;
 import com.xiongxh.cryptocoin.data.CoinLoader;
+import com.xiongxh.cryptocoin.data.CoinPreferences;
 import com.xiongxh.cryptocoin.model.Coin;
 import com.xiongxh.cryptocoin.model.History;
 import com.xiongxh.cryptocoin.utilities.CoinJsonUtils;
@@ -135,18 +136,33 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
     private void bindViews(){
         if (mCursor != null){
 
+//            String unitPref = CoinPreferences.getPreferredUnit(getContext());
+
+//            if (mSymbol.equals("BTC") && unitPref.equals("BTC")){
+//                mChartView.setVisibility(View.INVISIBLE);
+//            }else {
+//                mChartView.setVisibility(View.VISIBLE);
+//            }
+
             String histoStr = mCursor.getString(ConstantsUtils.POSITION_HISTO);
 
-            if (histoStr != null ) {
+            if (histoStr == null || histoStr.length() < 500){
+                mChartView.setVisibility(View.INVISIBLE);
+            }else {
+                mChartView.setVisibility(View.VISIBLE);
+            //}
+
+            //if (histoStr != null) {
                 //Timber.d("First 500 of histo: " + histoStr.substring(0, 500));
+
 
                 LineDataSet dataSet = getLineDataSet(histoStr);
                 LineData lineData = new LineData(dataSet);
                 mChartView.setData(lineData);
                 formatChart(mChartView, dataSet);
                 mChartView.invalidate();
-
             }
+
 
             mPriceTextView.setText(mCursor.getString(ConstantsUtils.POSITION_PRICE));
 

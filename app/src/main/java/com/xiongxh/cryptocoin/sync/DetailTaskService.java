@@ -11,6 +11,7 @@ import android.os.IBinder;
 import com.google.android.gms.gcm.GcmNetworkManager;
 import com.google.android.gms.gcm.GcmTaskService;
 import com.google.android.gms.gcm.TaskParams;
+import com.xiongxh.cryptocoin.data.CoinPreferences;
 import com.xiongxh.cryptocoin.model.Coin;
 import com.xiongxh.cryptocoin.utilities.ConstantsUtils;
 import com.xiongxh.cryptocoin.utilities.NetworkUtils;
@@ -52,13 +53,18 @@ public class DetailTaskService extends GcmTaskService {
 
         String symbol = taskParams.getExtras().getString("symbol");
 
+        //String unitPref = CoinPreferences.getPreferredUnit(mContext);
+        //String histoJsonStr = "NONSENSE";
+
         int result = GcmNetworkManager.RESULT_FAILURE;
 
         if (symbol != null && !symbol.isEmpty()){
 
             try {
-                URL histoUrl = NetworkUtils.getHistoUrl(symbol);
-                String histoJsonStr = fetchData(histoUrl.toString());
+                //if (!symbol.equals("BTC") || !unitPref.equals("BTC")) {
+                    URL histoUrl = NetworkUtils.getHistoUrl(mContext, symbol);
+                    String histoJsonStr = fetchData(histoUrl.toString());
+                //}
 
                 boolean toUpdate = false;
                 long now = System.currentTimeMillis();
@@ -104,7 +110,9 @@ public class DetailTaskService extends GcmTaskService {
 
                     ContentValues value = new ContentValues();
 
-                    value.put(CoinEntry.COLUMN_HISTO, histoJsonStr);
+                    //if (!histoJsonStr.equals("NONSENSE")) {
+                        value.put(CoinEntry.COLUMN_HISTO, histoJsonStr);
+                    //}
 
                     if (toUpdate && newsJsonStr.length()>0) {
                         value.put(CoinEntry.COLUMN_NEWS, newsJsonStr);
@@ -113,13 +121,15 @@ public class DetailTaskService extends GcmTaskService {
                         value.put(CoinEntry.COLUMN_UPDATE, now);
                     }
 
-                    ContentResolver coinContentResolver = mContext.getContentResolver();
+                    //if (value != null && value.size() != 0) {
+                        ContentResolver coinContentResolver = mContext.getContentResolver();
 
-                    coinContentResolver.update(CoinEntry.CONTENT_URI,
-                            value,
-                            CoinEntry.COLUMN_SYMBOL + "=?",
-                            new String[]{symbol}
-                    );
+                        coinContentResolver.update(CoinEntry.CONTENT_URI,
+                                value,
+                                CoinEntry.COLUMN_SYMBOL + "=?",
+                                new String[]{symbol}
+                        );
+                    //}
                 }else {
                     Timber.d("fetch historical data failed !");
                 }

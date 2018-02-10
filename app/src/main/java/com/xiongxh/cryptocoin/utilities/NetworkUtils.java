@@ -5,6 +5,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 
+import com.xiongxh.cryptocoin.data.CoinPreferences;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -23,8 +25,7 @@ public class NetworkUtils {
     private static final String PARAM_FROM_SYMBOLS = "fsyms";
     private static final String PARAM_TO_SYMBOLS = "tsyms";
     private static final String PARAM_LIMIT = "limit";
-    private static final String pref_price_unit = "USD";
-    private static final String pref_interval = "histoday";
+    private static final String intervalPrefix = "histo";
 
     public static boolean isNetworkStatusAvailable(Context context) {
         ConnectivityManager connectivityManager =
@@ -39,11 +40,14 @@ public class NetworkUtils {
         return false;
     }
 
-    public static URL getPriceUrl(String symbols){
+    public static URL getPriceUrl(Context context, String symbols){
+
+        String unitPref = CoinPreferences.getPreferredUnit(context);
+
         Uri priceUri = Uri.parse(BASE_URL).buildUpon()
                 .appendEncodedPath("pricemultifull")
                 .appendQueryParameter(PARAM_FROM_SYMBOLS, symbols)
-                .appendQueryParameter(PARAM_TO_SYMBOLS, pref_price_unit)
+                .appendQueryParameter(PARAM_TO_SYMBOLS, unitPref)
                 .build();
         try {
             URL priceUrl = new URL(priceUri.toString());
@@ -56,17 +60,16 @@ public class NetworkUtils {
         }
     }
 
-    public static URL getHistoUrl(String fromSymbol){
-        String limit = "60";
-        if (pref_interval.equals("histominute")){
-            limit = "900";
-        }
+    public static URL getHistoUrl(Context context, String fromSymbol){
+
+        String intervalPref = CoinPreferences.getPreferredInterval(context);
+        String unitPref = CoinPreferences.getPreferredUnit(context);
 
         Uri histUri = Uri.parse(BASE_URL).buildUpon()
-                .appendEncodedPath(pref_interval)
+                .appendEncodedPath(intervalPrefix + intervalPref)
                 .appendQueryParameter(PARAM_FROM_SYMBOL, fromSymbol)
-                .appendQueryParameter(PARAM_TO_SYMBOL, pref_price_unit)
-                .appendQueryParameter(PARAM_LIMIT, limit)
+                .appendQueryParameter(PARAM_TO_SYMBOL, unitPref)
+                .appendQueryParameter(PARAM_LIMIT, "60")
                 .build();
         try {
             URL histUrl = new URL(histUri.toString());
@@ -90,12 +93,14 @@ public class NetworkUtils {
 
     //private static final String KEY = "API_KEY_HERE";
 
+  
 
+    private static final long ONE_WEEK = 604800000;
     public static URL getNewsUrl(String symbol){
 
-        long week = System.currentTimeMillis() - 604800000;
+        long weekBefore = System.currentTimeMillis() - ONE_WEEK;
 
-        String from = getDate(week);
+        String from = getDate(weekBefore);
 
         Uri newsUri = Uri.parse(NEWS_BASE_URL).buildUpon()
                 .appendQueryParameter(PARAM_QUERY, "+" + symbol + "+" + "+crypto+")

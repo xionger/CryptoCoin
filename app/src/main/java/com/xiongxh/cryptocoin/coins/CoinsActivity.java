@@ -2,6 +2,7 @@ package com.xiongxh.cryptocoin.coins;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
@@ -14,6 +15,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -28,6 +30,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.xiongxh.cryptocoin.R;
 import com.xiongxh.cryptocoin.coindetails.CoinDetailActivity;
 import com.xiongxh.cryptocoin.data.CoinLoader;
+import com.xiongxh.cryptocoin.setting.SettingsActivity;
 import com.xiongxh.cryptocoin.sync.CoinSyncIntentService;
 import com.xiongxh.cryptocoin.utilities.CoinJsonUtils;
 import com.xiongxh.cryptocoin.data.CoinDbContract.CoinEntry;
@@ -36,7 +39,9 @@ import com.xiongxh.cryptocoin.utilities.NetworkUtils;
 import timber.log.Timber;
 
 public class CoinsActivity extends AppCompatActivity implements
-        CoinAdapter.CoinAdapterOnclickHandler, LoaderManager.LoaderCallbacks<Cursor>{
+        SharedPreferences.OnSharedPreferenceChangeListener,
+        CoinAdapter.CoinAdapterOnclickHandler,
+        LoaderManager.LoaderCallbacks<Cursor>{
 
     private static final int LOADER_ID = 0;
     private Intent mServiceIntent;
@@ -61,6 +66,8 @@ public class CoinsActivity extends AppCompatActivity implements
         getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         mServiceIntent = new Intent(this, CoinSyncIntentService.class);
+
+        setupSharedPreferences();
 
         if (savedInstanceState == null){
             if (NetworkUtils.isNetworkStatusAvailable(mContext)) {
@@ -170,7 +177,17 @@ public class CoinsActivity extends AppCompatActivity implements
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent startSettingsActivity = new Intent(this, SettingsActivity.class);
+            startActivity(startSettingsActivity);
             return true;
+        }
+
+        if (id == R.id.action_refresh){
+            if (NetworkUtils.isNetworkStatusAvailable(mContext)) {
+                refresh();
+            }else {
+                networkError();
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -181,18 +198,6 @@ public class CoinsActivity extends AppCompatActivity implements
         mServiceIntent.putExtra("tag", "init");
         startService(mServiceIntent);
     }
-
-//    public static boolean isNetworkStatusAvailable(Context context) {
-//        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-//        if (connectivityManager != null)
-//        {
-//            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-//            if(networkInfo != null)
-//                if(networkInfo.isConnected())
-//                    return true;
-//        }
-//        return false;
-//    }
 
     public void networkError(){
         Toast.makeText(mContext, getString(R.string.network_not_connected), Toast.LENGTH_SHORT).show();
@@ -207,12 +212,7 @@ public class CoinsActivity extends AppCompatActivity implements
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         Timber.d("Loading finished...");
-//        CoinAdapter coinAdapter = new CoinAdapter(cursor);
-//        coinAdapter.setHasStableIds(true);
-//        mCoinsRecyclerView.setAdapter(coinAdapter);
-//
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-//        mCoinsRecyclerView.setLayoutManager(layoutManager);
+
         mCoinAdapter.swapCursor(cursor);
         mCursor = cursor;
 
@@ -251,71 +251,17 @@ public class CoinsActivity extends AppCompatActivity implements
         startActivity(detailIntent);
     }
 
-//    private class CoinAdapter extends RecyclerView.Adapter<CoinViewHolder>{
-//        private Cursor mCursor;
-//
-//        public CoinAdapter(Cursor cursor){
-//            mCursor = cursor;
-//        }
-//
-//        @Override
-//        public long getItemId(int position){
-//            mCursor.moveToPosition(position);
-//            return mCursor.getLong(ConstantsUtils.POSITION_ID);
-//        }
-//
-//        @Override
-//        public CoinViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//            View view = LayoutInflater.from(parent.getContext())
-//                    .inflate(R.layout.item_coin_basic, parent, false);
-//
-//            final  CoinViewHolder viewHolder = new CoinViewHolder(view);
-//
-//            return viewHolder;
-//        }
-//
-//        @Override
-//        public void onBindViewHolder(CoinViewHolder holder, int position) {
-//            if (!mCursor.moveToFirst()){
-//                return;
-//            }
-//
-//            mCursor.moveToPosition(position);
-//
-//            String coinSymbol = mCursor.getString(ConstantsUtils.POSITION_SYMBOL);
-//            holder.mSymbolTextView.setText(coinSymbol);
-//
-//            /////////////////////////////////////////////////////////////////////
-//            //Fake price data below
-//            Random rand = new Random();
-//
-//            int price = rand.nextInt(10000) + 1;
-//
-//            int change = 100 - rand.nextInt(200);
-//            //End of fake price data
-//            ////////////////////////////////////////////////////////////////////
-//            holder.mPriceTextView.setText("$" + price);
-//            holder.mChangeTextView.setText(change + "%");
-//        }
-//
-//        @Override
-//        public int getItemCount() {
-//            return mCursor.getCount();
-//        }
-//    }
-//
-//    public static class CoinViewHolder extends RecyclerView.ViewHolder{
-//        @BindView(R.id.symbol)
-//        TextView mSymbolTextView;
-//        @BindView(R.id.price)
-//        TextView mPriceTextView;
-//        @BindView(R.id.change)
-//        TextView mChangeTextView;
-//
-//        public CoinViewHolder(View itemView) {
-//            super(itemView);
-//
-//            ButterKnife.bind(this, itemView);
-//        }
-//    }
+    private void setupSharedPreferences(){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+        if (NetworkUtils.isNetworkStatusAvailable(mContext)) {
+            refresh();
+        }else {
+            networkError();
+        }
+    }
 }

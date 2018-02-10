@@ -7,10 +7,14 @@
     <string name="error_no_network" translatable="true">No network or other error.</string>
     <string name="network_not_connected" translatable="true">Oops! The internet is not connected.</string>
 
+    <string name="action_refresh" translatable="true">Refresh</string>
+    <string name="action_change_unit" translatable="true">Change Unit</string>
+    <string name="action_change_interval" translatable="true">Chart Interval</string>
+
     <string name="search_symbol" translatable="true">Search Coin Symbol</string>
     <string name="content_test" translatable="true">Search for a Coin Symbol</string>
-    <string name="input_hint" translatable="true">BTC</string>
-    <string name="input_default" translatable="true"></string>
+    <string name="input_hint" translatable="false">BTC, ETH, BCH, LTC, etc</string>
+    <string name="input_default" ></string>
     <string name="error_coin_not_found" translatable="true">No coin found by this symbol.</string>
     <string name="error_coin_already_saved" translatable="true">This coin is already saved!</string>
 
@@ -20,5 +24,27 @@
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
 
     <string name="base_logo_url" translatable="false">https://www.cryptocompare.com</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+    <string name="pref_unit_key" translatable="false">unit</string>
+    <string name="pref_unit_label" >Settlement Currency</string>
+
+    <string name="pref_unit_label_usd">USD</string>
+    <string name="pref_unit_label_btc">BTC</string>
+
+    <string name="pref_unit_usd_value" translatable="false">USD</string>
+    <string name="pref_unit_btc_value" translatable="false">BTC</string>
+
+    <string name="pref_interval_key" translatable="false">interval</string>
+    <string name="pref_interval_label" >HistoChart Interval</string>
+
+    <string name="pref_interval_label_histominute">Minute</string>
+    <string name="pref_interval_label_histohour">Hour</string>
+    <string name="pref_interval_label_histoday">Day</string>
+
+    <string name="pref_interval_histominute_value" translatable="false">minute</string>
+    <string name="pref_interval_histohour_value" translatable="false">hour</string>
+    <string name="pref_interval_histoday_value" translatable="false">day</string>
 
 </resources>

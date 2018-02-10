@@ -110,7 +110,7 @@ public class CoinTaskService extends GcmTaskService {
 
             String symbolsStr = str.substring(0, str.length()-1);
 
-            URL priceUrl = NetworkUtils.getPriceUrl(symbolsStr);
+            URL priceUrl = NetworkUtils.getPriceUrl(mContext, symbolsStr);
             String priceJsonStr = fetchData(priceUrl.toString());
 
             //Timber.d("First 500 chars of price json string: " + priceJsonStr.substring(0, 500));
@@ -122,7 +122,7 @@ public class CoinTaskService extends GcmTaskService {
                 Timber.d("fetch data failed !");
             }
 
-            List<Coin> coins = CoinJsonUtils.extractCoinsFromJson(coinsJsonStr, priceJsonStr, coinSymbols);
+            List<Coin> coins = CoinJsonUtils.extractCoinsFromJson(mContext, coinsJsonStr, priceJsonStr, coinSymbols);
 
             Timber.d("number of coin objects: " + coins.size());
 

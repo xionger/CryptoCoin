@@ -7,6 +7,7 @@ import android.content.res.AssetManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.xiongxh.cryptocoin.data.CoinPreferences;
 import com.xiongxh.cryptocoin.model.Coin;
 
 import org.json.JSONArray;
@@ -73,7 +74,9 @@ public class CoinJsonUtils {
         return isValid;
     }
 
-    public static List<Coin> extractCoinsFromJson(String coinJsonStr, String priceJsonStr, List<String> symbols){
+    public static List<Coin> extractCoinsFromJson(Context context, String coinJsonStr, String priceJsonStr, List<String> symbols){
+
+        String unitPref = CoinPreferences.getPreferredUnit(context);
         //Timber.d("Entering extractCoinsFromJson() method...");
         if (TextUtils.isEmpty(coinJsonStr) || TextUtils.isEmpty(priceJsonStr)){
             return null;
@@ -133,19 +136,42 @@ public class CoinJsonUtils {
 
                 JSONObject coinPriceObject = rawPriceObject.getJSONObject(symbol);
                 //Timber.d(symbol + "'s RAW price data: " + coinPriceObject.toString());
-                JSONObject priceProperties = coinPriceObject.getJSONObject(pref_price_unit);
+                JSONObject priceProperties = coinPriceObject.getJSONObject(unitPref);
                 //Timber.d(symbol + "'s price data: " + priceProperties.toString());
 
                 if (priceProperties != null){
-                    double price = priceProperties.getDouble("PRICE");
+
+                    double price, open24h, high24h, low24h, trend, change;
+
+                    Timber.d("symbol: " + symbol + ", unit: " + unitPref);
+
+                    if (symbol.equals("BTC") && unitPref.equals("BTC")) {
+                        Timber.d("BTC special cases");
+                        //price = Double.parseDouble(priceProperties.getString("PRICE"));
+                        price = 1.0000;
+                        Timber.d(symbol + " price: " + price);
+                        open24h = Double.parseDouble(priceProperties.getString("OPEN24HOUR"));
+                        Timber.d(symbol + " open24h: " + open24h);
+                        high24h = Double.parseDouble(priceProperties.getString("HIGH24HOUR"));
+                        Timber.d(symbol + " high24h: " + high24h);
+                        low24h = Double.parseDouble(priceProperties.getString("LOW24HOUR"));
+                        Timber.d(symbol + " low24h: " + low24h);
+                        trend = 0.00;
+                        change = 0.00;
+                    }else {
+                        price = priceProperties.getDouble("PRICE");
+                        open24h = priceProperties.getDouble("OPEN24HOUR");
+                        high24h = priceProperties.getDouble("HIGH24HOUR");
+                        low24h = priceProperties.getDouble("LOW24HOUR");
+                        trend = priceProperties.getDouble("CHANGEPCT24HOUR");
+                        change = priceProperties.getDouble("CHANGE24HOUR");
+                    }
+
                     double mktcap = priceProperties.getDouble("MKTCAP");
                     double vol24h = priceProperties.getDouble("VOLUME24HOUR");
                     double vol24h2 = priceProperties.getDouble("VOLUME24HOURTO");
-                    double open24h = priceProperties.getDouble("OPEN24HOUR");
-                    double high24h = priceProperties.getDouble("HIGH24HOUR");
-                    double low24h = priceProperties.getDouble("LOW24HOUR");
-                    double trend = priceProperties.getDouble("CHANGEPCT24HOUR");
-                    double change = priceProperties.getDouble("CHANGE24HOUR");
+
+
                     double supply = priceProperties.getDouble("SUPPLY");
 
                     coin.setPrice(price);

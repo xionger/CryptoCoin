@@ -1,0 +1,16 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:defaultValue="@string/pref_unit_usd_value"
+        android:entries="@array/pref_unit_option_labels"
+        android:entryValues="@array/pref_unit_option_values"
+        android:key="@string/pref_unit_key"
+        android:title="@string/pref_unit_label" />
+
+    <ListPreference
+        android:defaultValue="@string/pref_interval_histohour_value"
+        android:entries="@array/pref_interval_option_labels"
+        android:entryValues="@array/pref_interval_option_values"
+        android:key="@string/pref_interval_key"
+        android:title="@string/pref_interval_label" />
+</PreferenceScreen>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Label ordering must match values -->
+    <array name="pref_unit_option_labels">
+        <item>@string/pref_unit_label_usd</item>
+        <item>@string/pref_unit_label_btc</item>
+    </array>
+
+    <array name="pref_unit_option_values">
+        <item>@string/pref_unit_usd_value</item>
+        <item>@string/pref_unit_btc_value</item>
+    </array>
+
+    <array name="pref_interval_option_labels">
+        <item>@string/pref_interval_label_histominute</item>
+        <item>@string/pref_interval_label_histohour</item>
+        <item>@string/pref_interval_label_histoday</item>
+    </array>
+
+    <array name="pref_interval_option_values">
+        <item>@string/pref_interval_histominute_value</item>
+        <item>@string/pref_interval_histohour_value</item>
+        <item>@string/pref_interval_histoday_value</item>
+    </array>
+</resources>

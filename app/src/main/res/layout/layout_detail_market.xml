@@ -11,7 +11,8 @@
         android:id="@+id/chart_historical"
         android:layout_width="match_parent"
         android:layout_height="260dp"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp"
+        android:visibility="visible"/>
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"

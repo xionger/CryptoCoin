@@ -24,8 +24,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".coindetails.CoinDetailActivity"
-            android:parentActivityName=".coins.CoinsActivity"/>
+        <activity
+            android:name=".coindetails.CoinDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".coins.CoinsActivity" />
 
         <service
             android:name=".sync.CoinSyncIntentService"
@@ -47,7 +49,16 @@
         <service
             android:name=".sync.DetailTaskService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity
+            android:name=".setting.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".coins.CoinsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.xiongxh.cryptocoin.coins.CoinsActivity" />
+        </activity>
     </application>
 
 </manifest>
