@@ -7,6 +7,6 @@ public class CoinWidgetRemoteService extends RemoteViewsService {
 
     @Override
     public RemoteViewsFactory onGetViewFactory(final Intent intent) {
-        return new CoinWidgetRemoteViewFactory(getApplicationContext(), intent);
+        return new CoinWidgetRemoteViewFactory(this);
     }
 }

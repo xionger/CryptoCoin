@@ -36,7 +36,7 @@ import timber.log.Timber;
 public class CoinTaskService extends GcmTaskService {
 
     private static final String[] POP_COIN_SYMBOLS = {"BTC", "ETH", "XRP", "BCH", "ADA", "TRX", "EOS", "LTC", "MTL", "CHAT", "BCD"};
-    public static final String ACTION_DATA_UPDATED = "com.xiongxh.cryptocoin.DATA_UPDATED";
+    public static final String ACTION_DATA_UPDATED = "com.xiongxh.cryptocoin.ACTION_DATA_UPDATED";
     private OkHttpClient client = new OkHttpClient();
 
     private Context mContext;
@@ -161,7 +161,7 @@ public class CoinTaskService extends GcmTaskService {
                     }
                 }
 
-                updateWidget();
+                updateWidget(mContext);
             }
         }catch (Exception e){
             e.getStackTrace();
@@ -170,9 +170,11 @@ public class CoinTaskService extends GcmTaskService {
         return result;
     }
 
-    private void updateWidget() {
+    private void updateWidget(Context context) {
+        Timber.d("====================================calling updateWidget()");
         Intent updatedDataIntent = new Intent(ACTION_DATA_UPDATED);
-        updatedDataIntent.setPackage(mContext.getPackageName());
-        mContext.sendBroadcast(updatedDataIntent);
+        updatedDataIntent.setPackage(context.getPackageName());
+        context.sendBroadcast(updatedDataIntent);
+
     }
 }

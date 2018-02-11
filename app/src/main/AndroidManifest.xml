@@ -60,9 +60,16 @@
                 android:value="com.xiongxh.cryptocoin.coins.CoinsActivity" />
         </activity>
 
+        <service
+            android:name=".widget.CoinWidgetRemoteService"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS">
+        </service>
+
         <receiver android:name=".widget.CoinWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.xiongxh.cryptocoin.ACTION_DATA_UPDATED" />
             </intent-filter>
 
             <meta-data
