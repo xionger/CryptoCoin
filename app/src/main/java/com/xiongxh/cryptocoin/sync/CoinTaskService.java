@@ -4,6 +4,7 @@ import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.net.Uri;
@@ -35,7 +36,7 @@ import timber.log.Timber;
 public class CoinTaskService extends GcmTaskService {
 
     private static final String[] POP_COIN_SYMBOLS = {"BTC", "ETH", "XRP", "BCH", "ADA", "TRX", "EOS", "LTC", "MTL", "CHAT", "BCD"};
-
+    public static final String ACTION_DATA_UPDATED = "com.xiongxh.cryptocoin.DATA_UPDATED";
     private OkHttpClient client = new OkHttpClient();
 
     private Context mContext;
@@ -159,11 +160,19 @@ public class CoinTaskService extends GcmTaskService {
                         coinContentResolver.insert(CoinEntry.CONTENT_URI, coinValues[i]);
                     }
                 }
+
+                updateWidget();
             }
         }catch (Exception e){
             e.getStackTrace();
         }
 
         return result;
+    }
+
+    private void updateWidget() {
+        Intent updatedDataIntent = new Intent(ACTION_DATA_UPDATED);
+        updatedDataIntent.setPackage(mContext.getPackageName());
+        mContext.sendBroadcast(updatedDataIntent);
     }
 }

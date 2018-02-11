@@ -147,7 +147,7 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
             String histoStr = mCursor.getString(ConstantsUtils.POSITION_HISTO);
 
             if (histoStr == null || histoStr.length() < 500){
-                mChartView.setVisibility(View.INVISIBLE);
+                mChartView.setVisibility(View.GONE);
             }else {
                 mChartView.setVisibility(View.VISIBLE);
             //}

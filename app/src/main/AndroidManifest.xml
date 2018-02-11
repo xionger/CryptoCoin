@@ -26,8 +26,8 @@
         </activity>
         <activity
             android:name=".coindetails.CoinDetailActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".coins.CoinsActivity" />
+            android:parentActivityName=".coins.CoinsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <service
             android:name=".sync.CoinSyncIntentService"
@@ -59,6 +59,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.xiongxh.cryptocoin.coins.CoinsActivity" />
         </activity>
+
+        <receiver android:name=".widget.CoinWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/coin_widget_provider_info" />
+        </receiver>
     </application>
 
 </manifest>

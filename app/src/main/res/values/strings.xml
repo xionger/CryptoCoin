@@ -14,11 +14,13 @@
     <string name="search_symbol" translatable="true">Search Coin Symbol</string>
     <string name="content_test" translatable="true">Search for a Coin Symbol</string>
     <string name="input_hint" translatable="false">BTC, ETH, BCH, LTC, etc</string>
-    <string name="input_default" ></string>
+    <string name="input_default"></string>
     <string name="error_coin_not_found" translatable="true">No coin found by this symbol.</string>
     <string name="error_coin_already_saved" translatable="true">This coin is already saved!</string>
 
     <string name="no_news" translatable="true">No news found.</string>
+
+    <string name="symbol_tag" translatable="false">SYMBOL</string>
 
     <string name="interstitial_ad_id" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
@@ -28,7 +30,7 @@
 
     <!-- Strings related to Settings -->
     <string name="pref_unit_key" translatable="false">unit</string>
-    <string name="pref_unit_label" >Settlement Currency</string>
+    <string name="pref_unit_label">Settlement Currency</string>
 
     <string name="pref_unit_label_usd">USD</string>
     <string name="pref_unit_label_btc">BTC</string>
@@ -37,7 +39,7 @@
     <string name="pref_unit_btc_value" translatable="false">BTC</string>
 
     <string name="pref_interval_key" translatable="false">interval</string>
-    <string name="pref_interval_label" >HistoChart Interval</string>
+    <string name="pref_interval_label">HistoChart Interval</string>
 
     <string name="pref_interval_label_histominute">Minute</string>
     <string name="pref_interval_label_histohour">Hour</string>
@@ -46,5 +48,11 @@
     <string name="pref_interval_histominute_value" translatable="false">minute</string>
     <string name="pref_interval_histohour_value" translatable="false">hour</string>
     <string name="pref_interval_histoday_value" translatable="false">day</string>
+
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+
+    <string name="empty_message" translatable="true">No Data is Available</string>
+    <string name="setBackgroundResource" translatable="false">setBackgroundResource</string>
 
 </resources>
