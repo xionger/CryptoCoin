@@ -16,29 +16,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.github.mikephil.charting.charts.CandleStickChart;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.CandleData;
-import com.github.mikephil.charting.data.CandleDataSet;
-import com.github.mikephil.charting.data.CandleEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.xiongxh.cryptocoin.R;
-import com.xiongxh.cryptocoin.data.CoinDbContract;
 import com.xiongxh.cryptocoin.data.CoinLoader;
-import com.xiongxh.cryptocoin.data.CoinPreferences;
-import com.xiongxh.cryptocoin.model.Coin;
 import com.xiongxh.cryptocoin.model.History;
-import com.xiongxh.cryptocoin.utilities.CoinJsonUtils;
 import com.xiongxh.cryptocoin.utilities.ConstantsUtils;
+import com.xiongxh.cryptocoin.utilities.DateFormatter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,7 +37,6 @@ import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,7 +48,6 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
     private static final String SYMBOL_LABEL = "SYMBOL";
 
     private String mSymbol;
-
     private Cursor mCursor;
 
     @BindView(R.id.iv_coin_logo)
@@ -269,7 +258,8 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
 
         XAxis xAxis = chart.getXAxis();
         xAxis.setTextColor(Color.WHITE);
-        //xAxis.setValueFormatter(new DateFormatter(getApplicationContext()));
+        //xAxis.setValueFormatter(new DateFormatter(chart));
+        xAxis.setValueFormatter(new DateFormatter(getContext()));
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
         xAxis.setAxisLineColor(backgroundColor);
@@ -298,6 +288,7 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
         chart.setDragEnabled(true);
         chart.setScaleEnabled(true);
         chart.setPinchZoom(false);
+        chart.getDescription().setEnabled(false);
 
         Legend legend = chart.getLegend();
         legend.setEnabled(false);
@@ -321,63 +312,6 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
                 .build();
         mAdView.loadAd(adRequest);
     }
-
-//    private CandleData getCandleData(String histoJsonStr){
-//
-//        ArrayList<CandleEntry> histoEntries = new ArrayList<CandleEntry>();
-//        try {
-//            JSONObject baseJsonObject = new JSONObject(histoJsonStr);
-//            JSONArray histoArray = baseJsonObject.getJSONArray("Data");
-//
-//            for (int i = 0; i < histoArray.length(); i++){
-//                JSONObject histoObject = histoArray.getJSONObject(i);
-//
-//                History history = new History();
-//
-//
-//                CandleEntry histoEntry = new CandleEntry(
-//                        (float) histoObject.getDouble("time"),
-//                        (float) histoObject.getDouble("high"),
-//                        (float) histoObject.getDouble("low"),
-//                        (float) histoObject.getDouble("open"),
-//                        (float) histoObject.getDouble("close")
-//                );
-//
-//                histoEntries.add(histoEntry);
-//            }
-//        }catch (JSONException e){
-//            e.getStackTrace();
-//        }
-//
-//        CandleDataSet set1 = new CandleDataSet(histoEntries, "Data Set");
-//
-//        //set1.setDrawIcons(true);
-//        //set1.setAxisDependency(AxisDependency.LEFT);
-//        //set1.setColor(Color.rgb(80, 80, 80));
-//        set1.setShadowColor(Color.DKGRAY);
-//        set1.setShadowWidth(0.7f);
-//        set1.setDecreasingColor(Color.RED);
-//        set1.setDecreasingPaintStyle(Paint.Style.FILL);
-//        set1.setIncreasingColor(Color.rgb(122, 242, 84));
-//        set1.setIncreasingPaintStyle(Paint.Style.STROKE);
-//        set1.setNeutralColor(Color.BLUE);
-//
-//        CandleData data = new CandleData(set1);
-//
-//        return data;
-//    }
-
-//    private final IAxisValueFormatter iAxisValueFormatter = new IAxisValueFormatter() {
-//        @Override
-//        public String getFormattedValue(float value, AxisBase axis) {
-//            return labels.get((int) value);
-//        }
-//
-//        @Override
-//        public int getDecimalDigits() {
-//            return 0;
-//        }
-//    };
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
@@ -413,43 +347,4 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
         super.onDestroyView();
         unbinder.unbind();
     }
-
-//    // TODO: Rename method, update argument and hook method into UI event
-//    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
-//    }
-//
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
-//
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mListener = null;
-//    }
-//
-//    /**
-//     * This interface must be implemented by activities that contain this
-//     * fragment to allow an interaction in this fragment to be communicated
-//     * to the activity and potentially other fragments contained in that
-//     * activity.
-//     * <p>
-//     * See the Android Training lesson <a href=
-//     * "http://developer.android.com/training/basics/fragments/communicating.html"
-//     * >Communicating with Other Fragments</a> for more information.
-//     */
-//    public interface OnFragmentInteractionListener {
-//        // TODO: Update argument type and name
-//        void onFragmentInteraction(Uri uri);
-//    }
 }
