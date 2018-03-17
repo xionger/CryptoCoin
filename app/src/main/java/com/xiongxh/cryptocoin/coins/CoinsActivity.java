@@ -27,11 +27,15 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.gms.gcm.GcmNetworkManager;
+import com.google.android.gms.gcm.PeriodicTask;
+import com.google.android.gms.gcm.Task;
 import com.xiongxh.cryptocoin.R;
 import com.xiongxh.cryptocoin.coindetails.CoinDetailActivity;
 import com.xiongxh.cryptocoin.data.CoinLoader;
 import com.xiongxh.cryptocoin.setting.SettingsActivity;
 import com.xiongxh.cryptocoin.sync.CoinSyncIntentService;
+import com.xiongxh.cryptocoin.sync.CoinTaskService;
 import com.xiongxh.cryptocoin.utilities.CoinJsonUtils;
 import com.xiongxh.cryptocoin.data.CoinDbContract.CoinEntry;
 import com.xiongxh.cryptocoin.utilities.NetworkUtils;
@@ -158,6 +162,26 @@ public class CoinsActivity extends AppCompatActivity implements
 
             }
         });
+
+        if(NetworkUtils.isNetworkStatusAvailable(mContext)) {
+            long period = 3600L;
+            long flex = 10L;
+            String periodicTag = "periodic";
+
+            // create a periodic task to pull coins once every hour after the app has been opened. This
+            // is so Widget data stays up to date.
+            PeriodicTask periodicTask = new PeriodicTask.Builder()
+                    .setService(CoinTaskService.class)
+                    .setPeriod(period)
+                    .setFlex(flex)
+                    .setTag(periodicTag)
+                    .setRequiredNetwork(Task.NETWORK_STATE_CONNECTED)
+                    .setRequiresCharging(false)
+                    .build();
+
+            GcmNetworkManager.getInstance(this).schedule(periodicTask);
+        }
+
 
     }
 

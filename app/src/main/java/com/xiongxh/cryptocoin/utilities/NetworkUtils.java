@@ -92,7 +92,7 @@ public class NetworkUtils {
     private static final String VALUE_SORT_BY = "relevancy";
 
     //private static final String KEY = "API_KEY_HERE";
-
+    
 
     private static final long ONE_WEEK = 604800000;
     public static URL getNewsUrl(String symbol){
