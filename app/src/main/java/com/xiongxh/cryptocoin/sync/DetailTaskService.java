@@ -1,18 +1,14 @@
 package com.xiongxh.cryptocoin.sync;
 
-import android.app.Service;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
-import android.os.IBinder;
 
 import com.google.android.gms.gcm.GcmNetworkManager;
 import com.google.android.gms.gcm.GcmTaskService;
 import com.google.android.gms.gcm.TaskParams;
-import com.xiongxh.cryptocoin.data.CoinPreferences;
-import com.xiongxh.cryptocoin.model.Coin;
+import com.xiongxh.cryptocoin.R;
 import com.xiongxh.cryptocoin.utilities.ConstantsUtils;
 import com.xiongxh.cryptocoin.utilities.NetworkUtils;
 import com.xiongxh.cryptocoin.data.CoinDbContract.CoinEntry;
@@ -26,8 +22,7 @@ import okhttp3.Response;
 import timber.log.Timber;
 
 public class DetailTaskService extends GcmTaskService {
-
-    public static final String pref_interval = "histohour";
+    //public static final String pref_interval = "histohour";
 
     private OkHttpClient client = new OkHttpClient();
 
@@ -53,18 +48,13 @@ public class DetailTaskService extends GcmTaskService {
 
         String symbol = taskParams.getExtras().getString("symbol");
 
-        //String unitPref = CoinPreferences.getPreferredUnit(mContext);
-        //String histoJsonStr = "NONSENSE";
-
         int result = GcmNetworkManager.RESULT_FAILURE;
 
         if (symbol != null && !symbol.isEmpty()){
 
             try {
-                //if (!symbol.equals("BTC") || !unitPref.equals("BTC")) {
-                    URL histoUrl = NetworkUtils.getHistoUrl(mContext, symbol);
-                    String histoJsonStr = fetchData(histoUrl.toString());
-                //}
+                URL histoUrl = NetworkUtils.getHistoUrl(mContext, symbol);
+                String histoJsonStr = fetchData(histoUrl.toString());
 
                 boolean toUpdate = false;
                 long now = System.currentTimeMillis();
@@ -81,55 +71,51 @@ public class DetailTaskService extends GcmTaskService {
 
                 if (c != null && c.moveToFirst()) {
                     update = c.getLong(ConstantsUtils.POSITION_UPDATE);
-                    Timber.d("update: " + update);
+                    //Timber.d("update: " + update);
                 }
 
                 if (update == 0 ){
                     toUpdate = true;
-                    Timber.d("update is null or 0 ");
+                    //Timber.d("update is null or 0 ");
                 } else{
                     //long last = Long.parseLong(update);
 
                     if (now - update > 86400000){
                         toUpdate = true;
-                        Timber.d("update is too old");
+                        //Timber.d("update is too old");
                     }
-                    Timber.d("don't need to update");
+                    //Timber.d("don't need to update");
                 }
 
                 String newsJsonStr = "";
                 if (toUpdate) {
-                    Timber.d("update news for: " + symbol);
+                    //Timber.d("update news for: " + symbol);
                     URL newsUrl = NetworkUtils.getNewsUrl(symbol);
                     newsJsonStr = fetchData(newsUrl.toString());
                 }
 
                 if (histoJsonStr != null && !histoJsonStr.isEmpty() ){
-                    Timber.d("historical result is success!");
+                    //Timber.d("historical result is success!");
                     result = GcmNetworkManager.RESULT_SUCCESS;
 
                     ContentValues value = new ContentValues();
 
-                    //if (!histoJsonStr.equals("NONSENSE")) {
-                        value.put(CoinEntry.COLUMN_HISTO, histoJsonStr);
-                    //}
+                    value.put(CoinEntry.COLUMN_HISTO, histoJsonStr);
 
                     if (toUpdate && newsJsonStr.length()>0) {
                         value.put(CoinEntry.COLUMN_NEWS, newsJsonStr);
-
-                        Timber.d("time now: " + now);
+                        //Timber.d("time now: " + now);
                         value.put(CoinEntry.COLUMN_UPDATE, now);
                     }
 
-                    //if (value != null && value.size() != 0) {
-                        ContentResolver coinContentResolver = mContext.getContentResolver();
+                    ContentResolver coinContentResolver = mContext.getContentResolver();
 
-                        coinContentResolver.update(CoinEntry.CONTENT_URI,
-                                value,
-                                CoinEntry.COLUMN_SYMBOL + "=?",
-                                new String[]{symbol}
-                        );
-                    //}
+                    coinContentResolver.update(CoinEntry.CONTENT_URI,
+                            value,
+                            CoinEntry.COLUMN_SYMBOL + "=?",
+                            new String[]{symbol}
+                    );
+
                 }else {
                     Timber.d("fetch historical data failed !");
                 }

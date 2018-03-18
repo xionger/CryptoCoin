@@ -29,6 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1000"
             android:layout_gravity="center_vertical"
+            android:gravity="center"
             android:paddingLeft="16dp"
             android:orientation="horizontal">
 

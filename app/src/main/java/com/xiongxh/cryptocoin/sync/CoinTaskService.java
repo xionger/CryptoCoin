@@ -1,19 +1,17 @@
 package com.xiongxh.cryptocoin.sync;
 
-import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
-import android.net.Uri;
 
 import com.google.android.gms.gcm.GcmNetworkManager;
 import com.google.android.gms.gcm.GcmTaskService;
 import com.google.android.gms.gcm.TaskParams;
 
-import com.xiongxh.cryptocoin.data.CoinDbContract;
+import com.xiongxh.cryptocoin.R;
 import com.xiongxh.cryptocoin.data.CoinDbContract.CoinEntry;
 import com.xiongxh.cryptocoin.model.Coin;
 import com.xiongxh.cryptocoin.utilities.CoinJsonUtils;
@@ -24,9 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -64,34 +60,34 @@ public class CoinTaskService extends GcmTaskService {
             mContext = this;
         }
 
-        Timber.d("Entering onRunTask() method, params tag: " + taskParams.getTag());
+        //Timber.d("Entering onRunTask() method, params tag: " + taskParams.getTag());
 
         initQueryCursor = mContext.getContentResolver()
                 .query(CoinEntry.CONTENT_URI, ConstantsUtils.COIN_COLUMNS, null, null, null);
 
         if (initQueryCursor == null || initQueryCursor.getCount() == 0){
-            Timber.d("before clear, number of coins: " + coinSymbols.size());
+            //Timber.d("before clear, number of coins: " + coinSymbols.size());
             coinSymbols.clear();
             coinSymbols.addAll(Arrays.asList(POP_COIN_SYMBOLS));
-            Timber.d("after adding, number of coins: " + coinSymbols.size());
+            //Timber.d("after adding, number of coins: " + coinSymbols.size());
         }else{
             DatabaseUtils.dumpCursor(initQueryCursor);
             initQueryCursor.moveToFirst();
             for (int i = 0; i < initQueryCursor.getCount(); i++){
-                coinSymbols.add(initQueryCursor.getString(initQueryCursor.getColumnIndex("symbol")));
+                coinSymbols.add(initQueryCursor.getString(initQueryCursor.getColumnIndex(getString(R.string.symbol_tag))));
                 initQueryCursor.moveToNext();
             }
         }
 
         if (taskParams.getTag().equals("add")){
-            Timber.d("To add the symbol to list, current number of coins: " + coinSymbols.size());
+            //Timber.d("To add the symbol to list, current number of coins: " + coinSymbols.size());
             isUpdate = false;
 
-            String toAddCoin = taskParams.getExtras().getString("symbol");
+            String toAddCoin = taskParams.getExtras().getString(getString(R.string.symbol_tag));
 
             coinSymbols.add(0, toAddCoin);
 
-            Timber.d(toAddCoin + "is added: " + "current number of coins: " + coinSymbols.size());
+            //Timber.d(toAddCoin + "is added: " + "current number of coins: " + coinSymbols.size());
 
         }
 
@@ -117,26 +113,26 @@ public class CoinTaskService extends GcmTaskService {
             //Timber.d("First 500 chars of price json string: " + priceJsonStr.substring(0, 500));
 
             if (priceJsonStr != null && !priceJsonStr.isEmpty()){
-                Timber.d("result is success!");
+                //Timber.d("result is success!");
                 result = GcmNetworkManager.RESULT_SUCCESS;
             }else {
-                Timber.d("fetch data failed !");
+                //Timber.d("fetch data failed !");
             }
 
             List<Coin> coins = CoinJsonUtils.extractCoinsFromJson(mContext, coinsJsonStr, priceJsonStr, coinSymbols);
 
-            Timber.d("number of coin objects: " + coins.size());
+            //Timber.d("number of coin objects: " + coins.size());
 
             ContentValues[] coinValues = CoinJsonUtils.getCoinContentValueFromList(coins);
 
             //ArrayList<ContentProviderOperation> cpo = new ArrayList<ContentProviderOperation>();
             if (coinValues != null && coinValues.length != 0){
-                Timber.d("coinvalues are not null.");
-                Timber.d("number of contentvalues: " + coinValues.length);
+                //Timber.d("coinvalues are not null.");
+                //Timber.d("number of contentvalues: " + coinValues.length);
 
                 for (int i = 0; i < coinValues.length; i++){
-                    Timber.d("count for loop: " + i);
-                    Timber.d("Inserting coin symbol: " + coinValues[i].getAsString(CoinEntry.COLUMN_SYMBOL));
+                    //Timber.d("count for loop: " + i);
+                    //Timber.d("Inserting coin symbol: " + coinValues[i].getAsString(CoinEntry.COLUMN_SYMBOL));
 
                     ContentResolver coinContentResolver = mContext.getContentResolver();
 
@@ -171,7 +167,7 @@ public class CoinTaskService extends GcmTaskService {
     }
 
     private void updateWidget(Context context) {
-        Timber.d("====================================calling updateWidget()");
+        //Timber.d("calling updateWidget()");
         Intent updatedDataIntent = new Intent(ACTION_DATA_UPDATED);
         updatedDataIntent.setPackage(context.getPackageName());
         context.sendBroadcast(updatedDataIntent);
