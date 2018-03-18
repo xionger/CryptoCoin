@@ -10,6 +10,7 @@
 
     <color name="dialog_background">#5a595b</color>
 
+    <color name="colorBlueGrey500">#607D8B</color>
     <color name="colorBlueGrey700">#455A64</color>
     <color name="colorBlueGrey800">#37474F</color>
 
@@ -18,5 +19,8 @@
 
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorOrange700">#F57C00</color>
+
+    <color name="widget_background">#80000000</color>
+    <color name="material_teal_500">#009688</color>
 
 </resources>

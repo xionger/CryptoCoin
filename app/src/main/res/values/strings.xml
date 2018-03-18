@@ -55,4 +55,6 @@
     <string name="empty_message" translatable="true">No Data is Available</string>
     <string name="setBackgroundResource" translatable="false">setBackgroundResource</string>
 
+    <string name="widget_coin_icon">Widget Coin Icon</string>
+
 </resources>

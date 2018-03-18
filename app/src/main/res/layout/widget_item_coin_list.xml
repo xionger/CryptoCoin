@@ -3,45 +3,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/wd_coin_basic"
     android:layout_width="match_parent"
-    android:layout_height="72dp"
+    android:layout_height="50dp"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    >
+    android:paddingStart="@dimen/activity_horizontal_margin"
+    android:paddingEnd="@dimen/activity_horizontal_margin">
+
     <TextView
         android:id="@+id/wd_symbol"
         style="@style/CoinSymbolTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="start|center_vertical"
-        tools:text="BTC"
-        />
+        tools:text="BTC" />
+
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="end">
+
         <TextView
             android:id="@+id/wd_price"
             style="@style/BidPriceTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="0sp"
-            android:paddingStart="0sp"
-            android:paddingRight="10sp"
-            android:paddingEnd="10sp"
-            tools:text="1000.00"
-            />
+            android:layout_marginEnd="@dimen/price_margin" />
+
         <TextView
             android:id="@+id/wd_trend"
-            android:background="@drawable/price_increase_green"
             style="@style/PercentChangeTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="3dp"
-            android:paddingRight="3dp"
-            tools:text="100%"
-            />
+            android:paddingStart="@dimen/change_padding"
+            android:paddingEnd="@dimen/change_padding" />
+
     </LinearLayout>
+
 </LinearLayout>

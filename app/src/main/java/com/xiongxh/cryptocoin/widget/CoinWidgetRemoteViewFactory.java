@@ -9,8 +9,10 @@ import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.xiongxh.cryptocoin.R;
+import com.xiongxh.cryptocoin.data.CoinPreferences;
 import com.xiongxh.cryptocoin.utilities.ConstantsUtils;
 import com.xiongxh.cryptocoin.data.CoinDbContract.CoinEntry;
+import com.xiongxh.cryptocoin.utilities.NumberUtils;
 
 public class CoinWidgetRemoteViewFactory implements RemoteViewsService.RemoteViewsFactory{
     private Cursor cursor = null;
@@ -59,6 +61,8 @@ public class CoinWidgetRemoteViewFactory implements RemoteViewsService.RemoteVie
         RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.widget_item_coin_list);
 
         String symbol = null;
+        NumberUtils numberUtils = new NumberUtils();
+        String unitPref = CoinPreferences.getPreferredUnit(mContext);
 
         if (cursor.moveToPosition(position)) {
             symbol = cursor.getString(ConstantsUtils.POSITION_SYMBOL);
@@ -66,12 +70,20 @@ public class CoinWidgetRemoteViewFactory implements RemoteViewsService.RemoteVie
             double trend = cursor.getDouble(ConstantsUtils.POSITION_TREND);
 
             views.setTextViewText(R.id.wd_symbol, symbol);
-            views.setTextViewText(R.id.wd_price, Double.toHexString(price));
-            views.setTextViewText(R.id.wd_trend, Double.toString(trend));
-            if (trend > 0) {
-                views.setInt(R.id.wd_trend, mContext.getString(R.string.setBackgroundResource), R.drawable.price_increase_green);
+
+            if (unitPref.equals("BTC")){
+                views.setTextViewText(R.id.wd_price, numberUtils.btcFormatWithSign.format(price));
             } else {
+                views.setTextViewText(R.id.wd_price, numberUtils.dollarFormatWithSign.format(price));
+            }
+
+            views.setTextViewText(R.id.wd_trend, numberUtils.percentageFormat.format(trend/100));
+            if (trend > 0.0) {
+                views.setInt(R.id.wd_trend, mContext.getString(R.string.setBackgroundResource), R.drawable.price_increase_green);
+            } else if (trend < 0.0){
                 views.setInt(R.id.wd_trend, mContext.getString(R.string.setBackgroundResource), R.drawable.price_decrease_red);
+            } else {
+                views.setInt(R.id.wd_trend, mContext.getString(R.string.setBackgroundResource), R.drawable.price_no_change_orange);
             }
         }
 
