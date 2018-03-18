@@ -12,12 +12,9 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import okhttp3.Request;
 import timber.log.Timber;
 
 public class NetworkUtils {
-
-    private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 
     private static final String BASE_URL = "https://min-api.cryptocompare.com/data/";
     private static final String PARAM_FROM_SYMBOL = "fsym";
@@ -26,6 +23,23 @@ public class NetworkUtils {
     private static final String PARAM_TO_SYMBOLS = "tsyms";
     private static final String PARAM_LIMIT = "limit";
     private static final String intervalPrefix = "histo";
+    private static final String PRICE_MULTI_FULL = "pricemultifull";
+    private static final String PLUS_PREFIX = "+";
+    private static final String CRYPTO_MUST = "++crypto+";
+
+    private static final String NEWS_BASE_URL = "https://newsapi.org/v2/everything?";
+    private static final String PARAM_QUERY = "q";
+    private static final String PARAM_PAGE_SIZE = "pageSize";
+    private static final String PARAM_SORT_BY = "sortBy";
+    private static final String PARAM_FROM = "from";
+    private static final String PARAM_API_KEY ="apiKey";
+    private static final String VALUE_SORT_BY = "relevancy";
+
+    private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+
+    private static final long ONE_WEEK = 604800000;
+    private static final int HISTO_LIMIT = 60;
+    private static final int NEWS_LIMIT = 50;
 
     public static boolean isNetworkStatusAvailable(Context context) {
         ConnectivityManager connectivityManager =
@@ -45,7 +59,7 @@ public class NetworkUtils {
         String unitPref = CoinPreferences.getPreferredUnit(context);
 
         Uri priceUri = Uri.parse(BASE_URL).buildUpon()
-                .appendEncodedPath("pricemultifull")
+                .appendEncodedPath(PRICE_MULTI_FULL)
                 .appendQueryParameter(PARAM_FROM_SYMBOLS, symbols)
                 .appendQueryParameter(PARAM_TO_SYMBOLS, unitPref)
                 .build();
@@ -69,7 +83,7 @@ public class NetworkUtils {
                 .appendEncodedPath(intervalPrefix + intervalPref)
                 .appendQueryParameter(PARAM_FROM_SYMBOL, fromSymbol)
                 .appendQueryParameter(PARAM_TO_SYMBOL, unitPref)
-                .appendQueryParameter(PARAM_LIMIT, "60")
+                .appendQueryParameter(PARAM_LIMIT, String.valueOf(HISTO_LIMIT))
                 .build();
         try {
             URL histUrl = new URL(histUri.toString());
@@ -82,19 +96,10 @@ public class NetworkUtils {
         }
     }
 
-    private static final String NEWS_BASE_URL = "https://newsapi.org/v2/everything?";
-    private static final String PARAM_QUERY = "q";
-    private static final String PARAM_PAGE_SIZE = "pageSize";
-    private static final String PARAM_SORT_BY = "sortBy";
-    private static final String PARAM_FROM = "from";
-    private static final String PARAM_API_KEY ="apiKey";
-
-    private static final String VALUE_SORT_BY = "relevancy";
-
     //private static final String KEY = "API_KEY_HERE";
-    
 
-    private static final long ONE_WEEK = 604800000;
+
+
     public static URL getNewsUrl(String symbol){
 
         long weekBefore = System.currentTimeMillis() - ONE_WEEK;
@@ -102,8 +107,8 @@ public class NetworkUtils {
         String from = getDate(weekBefore);
 
         Uri newsUri = Uri.parse(NEWS_BASE_URL).buildUpon()
-                .appendQueryParameter(PARAM_QUERY, "+" + symbol + "+" + "+crypto+")
-                .appendQueryParameter(PARAM_PAGE_SIZE, "50")
+                .appendQueryParameter(PARAM_QUERY, PLUS_PREFIX + symbol + CRYPTO_MUST)
+                .appendQueryParameter(PARAM_PAGE_SIZE, String.valueOf(NEWS_LIMIT))
                 .appendQueryParameter(PARAM_SORT_BY, VALUE_SORT_BY)
                 .appendQueryParameter(PARAM_FROM, from)
                 .appendQueryParameter(PARAM_API_KEY, KEY)

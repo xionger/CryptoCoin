@@ -24,6 +24,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -241,11 +242,14 @@ public class CoinsActivity extends AppCompatActivity implements
         mCursor = cursor;
 
         View view = findViewById(R.id.tv_empty_loading);
+        ProgressBar mProgressbar = findViewById(R.id.pb_list_coin);
 
         if (mCursor == null || mCursor.getCount() == 0){
             view.setVisibility(View.VISIBLE);
+            mProgressbar.setVisibility(View.VISIBLE);
         }else{
             view.setVisibility(View.INVISIBLE);
+            mProgressbar.setVisibility(View.INVISIBLE);
         }
 
         final Snackbar snackbar = Snackbar.make(mCoinsRecyclerView, "Load Finished", Snackbar.LENGTH_LONG);

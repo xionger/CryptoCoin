@@ -41,7 +41,7 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
 
     @BindView(R.id.list_news)
     ListView mNewsListView;
-    @BindView(R.id.empty_view)
+    @BindView(R.id.news_empty_view)
     TextView mEmptyTextView;
     @BindView(R.id.loading_indicator)
     View loadingIndicator;
@@ -112,14 +112,16 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
 
-        loadingIndicator.setVisibility(View.INVISIBLE);
-        mEmptyTextView.setText(R.string.no_news);
-
         mNewsAdapter.clear();
+
+        loadingIndicator.setVisibility(View.VISIBLE);
+        mEmptyTextView.setText(R.string.no_news);
 
         mCursor = cursor;
         if (mCursor != null && mCursor.moveToFirst()){
             Timber.d("Successfully loaded data for: " + mSymbol);
+            mEmptyTextView.setVisibility(View.INVISIBLE);
+            loadingIndicator.setVisibility(View.INVISIBLE);
 
             String newsJsonStr = mCursor.getString(ConstantsUtils.POSITION_NEWS);
             List<News> newses = CoinJsonUtils.extractNewsFromJson(newsJsonStr);
@@ -128,9 +130,12 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
                 mNewsAdapter.addAll(newses);
             }
         }else {
+            mEmptyTextView.setVisibility(View.VISIBLE);
+
             mCursor.close();
             mCursor = null;
         }
+
     }
 
     @Override
