@@ -27,16 +27,20 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.xiongxh.cryptocoin.R;
 import com.xiongxh.cryptocoin.data.CoinLoader;
+import com.xiongxh.cryptocoin.data.CoinPreferences;
 import com.xiongxh.cryptocoin.model.History;
 import com.xiongxh.cryptocoin.utilities.ConstantsUtils;
 import com.xiongxh.cryptocoin.utilities.DateFormatter;
+import com.xiongxh.cryptocoin.utilities.NumberUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,6 +62,8 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
     TextView mChangeValueTextView;
     @BindView(R.id.change_percent)
     TextView mChangePerTextView;
+    @BindView(R.id.current_unit)
+    TextView mUnit;
 
     @BindView(R.id.tv_open_24h)
     TextView mOpenTextView;
@@ -123,6 +129,8 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
     }
 
     private void bindViews(){
+        NumberUtils numberUtils = new NumberUtils();
+
         if (mCursor != null){
 
 //            String unitPref = CoinPreferences.getPreferredUnit(getContext());
@@ -152,14 +160,25 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
                 mChartView.invalidate();
             }
 
+            String unitPref = CoinPreferences.getPreferredUnit(getContext());
 
-            mPriceTextView.setText(mCursor.getString(ConstantsUtils.POSITION_PRICE));
+            double price = mCursor.getDouble(ConstantsUtils.POSITION_PRICE);
+            if (unitPref.equals("BTC")){
+                mPriceTextView.setText(numberUtils.btcFormat.format(price));
+                mUnit.setText("B");
+            }else{
+                mPriceTextView.setText(numberUtils.dollarFormat.format(price));
+            }
 
 
-            DecimalFormat df = new DecimalFormat(".##");
-            String trend = mCursor.getString(ConstantsUtils.POSITION_TREND);
-            double percent = Double.parseDouble(trend);
-            mChangePerTextView.setText(df.format(percent) + "%");
+            //mPriceTextView.setText(mCursor.getString(ConstantsUtils.POSITION_PRICE));
+
+
+            //DecimalFormat df = new DecimalFormat(".##");
+            //String trend = mCursor.getString(ConstantsUtils.POSITION_TREND);
+            //double percent = Double.parseDouble(trend);
+            double trend = mCursor.getDouble(ConstantsUtils.POSITION_TREND);
+            mChangePerTextView.setText(numberUtils.percentageFormat.format(trend/100));
 
             String change = mCursor.getString(ConstantsUtils.POSITION_CHANGE);
             mChangeValueTextView.setText("(" + change + ")");
