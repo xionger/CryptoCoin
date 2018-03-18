@@ -11,7 +11,7 @@
         android:id="@+id/iv_coin_logo"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_weight="382"
+        android:layout_weight="350"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="8dp"/>
 
@@ -50,7 +50,7 @@
     <FrameLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="618"
+        android:layout_weight="650"
         android:paddingLeft="16dp"
         android:layout_gravity="center_vertical">
 

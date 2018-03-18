@@ -53,7 +53,13 @@ public class News {
         this.mNewsTime = newsTime;
     }
 
-    public String getNewsTime() { return mNewsTime; }
+    public String getNewsTime() {
+        if (mNewsTime == null || mNewsTime.length() < 19) {
+            return mNewsTime;
+        }else{
+            return mNewsTime.substring(0, 19);
+        }
+    }
 
     public void setNewsSource(String newsSource){
         this.mNewsSource = newsSource;

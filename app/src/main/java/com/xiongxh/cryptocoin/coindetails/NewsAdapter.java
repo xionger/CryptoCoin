@@ -48,8 +48,6 @@ public class NewsAdapter extends ArrayAdapter<News>{
 
         News currentNews = getItem(position);
 
-
-
         titleView.setText(currentNews.getNewsTitle());
         descriptionView.setText(currentNews.getNewsDescription());
         sourceView.setText(currentNews.getNewsSource());

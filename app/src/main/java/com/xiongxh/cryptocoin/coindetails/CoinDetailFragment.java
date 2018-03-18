@@ -143,7 +143,10 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
 
             String histoStr = mCursor.getString(ConstantsUtils.POSITION_HISTO);
 
-            if (histoStr == null || histoStr.length() < 500){
+            boolean landPhone = getResources().getBoolean(R.bool.isLandscape)
+                    && !getResources().getBoolean(R.bool.isTablet);
+
+            if (histoStr == null || histoStr.length() < 500 || landPhone){
                 mChartView.setVisibility(View.GONE);
             }else {
                 mChartView.setVisibility(View.VISIBLE);
@@ -181,17 +184,24 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
             mChangePerTextView.setText(numberUtils.percentageFormat.format(trend/100));
 
             String change = mCursor.getString(ConstantsUtils.POSITION_CHANGE);
-            mChangeValueTextView.setText("(" + change + ")");
+            double value = Double.parseDouble(change);
 
             if (change != null && !change.isEmpty()){
-                double value = Double.parseDouble(change);
 
-                if (value >= 0){
+                if (value > 0){
+                    mChangeValueTextView.setText("(+" + change + ")");
                     mChangePerTextView.setTextColor(getResources().getColor(R.color.colorGreen700));
                     mChangeValueTextView.setTextColor(getResources().getColor(R.color.colorGreen700));
                 }else {
-                    mChangePerTextView.setTextColor(getResources().getColor(R.color.colorRed700));
-                    mChangeValueTextView.setTextColor(getResources().getColor(R.color.colorRed700));
+                    mChangeValueTextView.setText("(" + change + ")");
+                    if (value < 0) {
+                        mChangePerTextView.setTextColor(getResources().getColor(R.color.colorRed700));
+                        mChangeValueTextView.setTextColor(getResources().getColor(R.color.colorRed700));
+                    }else{
+                        mChangePerTextView.setTextColor(getResources().getColor(R.color.colorOrange700));
+                        mChangeValueTextView.setTextColor(getResources().getColor(R.color.colorOrange700));
+                    }
+
                 }
             }
 
