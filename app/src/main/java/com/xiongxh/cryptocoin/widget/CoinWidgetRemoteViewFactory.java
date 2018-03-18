@@ -88,7 +88,7 @@ public class CoinWidgetRemoteViewFactory implements RemoteViewsService.RemoteVie
         }
 
         final Intent fillInIntent = new Intent();
-        fillInIntent.putExtra(mContext.getString(R.string.symbol_tag), symbol);
+        fillInIntent.putExtra(mContext.getString(R.string.symbol_tag_capital), symbol);
         views.setOnClickFillInIntent(R.id.wd_coin_basic, fillInIntent);
 
         return views;

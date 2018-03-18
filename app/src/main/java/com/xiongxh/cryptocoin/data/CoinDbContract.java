@@ -17,9 +17,6 @@ public final class CoinDbContract {
 
         public static final String TABLE_NAME = "coins";
 
-//        public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.com.xiongxh.cryptocoin.coins";
-//        public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.com.xiongxh.cryptocoin.coins";
-
         public  static final String CONTENT_TYPE =
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_COINS;
         public static final String CONTENT_ITEM_TYPE =

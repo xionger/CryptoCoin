@@ -10,6 +10,7 @@
     <string name="action_refresh" translatable="true">Refresh</string>
     <string name="action_change_unit" translatable="true">Change Unit</string>
     <string name="action_change_interval" translatable="true">Chart Interval</string>
+    <string name="load_finished" translatable="true">Load Finished</string>
 
     <string name="search_symbol" translatable="true">Search Coin Symbol</string>
     <string name="content_test" translatable="true">Search for a Coin Symbol</string>
@@ -19,8 +20,6 @@
     <string name="error_coin_already_saved" translatable="true">This coin is already saved!</string>
 
     <string name="no_news" translatable="true">No news found.</string>
-
-    <string name="symbol_tag" translatable="false">SYMBOL</string>
 
     <string name="interstitial_ad_id" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
@@ -56,5 +55,29 @@
     <string name="setBackgroundResource" translatable="false">setBackgroundResource</string>
 
     <string name="widget_coin_icon">Widget Coin Icon</string>
+
+    <!-- Strings related to tags and labels-->
+    <string name="tag_tag" translatable="false">tag</string>
+    <string name="symbol_tag" translatable="false">symbol</string>
+    <string name="symbol_tag_capital" translatable="false">SYMBOL</string>
+    <string name="name_tag_capital" translatable="false">NAME</string>
+
+    <string name="tag_detail_value" translatable="false">detail</string>
+    <string name="tag_add_value" translatable="false">add</string>
+
+    <string name="tag_yes" translatable="false">Yes</string>
+    <string name="tag_no" translatable="false">No</string>
+    <string name="tag_na" translatable="false">N/A</string>
+
+    <string name="tag_periodic" translatable="false">periodic</string>
+    <string name="tag_init" translatable="false">init</string>
+
+    <string name="history_label" translatable="false">historyLabel</string>
+    <string name="low_key" translatable="false">low</string>
+    <string name="high_key" translatable="false">high</string>
+    <string name="data_key" translatable="false">Data</string>
+    <string name="time_key" translatable="false">time</string>
+
+    <string name="pref_unit_btc_value_bref" translatable="false">B</string>
 
 </resources>

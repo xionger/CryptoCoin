@@ -24,11 +24,6 @@ class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.CoinViewHolder> {
 
     private final CoinAdapterOnclickHandler mClickHandler;
 
-//    public CoinAdapter(@NonNull Context context, @NonNull Cursor cursor) {
-//        mContext = context;
-//        mCursor = cursor;
-//    }
-
     public CoinAdapter(@NonNull Context context, @NonNull CoinAdapterOnclickHandler handler) {
         this.mContext = context;
         this.mClickHandler = handler;
@@ -67,8 +62,6 @@ class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.CoinViewHolder> {
         String coinSymbol = mCursor.getString(ConstantsUtils.POSITION_SYMBOL);
         String name = mCursor.getString(ConstantsUtils.POSITION_NAME);
 
-        //DecimalFormat df = new DecimalFormat(".##");
-
         double price = mCursor.getDouble(ConstantsUtils.POSITION_PRICE);
         double trend = mCursor.getDouble(ConstantsUtils.POSITION_TREND);
 
@@ -89,7 +82,6 @@ class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.CoinViewHolder> {
         String unitPref = CoinPreferences.getPreferredUnit(mContext);
 
         if (unitPref.equals("BTC")) {
-            //holder.mPriceTextView.setText(btcFormat.format(price));
             holder.mPriceTextView.setText(numberUtils.btcFormatWithSign.format(price));
         }else{
             holder.mPriceTextView.setText(numberUtils.dollarFormatWithSign.format(price));
@@ -119,8 +111,6 @@ class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.CoinViewHolder> {
         TextView mPriceTextView;
         @BindView(R.id.change)
         TextView mChangeTextView;
-//        @BindView(R.id.unit)
-//        TextView mUnit;
 
         public CoinViewHolder(View itemView) {
             super(itemView);
@@ -134,21 +124,11 @@ class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.CoinViewHolder> {
             int adapterPosition = getAdapterPosition();
             mCursor.moveToPosition(adapterPosition);
 
-//            int symbolIdx = mCursor.getColumnIndex(CoinEntry.COLUMN_SYMBOL);
-//            int nameIdx = mCursor.getColumnIndex(CoinEntry.COLUMN_NAME);
-//            mClickHandler.onClick(mCursor.getString(symbolIdx), mCursor.getString(nameIdx));
             mClickHandler
                     .onClick(mCursor.getString(ConstantsUtils.POSITION_SYMBOL),
                             mCursor.getString(ConstantsUtils.POSITION_NAME));
         }
 
-//        public void enableOnClick(){
-//            itemView.setOnClickListener(this);
-//        }
-//
-//        public void disableOnclick(){
-//            itemView.setOnClickListener(null);
-//        }
     }
 
     interface CoinAdapterOnclickHandler{

@@ -81,6 +81,13 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
 
         mNewsListView.setAdapter(mNewsAdapter);
 
+        mEmptyTextView.setText(R.string.no_news);
+        if (mNewsAdapter.isEmpty()){
+            mEmptyTextView.setVisibility(View.VISIBLE);
+        }else {
+            mEmptyTextView.setVisibility(View.INVISIBLE);
+        }
+
 
         mNewsListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
@@ -114,14 +121,9 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
 
         mNewsAdapter.clear();
 
-        loadingIndicator.setVisibility(View.VISIBLE);
-        mEmptyTextView.setText(R.string.no_news);
-
         mCursor = cursor;
         if (mCursor != null && mCursor.moveToFirst()){
-            Timber.d("Successfully loaded data for: " + mSymbol);
-            mEmptyTextView.setVisibility(View.INVISIBLE);
-            loadingIndicator.setVisibility(View.INVISIBLE);
+            //Timber.d("Successfully loaded data for: " + mSymbol);
 
             String newsJsonStr = mCursor.getString(ConstantsUtils.POSITION_NEWS);
             List<News> newses = CoinJsonUtils.extractNewsFromJson(newsJsonStr);
@@ -130,8 +132,6 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
                 mNewsAdapter.addAll(newses);
             }
         }else {
-            mEmptyTextView.setVisibility(View.VISIBLE);
-
             mCursor.close();
             mCursor = null;
         }

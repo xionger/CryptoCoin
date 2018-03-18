@@ -1,14 +1,11 @@
 package com.xiongxh.cryptocoin.coindetails;
 
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
-//import android.support.v4.app.Fragment;
-//import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,10 +34,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -89,12 +83,9 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
     TextView mSponsorTextView;
 
     @BindView(R.id.chart_historical)
-    //CandleStickChart mChart;
     LineChart mChartView;
 
     private Unbinder unbinder;
-
-    //private OnFragmentInteractionListener mListener;
 
     public CoinDetailFragment() {
         // Required empty public constructor
@@ -112,7 +103,7 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mSymbol = getArguments().getString(SYMBOL_LABEL);
+            mSymbol = getArguments().getString(getString(R.string.symbol_tag_capital));
         }
     }
 
@@ -133,14 +124,6 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
 
         if (mCursor != null){
 
-//            String unitPref = CoinPreferences.getPreferredUnit(getContext());
-
-//            if (mSymbol.equals("BTC") && unitPref.equals("BTC")){
-//                mChartView.setVisibility(View.INVISIBLE);
-//            }else {
-//                mChartView.setVisibility(View.VISIBLE);
-//            }
-
             String histoStr = mCursor.getString(ConstantsUtils.POSITION_HISTO);
 
             boolean landPhone = getResources().getBoolean(R.bool.isLandscape)
@@ -150,11 +133,6 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
                 mChartView.setVisibility(View.GONE);
             }else {
                 mChartView.setVisibility(View.VISIBLE);
-            //}
-
-            //if (histoStr != null) {
-                //Timber.d("First 500 of histo: " + histoStr.substring(0, 500));
-
 
                 LineDataSet dataSet = getLineDataSet(histoStr);
                 LineData lineData = new LineData(dataSet);
@@ -166,20 +144,13 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
             String unitPref = CoinPreferences.getPreferredUnit(getContext());
 
             double price = mCursor.getDouble(ConstantsUtils.POSITION_PRICE);
-            if (unitPref.equals("BTC")){
+            if (unitPref.equals(getString(R.string.pref_unit_btc_value))){
                 mPriceTextView.setText(numberUtils.btcFormat.format(price));
-                mUnit.setText("B");
+                mUnit.setText(getString(R.string.pref_unit_btc_value_bref));
             }else{
                 mPriceTextView.setText(numberUtils.dollarFormat.format(price));
             }
 
-
-            //mPriceTextView.setText(mCursor.getString(ConstantsUtils.POSITION_PRICE));
-
-
-            //DecimalFormat df = new DecimalFormat(".##");
-            //String trend = mCursor.getString(ConstantsUtils.POSITION_TREND);
-            //double percent = Double.parseDouble(trend);
             double trend = mCursor.getDouble(ConstantsUtils.POSITION_TREND);
             mChangePerTextView.setText(numberUtils.percentageFormat.format(trend/100));
 
@@ -229,16 +200,16 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
 
             int sponsor = Integer.valueOf(mCursor.getString(ConstantsUtils.POSITION_SPONSOR));
             if (sponsor == 1){
-                mSponsorTextView.setText("Yes");
+                mSponsorTextView.setText(getString(R.string.tag_yes));
             }else {
-                mSponsorTextView.setText("No");
+                mSponsorTextView.setText(getString(R.string.tag_no));
             }
 
             String currSup = mCursor.getString(ConstantsUtils.POSITION_SUPPLY);
             if (currSup != null && !currSup.isEmpty() && !currSup.equals("0")){
                 mCurrSupplyTextView.setText(currSup);
             }else {
-                mCurrSupplyTextView.setText("N/A");
+                mCurrSupplyTextView.setText(getString(R.string.tag_na));
             }
 
             String maxSup = mCursor.getString(ConstantsUtils.POSITION_TOTAL_SUPPLY);
@@ -246,7 +217,7 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
             if (maxSup != null && !maxSup.isEmpty() && !maxSup.equals("0")){
                 mMaxSupplyTextView.setText(maxSup);
             }else {
-                mMaxSupplyTextView.setText("N/A");
+                mMaxSupplyTextView.setText(getString(R.string.tag_na));
             }
 
         }
@@ -256,19 +227,19 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
         ArrayList<Entry> histoEntries = new ArrayList<Entry>();
         try {
             JSONObject baseJsonObject = new JSONObject(histoJsonStr);
-            JSONArray histoArray = baseJsonObject.getJSONArray("Data");
+            JSONArray histoArray = baseJsonObject.getJSONArray(getString(R.string.data_key));
 
             for (int i = 0; i < histoArray.length(); i++){
                 JSONObject histoObject = histoArray.getJSONObject(i);
 
                 History history = new History();
 
-                float low = (float) histoObject.getDouble("low");
-                float high = (float) histoObject.getDouble("high");
+                float low = (float) histoObject.getDouble(getString(R.string.low_key));
+                float high = (float) histoObject.getDouble(getString(R.string.high_key));
 
 
                 Entry histoEntry = new Entry(
-                        (float) histoObject.getDouble("time"),
+                        (float) histoObject.getDouble(getString(R.string.time_key)),
                         (low + high)/2.0f
                 );
 
@@ -278,7 +249,7 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
             e.getStackTrace();
         }
 
-        return new LineDataSet(histoEntries, "historyLabel");
+        return new LineDataSet(histoEntries, getString(R.string.history_label));
     }
 
     private void formatChart(LineChart chart, LineDataSet dataSet) {
@@ -306,9 +277,7 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
         yAxisRight.setTextColor(Color.WHITE);
         yAxisRight.setAxisLineColor(backgroundColor);
         //yAxisRight.setAxisLineWidth(2);
-
         //yAxisRight.enableGridDashedLine(20, 40, 0);
-
 
         chart.setDrawGridBackground(false);
 
@@ -358,7 +327,7 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         mCursor = cursor;
         if (mCursor != null && mCursor.moveToFirst()){
-            Timber.d("Successfully loaded data for: " + mSymbol);
+            //Timber.d("Successfully loaded data for: " + mSymbol);
             bindViews();
         }else {
             mCursor.close();

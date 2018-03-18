@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 
+import com.xiongxh.cryptocoin.BuildConfig;
 import com.xiongxh.cryptocoin.data.CoinPreferences;
 
 import java.net.MalformedURLException;
@@ -65,7 +66,7 @@ public class NetworkUtils {
                 .build();
         try {
             URL priceUrl = new URL(priceUri.toString());
-            Timber.d("Calling url: " + priceUrl);
+            //Timber.d("Calling url: " + priceUrl);
             return priceUrl;
 
         }catch (MalformedURLException e){
@@ -87,7 +88,7 @@ public class NetworkUtils {
                 .build();
         try {
             URL histUrl = new URL(histUri.toString());
-            Timber.d("Calling url: " + histUrl);
+            //Timber.d("Calling url: " + histUrl);
             return histUrl;
 
         }catch (MalformedURLException e){
@@ -95,10 +96,6 @@ public class NetworkUtils {
             return null;
         }
     }
-
-    //private static final String KEY = "API_KEY_HERE";
-
-
 
     public static URL getNewsUrl(String symbol){
 
@@ -111,11 +108,11 @@ public class NetworkUtils {
                 .appendQueryParameter(PARAM_PAGE_SIZE, String.valueOf(NEWS_LIMIT))
                 .appendQueryParameter(PARAM_SORT_BY, VALUE_SORT_BY)
                 .appendQueryParameter(PARAM_FROM, from)
-                .appendQueryParameter(PARAM_API_KEY, KEY)
+                .appendQueryParameter(PARAM_API_KEY, BuildConfig.NEWS_API_KEY)
                 .build();
         try {
             URL newsUrl = new URL(newsUri.toString());
-            Timber.d("Calling url: " + newsUrl);
+            //Timber.d("Calling url: " + newsUrl);
             return newsUrl;
 
         }catch (MalformedURLException e){

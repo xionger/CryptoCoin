@@ -33,8 +33,8 @@ public class CoinDetailActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mSymbol = getIntent().getExtras().getString("SYMBOL");
-        String name = getIntent().getExtras().getString("NAME");
+        mSymbol = getIntent().getExtras().getString(getString(R.string.symbol_tag_capital));
+        String name = getIntent().getExtras().getString(getString(R.string.name_tag_capital));
 
         mDetailServiceIntent = new Intent(this, DetailIntentService.class);
 
@@ -59,9 +59,9 @@ public class CoinDetailActivity extends AppCompatActivity {
     }
 
     private void refreshDetail(String symbol) {
-        Timber.d("Refreshing data ...");
-        mDetailServiceIntent.putExtra("tag", "detail");
-        mDetailServiceIntent.putExtra("symbol", symbol);
+        //Timber.d("Refreshing data ...");
+        mDetailServiceIntent.putExtra(getString(R.string.tag_tag), getString(R.string.tag_detail_value));
+        mDetailServiceIntent.putExtra(getString(R.string.symbol_tag), symbol);
         startService(mDetailServiceIntent);
     }
 }

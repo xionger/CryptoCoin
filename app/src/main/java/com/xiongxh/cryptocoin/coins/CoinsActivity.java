@@ -5,15 +5,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.Loader;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -59,9 +55,6 @@ public class CoinsActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Timber.plant(new Timber.DebugTree());
-
-        Timber.d("onCreate ...");
         mContext = this;
 
         setContentView(R.layout.activity_coins);
@@ -92,20 +85,13 @@ public class CoinsActivity extends AppCompatActivity implements
         mCoinsRecyclerView.setAdapter(mCoinAdapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        //fab.attachToRecyclerView(recyclerView);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Timber.d("Fab is clicked.");
+                //Timber.d("Fab is clicked.");
                 if (NetworkUtils.isNetworkStatusAvailable(mContext)) {
-                    Timber.d("Network is connected.");
+                    //Timber.d("Network is connected.");
                     new MaterialDialog.Builder(mContext).title(R.string.search_symbol)
                             .content(R.string.content_test)
                             .backgroundColor(getResources().getColor(R.color.dialog_background))
@@ -118,7 +104,7 @@ public class CoinsActivity extends AppCompatActivity implements
                                     String inputStr = input.toString();
                                     String cleanInput = inputStr.trim().toUpperCase();
 
-                                    Timber.d("Clean input: " + cleanInput);
+                                    //Timber.d("Clean input: " + cleanInput);
                                     Cursor c = getContentResolver()
                                             .query(CoinEntry.CONTENT_URI,
                                                     new String[]{CoinEntry.COLUMN_SYMBOL},
@@ -147,10 +133,10 @@ public class CoinsActivity extends AppCompatActivity implements
                                             return;
                                         } else {
                                             // Add the Coin to DB
-                                            mServiceIntent.putExtra("tag", "add");
-                                            mServiceIntent.putExtra("symbol", cleanInput);
+                                            mServiceIntent.putExtra(getString(R.string.tag_tag), getString(R.string.tag_add_value));
+                                            mServiceIntent.putExtra(getString(R.string.symbol_tag), cleanInput);
                                             startService(mServiceIntent);
-                                            Timber.d(cleanInput + " is added.");
+                                            //Timber.d(cleanInput + " is added.");
                                             c.close();
                                         }
                                     }
@@ -167,7 +153,7 @@ public class CoinsActivity extends AppCompatActivity implements
         if(NetworkUtils.isNetworkStatusAvailable(mContext)) {
             long period = 3600L;
             long flex = 10L;
-            String periodicTag = "periodic";
+            String periodicTag = getString(R.string.tag_periodic);
 
             // create a periodic task to pull coins once every hour after the app has been opened. This
             // is so Widget data stays up to date.
@@ -182,8 +168,6 @@ public class CoinsActivity extends AppCompatActivity implements
 
             GcmNetworkManager.getInstance(this).schedule(periodicTask);
         }
-
-
     }
 
     @Override
@@ -219,8 +203,8 @@ public class CoinsActivity extends AppCompatActivity implements
     }
 
     private void refresh() {
-        Timber.d("Refreshing data ...");
-        mServiceIntent.putExtra("tag", "init");
+        //Timber.d("Refreshing data ...");
+        mServiceIntent.putExtra(getString(R.string.tag_tag), getString(R.string.tag_init));
         startService(mServiceIntent);
     }
 
@@ -230,13 +214,13 @@ public class CoinsActivity extends AppCompatActivity implements
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        Timber.d("Loading data ......");
+        //Timber.d("Loading data ......");
         return CoinLoader.newAllCoinsInstance(this);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        Timber.d("Loading finished...");
+        //Timber.d("Loading finished...");
 
         mCoinAdapter.swapCursor(cursor);
         mCursor = cursor;
@@ -252,10 +236,10 @@ public class CoinsActivity extends AppCompatActivity implements
             mProgressbar.setVisibility(View.INVISIBLE);
         }
 
-        final Snackbar snackbar = Snackbar.make(mCoinsRecyclerView, "Load Finished", Snackbar.LENGTH_LONG);
+        final Snackbar snackbar = Snackbar.make(mCoinsRecyclerView, getString(R.string.load_finished), Snackbar.LENGTH_LONG);
 
         snackbar.setActionTextColor(Color.MAGENTA)
-                .setAction("Refresh", new View.OnClickListener() {
+                .setAction(getString(R.string.action_refresh), new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
@@ -270,12 +254,11 @@ public class CoinsActivity extends AppCompatActivity implements
         mCoinsRecyclerView.setAdapter(null);
     }
 
-
     @Override
     public void onClick(String symbol, String name) {
         final Intent detailIntent = new Intent(this, CoinDetailActivity.class);
-        detailIntent.putExtra("SYMBOL", symbol);
-        detailIntent.putExtra("NAME", name);
+        detailIntent.putExtra(getString(R.string.symbol_tag_capital), symbol);
+        detailIntent.putExtra(getString(R.string.name_tag_capital), name);
         startActivity(detailIntent);
     }
 

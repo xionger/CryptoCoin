@@ -9,13 +9,6 @@
     <include
         layout="@layout/layout_detail_price" />
 
-
-<!--
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/chart_historical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
--->
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

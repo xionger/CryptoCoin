@@ -17,10 +17,6 @@ public class CoinLoader extends CursorLoader {
         return new CoinLoader(context, CoinEntry.builUriWithSympol(symbol));
     }
 
-//    public static CoinLoader newInstanceForCoinIdx(Context context, long idx){
-//        return new CoinLoader(context, CoinEntry.buildCoinItemUri(idx));
-//    }
-
     public CoinLoader(Context context, Uri uri) {
         super(context,
                 uri,

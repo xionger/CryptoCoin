@@ -2,7 +2,6 @@ package com.xiongxh.cryptocoin.model;
 
 public class Coin {
     private String symbol;
-    //private long coinId;
     private String coinName;
     private String url;
     private String imageUrl;

@@ -1,14 +1,9 @@
 package com.xiongxh.cryptocoin.utilities;
 
-import android.app.job.JobInfo;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.text.TextUtils;
-import android.util.Log;
-
-import com.xiongxh.cryptocoin.data.CoinPreferences;
-import com.xiongxh.cryptocoin.model.Coin;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,8 +14,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+
+import com.xiongxh.cryptocoin.data.CoinPreferences;
+import com.xiongxh.cryptocoin.model.Coin;
 import com.xiongxh.cryptocoin.data.CoinDbContract.CoinEntry;
-import com.xiongxh.cryptocoin.model.History;
 import com.xiongxh.cryptocoin.model.News;
 
 import timber.log.Timber;
@@ -187,9 +184,6 @@ public class CoinJsonUtils {
 
                     //Timber.d(coin.getSymbol() + "Price: " + coin.getPrice());
                 }
-
-//                coin.setNews("Fake news. To be added");
-                //coin.setHisto("0");
 
                 coins.add(coin);
             }

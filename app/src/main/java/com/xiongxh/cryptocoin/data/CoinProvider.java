@@ -86,25 +86,7 @@ public class CoinProvider extends ContentProvider {
         final SQLiteDatabase db = dbHelper.getWritableDatabase();
         final int match = URI_MATCHER.match(uri);
         Timber.d("Entering insert method ...");
-        //Uri returnUri;
 
-//        switch (match){
-//            case COINS: {
-//                db.insert(CoinEntry.TABLE_NAME, null, contentValues);
-//                returnUri = CoinEntry.CONTENT_URI;
-//
-//                Timber.d("URI: " + returnUri);
-//                break;
-//            }
-//            default: {
-//                throw new UnsupportedOperationException("Unkown Uri: " + uri);
-//            }
-//        }
-//        if (getContext() != null){
-//            Timber.d("Context not null");
-//            getContext().getContentResolver().notifyChange(uri, null);
-//        }
-//        return returnUri;
         switch (match){
             case COINS: {
                 Timber.d("match coins ...");
@@ -225,45 +207,5 @@ public class CoinProvider extends ContentProvider {
             db.endTransaction();
         }
     }
-//    public CoinProvider() {
-//    }
-//
-//    @Override
-//    public int delete(Uri uri, String selection, String[] selectionArgs) {
-//        // Implement this to handle requests to delete one or more rows.
-//        throw new UnsupportedOperationException("Not yet implemented");
-//    }
-//
-//    @Override
-//    public String getType(Uri uri) {
-//        // TODO: Implement this to handle requests for the MIME type of the data
-//        // at the given URI.
-//        throw new UnsupportedOperationException("Not yet implemented");
-//    }
-//
-//    @Override
-//    public Uri insert(Uri uri, ContentValues values) {
-//        // TODO: Implement this to handle requests to insert a new row.
-//        throw new UnsupportedOperationException("Not yet implemented");
-//    }
-//
-//    @Override
-//    public boolean onCreate() {
-//        // TODO: Implement this to initialize your content provider on startup.
-//        return false;
-//    }
-//
-//    @Override
-//    public Cursor query(Uri uri, String[] projection, String selection,
-//                        String[] selectionArgs, String sortOrder) {
-//        // TODO: Implement this to handle query requests from clients.
-//        throw new UnsupportedOperationException("Not yet implemented");
-//    }
-//
-//    @Override
-//    public int update(Uri uri, ContentValues values, String selection,
-//                      String[] selectionArgs) {
-//        // TODO: Implement this to handle requests to update one or more rows.
-//        throw new UnsupportedOperationException("Not yet implemented");
-//    }
+
 }

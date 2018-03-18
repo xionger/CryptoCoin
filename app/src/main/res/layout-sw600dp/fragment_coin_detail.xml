@@ -23,17 +23,4 @@
             layout="@layout/layout_detail_market"/>
     </LinearLayout>
 
-    <!--
-        <android.support.v4.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:scrollbars="none">
-
-            <include
-                layout="@layout/layout_detail_market"/>
-
-        </android.support.v4.widget.NestedScrollView>
-        -->
-
 </LinearLayout>
