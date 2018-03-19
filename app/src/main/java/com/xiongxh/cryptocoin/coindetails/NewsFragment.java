@@ -81,13 +81,11 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
 
         mNewsListView.setAdapter(mNewsAdapter);
 
-        mEmptyTextView.setText(R.string.no_news);
         if (mNewsAdapter.isEmpty()){
             mEmptyTextView.setVisibility(View.VISIBLE);
         }else {
             mEmptyTextView.setVisibility(View.INVISIBLE);
         }
-
 
         mNewsListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
@@ -120,6 +118,7 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
 
         mNewsAdapter.clear();
+        mEmptyTextView.setVisibility(View.VISIBLE);
 
         mCursor = cursor;
         if (mCursor != null && mCursor.moveToFirst()){
@@ -130,6 +129,7 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
 
             if(newses != null) {
                 mNewsAdapter.addAll(newses);
+                mEmptyTextView.setVisibility(View.INVISIBLE);
             }
         }else {
             mCursor.close();

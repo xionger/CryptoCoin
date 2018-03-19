@@ -66,7 +66,7 @@ public class NetworkUtils {
                 .build();
         try {
             URL priceUrl = new URL(priceUri.toString());
-            //Timber.d("Calling url: " + priceUrl);
+            Timber.d("Calling url: " + priceUrl);
             return priceUrl;
 
         }catch (MalformedURLException e){

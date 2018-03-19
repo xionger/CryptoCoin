@@ -13,7 +13,7 @@
         android:layout_height="50dp"
         android:layout_weight="350"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="8dp"/>
+        android:layout_marginStart="8dp"/>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -21,7 +21,8 @@
         android:layout_weight="1000"
         android:layout_gravity="center_vertical"
         android:gravity="center"
-        android:paddingLeft="16dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
         android:orientation="horizontal">
 
         <TextView
@@ -30,7 +31,7 @@
             android:layout_height="wrap_content"
             android:textColor="#ffffff"
             android:alpha="0.7"
-            android:text="$"
+            android:text="@string/dollar_sign"
             android:textSize="24dp" />
 
         <TextView
@@ -43,7 +44,7 @@
             android:textColor="#ffffff"
             android:textSize="32sp"
             android:textStyle="bold"
-            android:text="1234.56" />
+            android:text="@string/fake_price" />
 
     </LinearLayout>
 
@@ -51,7 +52,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="650"
-        android:paddingLeft="16dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
         android:layout_gravity="center_vertical">
 
         <LinearLayout
@@ -69,7 +71,7 @@
                 android:textColor="@color/colorGreen700"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:text="+1.23%" />
+                android:text="@string/fake_change_percent" />
 
             <TextView
                 android:id="@+id/change_value"
@@ -79,7 +81,7 @@
                 android:alpha="0.7"
                 android:textColor="@color/colorGreen700"
                 android:textSize="20sp"
-                android:text="($0.43)" />
+                android:text="@string/fake_change" />
         </LinearLayout>
     </FrameLayout>
 

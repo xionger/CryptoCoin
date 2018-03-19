@@ -30,8 +30,7 @@ import okhttp3.Response;
 import timber.log.Timber;
 
 public class CoinTaskService extends GcmTaskService {
-
-    private static final String[] POP_COIN_SYMBOLS = {"BTC", "ETH", "XRP", "BCH", "ADA", "TRX", "EOS", "LTC", "MTL", "CHAT", "BCD"};
+    private static final String[] POP_COIN_SYMBOLS = {"BTC", "ETH", "XRP", "BCH", "ADA", "TRX", "EOS", "LTC", "MTL", "CHAT"};
     public static final String ACTION_DATA_UPDATED = "com.xiongxh.cryptocoin.ACTION_DATA_UPDATED";
     private OkHttpClient client = new OkHttpClient();
 
@@ -74,7 +73,7 @@ public class CoinTaskService extends GcmTaskService {
             DatabaseUtils.dumpCursor(initQueryCursor);
             initQueryCursor.moveToFirst();
             for (int i = 0; i < initQueryCursor.getCount(); i++){
-                coinSymbols.add(initQueryCursor.getString(initQueryCursor.getColumnIndex(getString(R.string.symbol_tag))));
+                coinSymbols.add(initQueryCursor.getString(initQueryCursor.getColumnIndex("symbol")));
                 initQueryCursor.moveToNext();
             }
         }
@@ -83,7 +82,7 @@ public class CoinTaskService extends GcmTaskService {
             //Timber.d("To add the symbol to list, current number of coins: " + coinSymbols.size());
             isUpdate = false;
 
-            String toAddCoin = taskParams.getExtras().getString(getString(R.string.symbol_tag));
+            String toAddCoin = taskParams.getExtras().getString("symbol");
 
             coinSymbols.add(0, toAddCoin);
 
@@ -173,4 +172,5 @@ public class CoinTaskService extends GcmTaskService {
         context.sendBroadcast(updatedDataIntent);
 
     }
+
 }

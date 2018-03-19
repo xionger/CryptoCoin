@@ -47,7 +47,7 @@ public class CoinDetailActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
 
         SectionPagerAdapter sectionPagerAdapter =
-                new SectionPagerAdapter(getSupportFragmentManager(), mSymbol);
+                new SectionPagerAdapter(getSupportFragmentManager(), mSymbol, this);
 
         mViewPager.setAdapter(sectionPagerAdapter);
 

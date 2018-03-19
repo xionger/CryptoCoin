@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="382"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="8dp"/>
+            android:layout_marginStart="8dp"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -30,7 +30,8 @@
             android:layout_weight="1000"
             android:layout_gravity="center_vertical"
             android:gravity="center"
-            android:paddingLeft="16dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:orientation="horizontal">
 
             <TextView
@@ -38,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha="0.7"
-                android:text="$"
+                android:text="@string/dollar_sign"
                 android:textColor="#ffffff"
                 android:textSize="28dp" />
 
@@ -52,7 +53,7 @@
                 android:textColor="#ffffff"
                 android:textSize="36sp"
                 android:textStyle="bold"
-                android:text="1234.56" />
+                android:text="@string/fake_price" />
 
         </LinearLayout>
 
@@ -77,7 +78,7 @@
                     android:textColor="@color/colorGreen700"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    android:text="+1.23%" />
+                    android:text="@string/fake_change_percent" />
 
                 <TextView
                     android:id="@+id/change_value"
@@ -87,7 +88,7 @@
                     android:alpha="0.7"
                     android:textColor="@color/colorGreen700"
                     android:textSize="20sp"
-                    android:text="($0.43)" />
+                    android:text="@string/fake_change" />
             </LinearLayout>
         </FrameLayout>
 
@@ -110,7 +111,6 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:layout_width="0dp"
@@ -119,7 +119,7 @@
                 android:gravity="start"
                 android:layout_gravity="fill_horizontal"
                 android:textSize="20sp"
-                android:text="Open 24h:"
+                android:text="@string/open_24h"
                 android:textColor="@color/colorGreyXL"
                 tool:fontFamily="sans-serif"/>
 
@@ -142,7 +142,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:layout_width="0dp"
@@ -151,7 +150,7 @@
                 android:gravity="start"
                 android:layout_gravity="fill_horizontal"
                 android:textSize="20sp"
-                android:text="Low 24h:"
+                android:text="@string/low_24h"
                 android:textColor="@color/colorGreyXL"
                 tool:fontFamily="sans-serif"/>
 
@@ -173,7 +172,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:layout_width="0dp"
@@ -182,7 +180,7 @@
                 android:gravity="start"
                 android:layout_gravity="fill_horizontal"
                 android:textSize="20sp"
-                android:text="High 24h:"
+                android:text="@string/high_24h"
                 android:textColor="@color/colorGreyXL"
                 tool:fontFamily="sans-serif"/>
 
@@ -204,7 +202,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:layout_width="0dp"
@@ -213,7 +210,7 @@
                 android:gravity="start"
                 android:layout_gravity="fill_horizontal"
                 android:textSize="20sp"
-                android:text="Volume 24h:"
+                android:text="@string/volume_24h"
                 android:textColor="@color/colorGreyXL"
                 tool:fontFamily="sans-serif"/>
 
@@ -235,7 +232,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:layout_width="0dp"
@@ -244,7 +240,7 @@
                 android:gravity="start"
                 android:layout_gravity="fill_horizontal"
                 android:textSize="20sp"
-                android:text="Volume 24h To:"
+                android:text="@string/volume_24h_to"
                 android:textColor="@color/colorGreyXL"
                 tool:fontFamily="sans-serif"/>
 
@@ -266,7 +262,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:layout_width="0dp"
@@ -275,7 +270,7 @@
                 android:gravity="start"
                 android:layout_gravity="fill_horizontal"
                 android:textSize="20sp"
-                android:text="Mkt.Cap:"
+                android:text="@string/market_cap"
                 android:textColor="@color/colorGreyXL"
                 tool:fontFamily="sans-serif"/>
 
@@ -297,7 +292,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_width="0dp"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
@@ -306,7 +300,7 @@
                 android:gravity="start"
                 android:layout_gravity="fill_horizontal"
                 android:textSize="20sp"
-                android:text="Supply:"
+                android:text="@string/supply"
                 android:textColor="@color/colorGreyXL"
                 tool:fontFamily="sans-serif"/>
 
@@ -328,7 +322,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_width="0dp"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
@@ -337,7 +330,7 @@
                 android:gravity="start"
                 android:layout_gravity="fill_horizontal"
                 android:textSize="20sp"
-                android:text="Max Suppl.:"
+                android:text="@string/max_supply"
                 android:textColor="@color/colorGreyXL"
                 tool:fontFamily="sans-serif"/>
 
@@ -359,7 +352,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_width="0dp"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
@@ -368,7 +360,7 @@
                 android:gravity="start"
                 android:layout_gravity="fill_horizontal"
                 android:textSize="20sp"
-                android:text="Algorithm:"
+                android:text="@string/algorithm"
                 android:textColor="@color/colorGreyXL"
                 tool:fontFamily="sans-serif"/>
 
@@ -390,7 +382,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_width="0dp"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
@@ -399,7 +390,7 @@
                 android:gravity="start"
                 android:layout_gravity="fill_horizontal"
                 android:textSize="20sp"
-                android:text="Proof Type:"
+                android:text="@string/proof_type"
                 android:textColor="@color/colorGreyXL"
                 tool:fontFamily="sans-serif"/>
 
@@ -421,7 +412,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_width="0dp"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
@@ -430,7 +420,7 @@
                 android:gravity="start"
                 android:layout_gravity="fill_horizontal"
                 android:textSize="20sp"
-                android:text="Sponsored:"
+                android:text="@string/sponsored"
                 android:textColor="@color/colorGreyXL"
                 tool:fontFamily="sans-serif"/>
 

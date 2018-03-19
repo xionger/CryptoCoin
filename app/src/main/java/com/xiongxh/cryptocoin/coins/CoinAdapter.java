@@ -21,6 +21,7 @@ class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.CoinViewHolder> {
     private Cursor mCursor;
     private Context mContext;
     private NumberUtils numberUtils;
+    private static final String BTC = "BTC";
 
     private final CoinAdapterOnclickHandler mClickHandler;
 
@@ -81,7 +82,7 @@ class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.CoinViewHolder> {
 
         String unitPref = CoinPreferences.getPreferredUnit(mContext);
 
-        if (unitPref.equals("BTC")) {
+        if (unitPref.equals(BTC)) {
             holder.mPriceTextView.setText(numberUtils.btcFormatWithSign.format(price));
         }else{
             holder.mPriceTextView.setText(numberUtils.dollarFormatWithSign.format(price));

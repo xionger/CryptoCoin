@@ -157,14 +157,17 @@ public class CoinDetailFragment extends Fragment implements LoaderManager.Loader
             String change = mCursor.getString(ConstantsUtils.POSITION_CHANGE);
             double value = Double.parseDouble(change);
 
+            String bpChange = getString(R.string.left_bracket_plus) + change + getString(R.string.right_bracket);
+            String bChange = getString(R.string.left_bracket) + change + getString(R.string.right_bracket);
+
             if (change != null && !change.isEmpty()){
 
                 if (value > 0){
-                    mChangeValueTextView.setText("(+" + change + ")");
+                    mChangeValueTextView.setText(bpChange);
                     mChangePerTextView.setTextColor(getResources().getColor(R.color.colorGreen700));
                     mChangeValueTextView.setTextColor(getResources().getColor(R.color.colorGreen700));
                 }else {
-                    mChangeValueTextView.setText("(" + change + ")");
+                    mChangeValueTextView.setText(bChange);
                     if (value < 0) {
                         mChangePerTextView.setTextColor(getResources().getColor(R.color.colorRed700));
                         mChangeValueTextView.setTextColor(getResources().getColor(R.color.colorRed700));
