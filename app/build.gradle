@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'CoinKey'
+            keyPassword 'CryptoCoinKey'
+            storeFile file('keystores/android.jks')
+            storePassword 'CryptoCoinKey'
+        }
+    }
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.xiongxh.cryptocoin"
@@ -14,14 +22,19 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+        debug {
+            signingConfig signingConfigs.config
         }
     }
     buildTypes.each {
-        it.buildConfigField 'String', 'NEWS_API_KEY', "" }
+        it.buildConfigField 'String', 'NEWS_API_KEY', "API_KEY_HERE"
+    }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.android.support:design:26.1.0'
@@ -29,25 +42,16 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-
     compile 'com.android.support:recyclerview-v7:26.1.0'
     compile 'com.android.support:preference-v7:26.1.0'
-
     compile 'com.google.android.gms:play-services-gcm:11.8.0'
     compile 'com.google.android.gms:play-services-ads:11.8.0'
-
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-
     compile 'com.squareup.okhttp3:okhttp:3.9.1'
-
     implementation 'com.jakewharton.timber:timber:4.6.0'
-    //implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
-
+    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
-
     implementation 'com.github.bumptech.glide:glide:4.6.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
-
-
 }

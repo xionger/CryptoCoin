@@ -15,6 +15,7 @@ import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Menu;
@@ -48,7 +49,6 @@ public class CoinsActivity extends AppCompatActivity implements
     private Cursor mCursor;
     private RecyclerView mCoinsRecyclerView;
     private CoinAdapter mCoinAdapter;
-    private static final String TAG_COIN_DIALOG_FRAGMENT = "CoinDialogFragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +88,8 @@ public class CoinsActivity extends AppCompatActivity implements
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(@SuppressWarnings("UnusedParameters") View v) {
-                new AddCoinDialog().show(getSupportFragmentManager(), TAG_COIN_DIALOG_FRAGMENT);
+                new AddCoinDialog().show(getSupportFragmentManager(), "CoinDialogFragment");
+
             }
         });
 
@@ -266,5 +267,4 @@ public class CoinsActivity extends AppCompatActivity implements
             networkError();
         }
     }
-
 }
