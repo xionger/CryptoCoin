@@ -12,10 +12,12 @@
     <string name="action_change_interval" >Chart Interval</string>
     <string name="load_finished" >Load Finished</string>
 
-    <string name="search_symbol" >Search Coin Symbol</string>
+    <string name="search_symbol" >Add Coin Symbol</string>
     <string name="content_test" >Search for a Coin Symbol</string>
     <string name="input_hint" translatable="false">BTC, ETH, BCH, LTC, etc</string>
     <string name="input_default"></string>
+    <string name="dialog_cancel" translatable="true">Cancel</string>
+    <string name="dialog_add" translatable="true">Add</string>
     <string name="error_coin_not_found">No coin found by this symbol.</string>
     <string name="error_coin_already_saved">This coin is already saved!</string>
 

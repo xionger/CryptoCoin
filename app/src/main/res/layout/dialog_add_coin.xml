@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!-- The singleLine attribute is needed to make the Done/Enter button work on the soft keyboard.
+         android:digits disables it somehow: http://stackoverflow.com/a/42480866/1291149 -->
+    <EditText
+        android:id="@+id/dialog_add_coin_symbol"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin_xs"
+        android:layout_marginStart="@dimen/activity_vertical_margin_xs"
+        android:layout_marginEnd="@dimen/activity_vertical_margin_xs"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:hint="@string/input_hint"
+        android:imeOptions="actionDone"
+        android:maxLength="4"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:contentDescription="@string/content_test"
+        android:inputType="textCapCharacters|textVisiblePassword" />
+
+</LinearLayout>

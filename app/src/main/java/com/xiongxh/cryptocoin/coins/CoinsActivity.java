@@ -15,7 +15,6 @@ import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Menu;
@@ -23,7 +22,6 @@ import android.view.MenuItem;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.gcm.GcmNetworkManager;
 import com.google.android.gms.gcm.PeriodicTask;
 import com.google.android.gms.gcm.Task;
@@ -50,6 +48,7 @@ public class CoinsActivity extends AppCompatActivity implements
     private Cursor mCursor;
     private RecyclerView mCoinsRecyclerView;
     private CoinAdapter mCoinAdapter;
+    private static final String TAG_COIN_DIALOG_FRAGMENT = "CoinDialogFragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,65 +87,8 @@ public class CoinsActivity extends AppCompatActivity implements
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                //Timber.d("Fab is clicked.");
-                if (NetworkUtils.isNetworkStatusAvailable(mContext)) {
-                    //Timber.d("Network is connected.");
-                    new MaterialDialog.Builder(mContext).title(R.string.search_symbol)
-                            .content(R.string.content_test)
-                            .backgroundColor(getResources().getColor(R.color.dialog_background))
-                            .inputType(InputType.TYPE_CLASS_TEXT)
-                            .input(R.string.input_hint, R.string.input_default, new MaterialDialog.InputCallback() {
-                                @Override
-                                public void onInput(MaterialDialog dialog, CharSequence input) {
-                                    // On FAB click, receive user input. Make sure the coin doesn't already exist
-                                    // in the DB and proceed accordingly
-                                    String inputStr = input.toString();
-                                    String cleanInput = inputStr.trim().toUpperCase();
-
-                                    //Timber.d("Clean input: " + cleanInput);
-                                    Cursor c = getContentResolver()
-                                            .query(CoinEntry.CONTENT_URI,
-                                                    new String[]{CoinEntry.COLUMN_SYMBOL},
-                                                    CoinEntry.COLUMN_SYMBOL + "= ?",
-                                                    new String[]{cleanInput},
-                                                    null);
-
-                                    if (c.getCount() != 0) {
-                                        Toast toast =
-                                                Toast.makeText(CoinsActivity.this,
-                                                        R.string.error_coin_already_saved,
-                                                        Toast.LENGTH_LONG);
-
-                                        toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
-                                        toast.show();
-                                        return;
-                                    } else {
-                                        if (!CoinJsonUtils.isSymbolValid(mContext, cleanInput)) {
-                                            Toast toast =
-                                                    Toast.makeText(CoinsActivity.this,
-                                                            R.string.error_coin_not_found,
-                                                            Toast.LENGTH_LONG);
-
-                                            toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
-                                            toast.show();
-                                            return;
-                                        } else {
-                                            // Add the Coin to DB
-                                            mServiceIntent.putExtra(getString(R.string.tag_tag), getString(R.string.tag_add_value));
-                                            mServiceIntent.putExtra(getString(R.string.symbol_tag), cleanInput);
-                                            startService(mServiceIntent);
-                                            //Timber.d(cleanInput + " is added.");
-                                            c.close();
-                                        }
-                                    }
-                                }
-                            })
-                            .show();
-                } else {
-                    networkError();
-                }
-
+            public void onClick(@SuppressWarnings("UnusedParameters") View v) {
+                new AddCoinDialog().show(getSupportFragmentManager(), TAG_COIN_DIALOG_FRAGMENT);
             }
         });
 
@@ -167,6 +109,55 @@ public class CoinsActivity extends AppCompatActivity implements
                     .build();
 
             GcmNetworkManager.getInstance(this).schedule(periodicTask);
+        }
+    }
+
+    void addCoin(String symbol) {
+        if (symbol != null && !symbol.isEmpty()) {
+
+            if (NetworkUtils.isNetworkStatusAvailable(mContext)) {
+                //mSwipeRefreshLayout.setRefreshing(true);
+                String cleanInput = symbol.trim().toUpperCase();
+
+                //Timber.d("Clean input: " + cleanInput);
+                Cursor c = getContentResolver()
+                        .query(CoinEntry.CONTENT_URI,
+                                new String[]{CoinEntry.COLUMN_SYMBOL},
+                                CoinEntry.COLUMN_SYMBOL + "= ?",
+                                new String[]{cleanInput},
+                                null);
+
+                if (c.getCount() != 0) {
+                    Toast toast =
+                            Toast.makeText(CoinsActivity.this,
+                                    R.string.error_coin_already_saved,
+                                    Toast.LENGTH_LONG);
+
+                    toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
+                    toast.show();
+                    return;
+                } else {
+                    if (!CoinJsonUtils.isSymbolValid(mContext, cleanInput)) {
+                        Toast toast =
+                                Toast.makeText(CoinsActivity.this,
+                                        R.string.error_coin_not_found,
+                                        Toast.LENGTH_LONG);
+
+                        toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
+                        toast.show();
+                        return;
+                    } else {
+                        // Add the Coin to DB
+                        mServiceIntent.putExtra(getString(R.string.tag_tag), getString(R.string.tag_add_value));
+                        mServiceIntent.putExtra(getString(R.string.symbol_tag), cleanInput);
+                        startService(mServiceIntent);
+                        //Timber.d(cleanInput + " is added.");
+                        c.close();
+                    }
+                }
+            } else {
+                networkError();
+            }
         }
     }
 
@@ -275,4 +266,5 @@ public class CoinsActivity extends AppCompatActivity implements
             networkError();
         }
     }
+
 }
