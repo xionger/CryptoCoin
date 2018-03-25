@@ -27,3 +27,10 @@ Investing cryptocurrencies could make you a millionaire within one year or even 
 <img src="../master/screenshots/screenshot_4.png" alt="alt text" width="250"> <img src="../master/screenshots/screenshot_5.png" alt="alt text" width="250"> <img src="../master/screenshots/screenshot_6.png" alt="alt text" width="250">
 
 <img src="../master/screenshots/screenshot_9.png" alt="alt text" width="800">
+
+## How To Install
+
+This project uses the Gradle build system. To build this project, use the "gradlew build" command or use "Import Project" in Android Studio.
+
+## License
+The content of this repository is licensed under [MIT LICENSE](LICENSE.MD).
