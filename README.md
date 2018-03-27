@@ -30,7 +30,12 @@ Investing cryptocurrencies could make you a millionaire within one year or even 
 
 ## How To Install
 
-This project uses the Gradle build system. To build this project, use the "gradlew build" command or use "Import Project" in Android Studio.
+This project uses the Gradle build system. To build this project, use the "gradlew build" command or use "Import Project" in Android Studio. 
+
+This app uses [The News API](https://newsapi.org) to retrieve news. You must provide your own API key in order to build the app. When you get it, just replace the "API_KEY_HERE" with your key to:
+```
+app/build.gradle
+```
 
 ## License
 The content of this repository is licensed under [MIT LICENSE](LICENSE.MD).
