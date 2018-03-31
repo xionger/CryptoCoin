@@ -30,7 +30,7 @@ import okhttp3.Response;
 import timber.log.Timber;
 
 public class CoinTaskService extends GcmTaskService {
-    private static final String[] POP_COIN_SYMBOLS = {"BTC", "ETH", "XRP", "BCH", "ADA", "TRX", "EOS", "LTC", "MTL", "CHAT"};
+    private static final String[] POP_COIN_SYMBOLS = {"BTC", "ETH", "BCH", "LTC"};
     public static final String ACTION_DATA_UPDATED = "com.xiongxh.cryptocoin.ACTION_DATA_UPDATED";
     private OkHttpClient client = new OkHttpClient();
 
