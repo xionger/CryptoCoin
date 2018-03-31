@@ -191,6 +191,11 @@ public class CoinsActivity extends AppCompatActivity implements
             }
         }
 
+        if (id == R.id.action_ack){
+            new AckDialog().show(getSupportFragmentManager(), "AckDialogFragment");
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 

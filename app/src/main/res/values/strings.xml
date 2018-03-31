@@ -36,6 +36,10 @@
     <string name="market_capital">MARKET</string>
     <string name="news_capital">NEWS</string>
 
+    <string name="action_acknowledgements">Acknowledgements</string>
+    <string name="acknowledgements">Acknowledgements: Powered by CryptoCompare.com and NewsAPI.org</string>
+    <string name="close">CLOSE</string>
+
     <!-- Strings related to Settings -->
     <string name="pref_unit_key" translatable="false">unit</string>
     <string name="pref_unit_label">Settlement Currency</string>
@@ -111,5 +115,6 @@
     <string name="fake_price" >1234.56</string>
     <string name="fake_change_percent" >+1.23%</string>
     <string name="fake_change" >($0.43)</string>
+
 
 </resources>

@@ -29,7 +29,7 @@ android {
         }
     }
     buildTypes.each {
-        it.buildConfigField 'String', 'NEWS_API_KEY', "\"8190df9eb51445228e397e4185311a66\""
+        it.buildConfigField 'String', 'NEWS_API_KEY', "API_HERE"
     }
 }
 
