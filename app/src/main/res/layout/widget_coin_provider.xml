@@ -24,7 +24,7 @@
                 android:layout_width="@dimen/widget_icon_size"
                 android:layout_height="@dimen/widget_icon_size"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/bitcoin_logo_50"
+                android:src="@drawable/bitcoin_logo_64"
                 android:contentDescription="@string/widget_coin_icon" />
 
             <TextView

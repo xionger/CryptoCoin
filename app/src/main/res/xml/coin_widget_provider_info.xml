@@ -4,7 +4,7 @@
     android:initialLayout="@layout/widget_coin_provider"
     android:minHeight="@dimen/widget_height"
     android:minWidth="@dimen/widget_width"
-    android:previewImage="@drawable/example_appwidget_preview"
+    android:previewImage="@drawable/bitcoin_logo_64"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="0"
     android:widgetCategory="home_screen"></appwidget-provider>
